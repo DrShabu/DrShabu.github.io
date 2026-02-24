@@ -1,0 +1,1130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ilyas Muzaffar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+
+
+<style>
+:root {
+  --white:      #faf8f4;
+  --gray-50:    #f2efe9;
+  --gray-100:   #e8e8ed;
+  --gray-200:   #d2d2d7;
+  --gray-300:   #a1a1a6;
+  --gray-500:   #6e6e73;
+  --gray-700:   #3a3a3c;
+  --gray-900:   #1d1d1f;
+  --accent:     #0071e3;
+  --accent-h:   #0077ed;
+  --accent-dim: rgba(0,113,227,0.08);
+  --nav-blur:   rgba(255,255,255,0.85);
+  --red:    #e63329;
+  --amber:  #f0a500;
+  --teal:   #007a6e;
+  --indigo: #3a28b8;
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-body:    'DM Sans', -apple-system, sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-body);
+  background: var(--white);
+  color: var(--gray-900);
+  min-height: 100vh;
+  padding-bottom: 110px;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── PAGE SYSTEM ── */
+.page { display: none; min-height: calc(100vh - 110px); }
+.page.active { display: block; animation: fadeUp 0.4s cubic-bezier(0.22,1,0.36,1) forwards; }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); pointer-events: none; }
+  to   { opacity: 1; transform: translateY(0); pointer-events: auto; }
+}
+
+/* ── OVERLAYS (article, video, blog-post, pr-detail) ── */
+.overlay {
+  visibility: hidden;
+  pointer-events: none;
+  position: fixed; inset: 0;
+  background: var(--white); z-index: 600;
+  overflow-y: auto; padding-bottom: 110px;
+  opacity: 0;
+  transition: opacity 0.01s;
+}
+.overlay.open {
+  visibility: visible;
+  pointer-events: auto;
+  opacity: 1;
+  animation: fadeUp 0.4s cubic-bezier(0.22,1,0.36,1) both;
+}
+
+/* ── UTILITIES ── */
+.eyebrow { font-family: var(--font-body); font-size: 12px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; }
+
+.btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--font-body); font-size: 14px; font-weight: 500;
+  padding: 13px 26px; border-radius: 980px;
+  border: none; cursor: pointer; text-decoration: none; transition: all 0.2s ease;
+}
+.btn-primary { background: var(--accent); color: #fff; }
+.btn-primary:hover { background: var(--accent-h); transform: translateY(-1px); box-shadow: 0 6px 20px rgba(0,113,227,0.28); }
+.btn-outline { background: transparent; color: var(--accent); border: 1.5px solid rgba(0,113,227,0.3); }
+.btn-outline:hover { background: var(--accent-dim); border-color: var(--accent); }
+
+.reveal { opacity: 0; transform: translateY(18px); transition: opacity 0.55s ease, transform 0.55s ease; }
+.reveal.vis { opacity: 1; transform: translateY(0); }
+
+/* ══════════════════════════════════════
+   HOME
+══════════════════════════════════════ */
+.home-hero {
+  min-height: calc(100vh - 110px);
+  display: flex; flex-direction: column; align-items: center;
+  justify-content: center; text-align: center;
+  padding: 60px 28px 40px;
+  background: linear-gradient(160deg, #f5f5f7 0%, #ffffff 55%, #f0f4ff 100%);
+  position: relative; overflow: hidden;
+}
+.home-hero::before {
+  content: ''; position: absolute; width: 640px; height: 640px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(0,113,227,0.07) 0%, transparent 70%);
+  top: -120px; right: -160px; pointer-events: none;
+}
+.home-hero::after {
+  content: ''; position: absolute; width: 420px; height: 420px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(100,60,255,0.05) 0%, transparent 70%);
+  bottom: 0; left: -100px; pointer-events: none;
+}
+.hero-eyebrow { color: var(--accent); margin-bottom: 18px; position: relative; z-index: 1; }
+.hero-name {
+  font-family: var(--font-display);
+  font-size: clamp(54px, 9vw, 108px); font-weight: 700;
+  line-height: 1.0; letter-spacing: -0.02em;
+  color: var(--gray-900); margin-bottom: 24px; position: relative; z-index: 1;
+}
+.hero-name em { font-style: italic; color: var(--accent); font-weight: 400; }
+.hero-sub {
+  font-size: clamp(16px, 2.5vw, 20px); font-weight: 300;
+  color: var(--gray-500); max-width: 520px; line-height: 1.65;
+  margin-bottom: 40px; position: relative; z-index: 1;
+}
+.hero-cta { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; position: relative; z-index: 1; }
+
+.home-cards { padding: 80px 28px; max-width: 1080px; margin: 0 auto; }
+.cards-label { font-size: 12px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gray-300); text-align: center; margin-bottom: 36px; }
+.cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; }
+
+.card {
+  background: var(--gray-50); border-radius: 22px; padding: 36px 30px; cursor: pointer;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  position: relative; overflow: hidden;
+}
+.card::after {
+  content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 3px;
+  border-radius: 0 0 22px 22px; transform: scaleX(0); transform-origin: left; transition: transform 0.3s ease;
+}
+.card:hover { transform: translateY(-5px); box-shadow: 0 18px 44px rgba(0,0,0,0.09); }
+.card:hover::after { transform: scaleX(1); }
+.card-r::after { background: var(--red); }
+.card-a::after { background: var(--amber); }
+.card-t::after { background: var(--teal); }
+.card-i::after { background: var(--indigo); }
+.card-b::after { background: var(--accent); }
+.card-p::after { background: #9b59b6; }
+.card-icon { font-size: 30px; margin-bottom: 16px; }
+.card h3 { font-family: var(--font-display); font-size: 22px; font-weight: 700; color: var(--gray-900); margin-bottom: 8px; }
+.card p  { font-size: 14px; color: var(--gray-500); line-height: 1.6; }
+
+/* ══════════════════════════════════════
+   ABOUT
+══════════════════════════════════════ */
+.about-hero {
+  background: linear-gradient(160deg, #1d1d1f 0%, #2a2a2c 100%);
+  color: var(--white); padding: 80px 28px;
+}
+.about-hero-inner { max-width: 1080px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; }
+@media (max-width: 680px) { .about-hero-inner { grid-template-columns: 1fr; gap: 36px; } }
+.about-title { font-family: var(--font-display); font-size: clamp(44px, 7vw, 84px); font-weight: 700; line-height: 1.0; letter-spacing: -0.02em; color: var(--white); }
+.about-title em { font-style: italic; font-weight: 400; color: var(--amber); }
+.about-intro-p { font-size: 18px; font-weight: 300; line-height: 1.7; color: rgba(255,255,255,0.65); }
+
+.about-body { max-width: 1080px; margin: 0 auto; padding: 64px 28px; }
+.about-cols { display: grid; grid-template-columns: 3fr 2fr; gap: 56px; align-items: start; }
+@media (max-width: 680px) { .about-cols { grid-template-columns: 1fr; } }
+.about-text p { font-size: 16px; line-height: 1.8; color: var(--gray-700); margin-bottom: 22px; }
+
+.skills-box { background: var(--gray-50); border-radius: 20px; padding: 28px; }
+.skills-box h4 { font-family: var(--font-display); font-size: 18px; font-weight: 700; color: var(--gray-900); margin-bottom: 16px; }
+.skill-item { display: flex; align-items: center; gap: 10px; font-size: 14px; color: var(--gray-700); padding: 10px 0; border-bottom: 1px solid var(--gray-100); }
+.skill-item:last-child { border-bottom: none; }
+.skill-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+
+.stat-strip { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--gray-100); border-bottom: 1px solid var(--gray-100); margin-top: 48px; }
+@media (max-width: 500px) { .stat-strip { grid-template-columns: repeat(2,1fr); } }
+.stat-cell { padding: 28px 16px; text-align: center; border-right: 1px solid var(--gray-100); }
+.stat-cell:last-child { border-right: none; }
+.stat-n { font-family: var(--font-display); font-size: 44px; font-weight: 700; line-height: 1; margin-bottom: 4px; }
+.stat-l { font-size: 11px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gray-300); }
+
+/* ══════════════════════════════════════
+   MULTIMEDIA
+══════════════════════════════════════ */
+.mm-header { padding: 64px 28px 48px; max-width: 1080px; margin: 0 auto; }
+.mm-title { font-family: var(--font-display); font-size: clamp(40px, 6vw, 72px); font-weight: 700; letter-spacing: -0.02em; line-height: 1.05; color: var(--gray-900); }
+.mm-title em { font-style: italic; font-weight: 400; color: var(--accent); }
+
+.mm-section-label {
+  font-size: 11px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gray-300);
+  padding: 0 28px; max-width: 1080px; margin: 0 auto 20px;
+  display: flex; align-items: center; gap: 12px;
+}
+.mm-section-label::after { content: ''; flex: 1; height: 1px; background: var(--gray-100); }
+
+.videos-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; padding: 0 28px 48px; max-width: 1080px; margin: 0 auto; }
+.video-card { background: var(--gray-50); border-radius: 18px; overflow: hidden; cursor: pointer; transition: transform 0.25s ease, box-shadow 0.25s ease; }
+.video-card:hover { transform: translateY(-4px); box-shadow: 0 18px 44px rgba(0,0,0,0.1); }
+.video-thumb { position: relative; aspect-ratio: 16/9; background: var(--gray-900); overflow: hidden; }
+.video-thumb img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; display: block; }
+.video-card:hover .video-thumb img { transform: scale(1.04); }
+.play-btn { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.22); transition: background 0.2s; }
+.video-card:hover .play-btn { background: rgba(0,0,0,0.38); }
+.play-circle { width: 52px; height: 52px; border-radius: 50%; background: rgba(255,255,255,0.93); display: flex; align-items: center; justify-content: center; font-size: 18px; box-shadow: 0 4px 20px rgba(0,0,0,0.3); padding-left: 4px; transition: transform 0.2s ease; }
+.video-card:hover .play-circle { transform: scale(1.1); }
+.video-info { padding: 18px 20px; }
+.video-info .v-cat { font-size: 10px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); margin-bottom: 5px; }
+.video-info h4 { font-family: var(--font-display); font-size: 18px; font-weight: 700; color: var(--gray-900); margin-bottom: 5px; line-height: 1.2; }
+.video-info p  { font-size: 13px; color: var(--gray-500); line-height: 1.5; }
+
+.media-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px; padding: 0 28px 80px; max-width: 1080px; margin: 0 auto; }
+.media-tile { background: var(--gray-50); border-radius: 18px; overflow: hidden; cursor: pointer; transition: transform 0.25s ease, box-shadow 0.25s ease; }
+.media-tile:hover { transform: translateY(-4px); box-shadow: 0 18px 44px rgba(0,0,0,0.1); }
+.media-thumb { aspect-ratio: 16/10; display: flex; align-items: center; justify-content: center; font-size: 44px; }
+.t-photo  { background: linear-gradient(135deg,#e0f0ff,#c9e6ff); }
+.t-audio  { background: linear-gradient(135deg,#e8ffe0,#cfffd7); }
+.t-design { background: linear-gradient(135deg,#f0e0ff,#e4c9ff); }
+.t-social { background: linear-gradient(135deg,#fff0e0,#ffd7c9); }
+.media-info { padding: 18px; }
+.media-info .m-cat { font-size: 10px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gray-300); margin-bottom: 4px; }
+.media-info h4 { font-family: var(--font-display); font-size: 18px; font-weight: 700; color: var(--gray-900); margin-bottom: 4px; }
+.media-info p  { font-size: 13px; color: var(--gray-500); line-height: 1.5; }
+
+/* ══════════════════════════════════════
+   PR CAMPAIGN
+══════════════════════════════════════ */
+.pr-hero { background: linear-gradient(160deg, #1d1d1f 0%, #2a2a2c 100%); padding: 80px 28px 56px; }
+.pr-hero-inner { max-width: 1080px; margin: 0 auto; }
+.pr-hero-title { font-family: var(--font-display); font-size: clamp(44px, 7vw, 84px); font-weight: 700; line-height: 1.0; letter-spacing: -0.02em; color: var(--white); }
+.pr-hero-title em { font-style: italic; font-weight: 400; color: var(--amber); }
+
+.pr-list { max-width: 1080px; margin: 0 auto; padding: 0 28px 80px; }
+.pr-card {
+  background: var(--gray-50); border-radius: 22px; padding: 36px 32px;
+  display: grid; grid-template-columns: 72px 1fr auto;
+  gap: 28px; align-items: start; margin-top: 20px;
+  cursor: pointer;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  position: relative; overflow: hidden;
+}
+.pr-card::after {
+  content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 3px;
+  transform: scaleX(0); transform-origin: left; transition: transform 0.3s ease;
+}
+.pr-card:nth-child(1)::after { background: var(--red); }
+.pr-card:nth-child(2)::after { background: var(--amber); }
+.pr-card:nth-child(3)::after { background: var(--teal); }
+.pr-card:nth-child(4)::after { background: var(--indigo); }
+.pr-card:hover { transform: translateY(-4px); box-shadow: 0 18px 44px rgba(0,0,0,0.1); }
+.pr-card:hover::after { transform: scaleX(1); }
+@media (max-width: 680px) { .pr-card { grid-template-columns: 1fr; } }
+
+.pr-num { font-family: var(--font-display); font-size: 52px; font-weight: 700; line-height: 1; color: var(--gray-200); }
+.pr-card h3 { font-family: var(--font-display); font-size: 22px; font-weight: 700; color: var(--gray-900); margin-bottom: 10px; }
+.pr-card p  { font-size: 15px; color: var(--gray-500); line-height: 1.65; margin-bottom: 16px; }
+.pr-tags { display: flex; gap: 8px; flex-wrap: wrap; }
+.pr-tag  { font-size: 11px; font-weight: 500; letter-spacing: 0.06em; padding: 5px 12px; border-radius: 980px; background: var(--accent-dim); color: var(--accent); }
+.pr-stat { text-align: right; flex-shrink: 0; }
+.pr-stat-n { font-family: var(--font-display); font-size: 36px; font-weight: 700; line-height: 1; }
+.pr-stat-l { font-size: 10px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gray-300); margin-top: 4px; }
+.pr-read-more { font-size: 12px; font-weight: 500; color: var(--accent); margin-top: 8px; display: inline-flex; align-items: center; gap: 4px; }
+
+/* PR detail overlay */
+.pr-detail-body { max-width: 760px; margin: 0 auto; padding: 56px 28px 80px; }
+.pr-detail-hero { background: var(--gray-50); border-radius: 20px; padding: 40px; margin-bottom: 48px; }
+.pr-detail-kpi { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 32px; }
+@media (max-width: 500px) { .pr-detail-kpi { grid-template-columns: 1fr 1fr; } }
+.kpi-box { background: var(--white); border-radius: 14px; padding: 20px; text-align: center; }
+.kpi-n { font-family: var(--font-display); font-size: 36px; font-weight: 700; line-height: 1; margin-bottom: 4px; }
+.kpi-l { font-size: 10px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gray-300); }
+.pr-detail-body h2 { font-family: var(--font-display); font-size: 26px; font-weight: 700; color: var(--gray-900); margin: 36px 0 14px; }
+.pr-detail-body p  { font-size: 17px; line-height: 1.78; color: var(--gray-700); margin-bottom: 22px; }
+.pr-detail-body ul { margin: 0 0 22px 20px; }
+.pr-detail-body li { font-size: 16px; line-height: 1.7; color: var(--gray-700); margin-bottom: 6px; }
+
+/* ══════════════════════════════════════
+   WRITING
+══════════════════════════════════════ */
+.writing-hdr { padding: 64px 28px 0; max-width: 1080px; margin: 0 auto; }
+.writing-hdr-title { font-family: var(--font-display); font-size: clamp(40px, 6vw, 72px); font-weight: 700; letter-spacing: -0.02em; line-height: 1.05; color: var(--gray-900); }
+.writing-hdr-title em { font-style: italic; font-weight: 400; color: var(--accent); }
+
+.writing-list { max-width: 1080px; margin: 0 auto; padding: 40px 28px 80px; }
+.wr-row {
+  display: grid; grid-template-columns: 96px 1fr auto;
+  gap: 24px; align-items: center;
+  padding: 28px 0; border-bottom: 1px solid var(--gray-100);
+  cursor: pointer; transition: padding-left 0.2s ease;
+}
+.wr-row:first-child { border-top: 1px solid var(--gray-100); }
+.wr-row:hover { padding-left: 8px; }
+@media (max-width: 580px) { .wr-row { grid-template-columns: 1fr auto; } .wr-date { display: none; } }
+.wr-date    { font-size: 11px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gray-300); }
+.wr-cat     { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 5px; }
+.wr-title   { font-family: var(--font-display); font-size: 21px; font-weight: 700; color: var(--gray-900); line-height: 1.2; margin-bottom: 6px; transition: color 0.2s; }
+.wr-row:hover .wr-title { color: var(--accent); }
+.wr-excerpt { font-size: 13px; color: var(--gray-500); line-height: 1.55; }
+.wr-arrow   { font-size: 20px; color: var(--gray-200); transition: color 0.2s, transform 0.2s; }
+.wr-row:hover .wr-arrow { color: var(--accent); transform: translateX(4px); }
+
+/* ══════════════════════════════════════
+   BLOG PAGE
+══════════════════════════════════════ */
+.blog-hdr {
+  background: linear-gradient(160deg, #f5f5f7 0%, #ffffff 55%, #f0f4ff 100%);
+  padding: 72px 28px 52px; border-bottom: 1px solid var(--gray-100);
+}
+.blog-hdr-inner { max-width: 1080px; margin: 0 auto; }
+.blog-hdr-title { font-family: var(--font-display); font-size: clamp(40px, 6vw, 72px); font-weight: 700; letter-spacing: -0.02em; line-height: 1.05; color: var(--gray-900); margin-bottom: 10px; }
+.blog-hdr-title em { font-style: italic; font-weight: 400; color: #9b59b6; }
+.blog-hdr-sub { font-size: 16px; color: var(--gray-500); font-weight: 300; max-width: 460px; line-height: 1.6; }
+
+.blog-grid { max-width: 1080px; margin: 0 auto; padding: 48px 28px 80px; display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 28px; }
+
+.blog-card {
+  background: var(--gray-50); border-radius: 22px; overflow: hidden;
+  cursor: pointer; transition: transform 0.25s ease, box-shadow 0.25s ease;
+  display: flex; flex-direction: column;
+}
+.blog-card:hover { transform: translateY(-5px); box-shadow: 0 18px 44px rgba(0,0,0,0.1); }
+
+.blog-card-banner {
+  height: 10px;
+}
+
+.blog-card-body { padding: 28px; flex: 1; display: flex; flex-direction: column; }
+.blog-card-meta { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gray-300); margin-bottom: 10px; }
+.blog-card-title { font-family: var(--font-display); font-size: 22px; font-weight: 700; color: var(--gray-900); line-height: 1.2; margin-bottom: 12px; transition: color 0.2s; }
+.blog-card:hover .blog-card-title { color: #9b59b6; }
+.blog-card-excerpt { font-size: 14px; color: var(--gray-500); line-height: 1.6; flex: 1; margin-bottom: 20px; }
+.blog-card-footer { display: flex; align-items: center; justify-content: space-between; }
+.blog-card-tag { font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; padding: 4px 12px; border-radius: 980px; background: rgba(155,89,182,0.1); color: #9b59b6; }
+.blog-card-arrow { font-size: 18px; color: var(--gray-300); transition: color 0.2s, transform 0.2s; }
+.blog-card:hover .blog-card-arrow { color: #9b59b6; transform: translateX(4px); }
+
+/* blog post overlay */
+.blog-post-body { max-width: 680px; margin: 0 auto; padding: 56px 28px 80px; }
+.blog-post-body .bp-tag { font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #9b59b6; margin-bottom: 16px; }
+.blog-post-body h1 { font-family: var(--font-display); font-size: clamp(32px, 5vw, 54px); font-weight: 700; line-height: 1.08; letter-spacing: -0.01em; color: var(--gray-900); margin-bottom: 22px; }
+.bp-meta { display: flex; gap: 16px; align-items: center; padding: 16px 0; border-top: 1.5px solid var(--gray-900); border-bottom: 1.5px solid var(--gray-900); margin-bottom: 40px; }
+.bp-author { font-size: 13px; font-weight: 600; color: var(--gray-900); }
+.bp-date   { font-size: 13px; color: var(--gray-500); font-style: italic; }
+.bp-text p { font-size: 18px; line-height: 1.78; color: var(--gray-700); margin-bottom: 26px; }
+.bp-text h2 { font-family: var(--font-display); font-size: 26px; font-weight: 700; color: var(--gray-900); margin: 44px 0 14px; }
+.bp-text blockquote { border-left: 4px solid #9b59b6; margin: 36px 0; padding: 6px 0 6px 24px; }
+.bp-text blockquote p { font-family: var(--font-display); font-size: 22px; font-style: italic; color: var(--gray-900); margin: 0; line-height: 1.4; }
+
+/* ══════════════════════════════════════
+   CONTACT
+══════════════════════════════════════ */
+.contact-page {
+  min-height: calc(100vh - 110px);
+  max-width: 760px; margin: 0 auto; padding: 72px 28px 80px;
+}
+
+.contact-top { margin-bottom: 56px; }
+
+.contact-big-title {
+  font-family: var(--font-display);
+  font-size: clamp(48px, 8vw, 88px); font-weight: 700;
+  line-height: 1.0; letter-spacing: -0.02em; color: var(--gray-900);
+  margin-bottom: 20px;
+}
+.contact-big-title em { font-style: italic; font-weight: 400; color: var(--accent); }
+
+.contact-intro { font-size: 17px; font-weight: 300; color: var(--gray-500); line-height: 1.65; max-width: 500px; }
+
+.contact-socials-grid { display: flex; flex-direction: column; gap: 12px; margin-bottom: 48px; }
+
+.social-card {
+  display: flex; align-items: center; gap: 20px;
+  background: var(--gray-50); border-radius: 18px; padding: 22px 24px;
+  text-decoration: none; color: inherit;
+  transition: transform 0.22s ease, box-shadow 0.22s ease, background 0.2s;
+  cursor: pointer;
+}
+.social-card:hover { transform: translateY(-3px); box-shadow: 0 12px 36px rgba(0,0,0,0.09); background: var(--white); }
+
+.social-icon-wrap {
+  width: 52px; height: 52px; border-radius: 14px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 24px;
+}
+
+.social-info { flex: 1; }
+.social-label { font-size: 10px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gray-300); margin-bottom: 3px; }
+.social-value { font-size: 16px; font-weight: 500; color: var(--gray-900); margin-bottom: 2px; }
+.social-hint  { font-size: 12px; color: var(--gray-300); }
+
+.social-arrow { font-size: 20px; color: var(--gray-200); transition: color 0.2s, transform 0.2s; flex-shrink: 0; }
+.social-card:hover .social-arrow { color: var(--accent); transform: translateX(4px); }
+
+.contact-footer-note {
+  display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+  font-size: 13px; color: var(--gray-300); font-weight: 400;
+  padding-top: 32px; border-top: 1px solid var(--gray-100);
+}
+
+/* ══════════════════════════════════════
+   SHARED OVERLAY CHROME
+══════════════════════════════════════ */
+.overlay-bar {
+  position: sticky; top: 0;
+  background: rgba(255,255,255,0.9); backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--gray-100);
+  padding: 14px 28px; display: flex; align-items: center; gap: 14px; z-index: 10;
+}
+.back-btn {
+  font-family: var(--font-body); font-size: 13px; font-weight: 500;
+  color: var(--accent); background: none; border: none; cursor: pointer;
+  display: flex; align-items: center; gap: 6px; padding: 0; transition: opacity 0.2s;
+}
+.back-btn:hover { opacity: 0.7; }
+.overlay-bar-cat { font-size: 12px; color: var(--gray-300); }
+
+/* ── Article overlay ── */
+.art-body { max-width: 680px; margin: 0 auto; padding: 56px 28px 80px; }
+.art-eyebrow { font-size: 12px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 18px; }
+.art-body h1 { font-family: var(--font-display); font-size: clamp(34px, 5vw, 58px); font-weight: 700; line-height: 1.08; letter-spacing: -0.01em; color: var(--gray-900); margin-bottom: 24px; }
+.art-meta { display: flex; gap: 18px; align-items: center; padding: 18px 0; border-top: 1.5px solid var(--gray-900); border-bottom: 1.5px solid var(--gray-900); margin-bottom: 44px; }
+.art-author { font-size: 13px; font-weight: 600; color: var(--gray-900); }
+.art-date   { font-size: 13px; color: var(--gray-500); font-style: italic; }
+.art-text p { font-size: 18px; line-height: 1.78; color: var(--gray-700); margin-bottom: 26px; }
+.art-text h2 { font-family: var(--font-display); font-size: 26px; font-weight: 700; color: var(--gray-900); margin: 44px 0 14px; }
+.art-text blockquote { border-left: 4px solid var(--accent); margin: 36px 0; padding: 6px 0 6px 24px; }
+.art-text blockquote p { font-family: var(--font-display); font-size: 22px; font-style: italic; color: var(--gray-900); margin: 0; line-height: 1.4; }
+
+/* ── Video overlay ── */
+.video-overlay-inner { max-width: 900px; margin: 0 auto; padding: 40px 28px 80px; }
+.video-player-wrap { position: relative; padding-bottom: 56.25%; height: 0; border-radius: 16px; overflow: hidden; background: #000; margin-bottom: 28px; box-shadow: 0 20px 60px rgba(0,0,0,0.18); }
+.video-player-wrap iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
+.video-overlay-title { font-family: var(--font-display); font-size: 28px; font-weight: 700; color: var(--gray-900); margin-bottom: 8px; }
+.video-overlay-desc  { font-size: 15px; color: var(--gray-500); line-height: 1.65; }
+
+/* ══════════════════════════════════════
+   BOTTOM NAV  — always above overlays
+══════════════════════════════════════ */
+.bottom-nav {
+  position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+  z-index: 9999;
+  pointer-events: auto;
+  background: var(--nav-blur);
+  backdrop-filter: blur(22px) saturate(200%);
+  -webkit-backdrop-filter: blur(22px) saturate(200%);
+  border: 1px solid rgba(0,0,0,0.09); border-radius: 980px;
+  padding: 7px 10px; display: flex; gap: 2px;
+  box-shadow: 0 10px 36px rgba(0,0,0,0.13), 0 2px 8px rgba(0,0,0,0.06);
+}
+.nav-btn {
+  display: flex; flex-direction: column; align-items: center; gap: 3px;
+  padding: 8px 14px; border-radius: 980px;
+  background: transparent; border: none; cursor: pointer;
+  color: var(--gray-500); min-width: 58px;
+  font-family: var(--font-body); transition: all 0.2s ease;
+}
+.nav-btn:hover  { color: var(--gray-900); background: rgba(0,0,0,0.04); }
+.nav-btn.active { color: var(--accent); background: var(--accent-dim); }
+.nav-icon { font-size: 17px; line-height: 1; }
+.nav-lbl  { font-size: 9px; font-weight: 500; letter-spacing: 0.04em; white-space: nowrap; }
+
+@media (max-width: 560px) { .nav-btn { padding: 8px 9px; min-width: 44px; } .nav-lbl { display: none; } }
+</style>
+</head>
+<body>
+
+<!-- ══════════ HOME ══════════ -->
+<section class="page active" id="page-home">
+  <div class="home-hero">
+    <p class="eyebrow hero-eyebrow">Portfolio</p>
+    <h1 class="hero-name">Ilyas<br><em>Muzaffar</em></h1>
+    <p class="hero-sub">Communicator · Strategist · Storyteller. Crafting campaigns, writing, and media that cut through the noise.</p>
+    <div class="hero-cta">
+      <button class="btn btn-primary" onclick="navigate('writing')">Read my work</button>
+      <button class="btn btn-outline" onclick="navigate('multimedia')">View multimedia</button>
+      <button class="btn btn-outline" onclick="navigate('pr')">View campaigns</button>
+    </div>
+  </div>
+  <div class="home-cards">
+    <p class="cards-label">What I do</p>
+    <div class="cards-grid">
+      <div class="card card-a reveal" onclick="navigate('about')">
+        <div class="card-icon">👤</div><h3>About Me</h3><p>6 years. 40+ campaigns. One unwavering belief in honest storytelling.</p>
+      </div>
+      <div class="card card-i reveal" onclick="navigate('multimedia')">
+        <div class="card-icon">🎬</div><h3>Multimedia</h3><p>Photo, video, audio and design — a collection of visual and digital work.</p>
+      </div>
+      <div class="card card-t reveal" onclick="navigate('pr')">
+        <div class="card-icon">📣</div><h3>PR Campaigns</h3><p>Strategic communications that build brands and shape narratives.</p>
+      </div>
+      <div class="card card-r reveal" onclick="navigate('writing')">
+        <div class="card-icon">✍️</div><h3>Writing</h3><p>Articles, essays and profiles that inform, engage, and leave a mark.</p>
+      </div>
+      <div class="card card-p reveal" onclick="navigate('blog')">
+        <div class="card-icon">📓</div><h3>Personal Blog</h3><p>Unfiltered thoughts, ideas, and reflections on life, work, and everything in between.</p>
+      </div>
+      <div class="card card-b reveal" onclick="navigate('contact')">
+        <div class="card-icon">✉️</div><h3>Contact</h3><p>Got a project in mind? Let's talk about making something real together.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ ABOUT ══════════ -->
+<section class="page" id="page-about">
+  <div class="about-hero">
+    <div class="about-hero-inner">
+      <div>
+        <p class="eyebrow" style="color:var(--amber);margin-bottom:20px">About Ilyas</p>
+        <h1 class="about-title">Where strategy<br>meets <em>story.</em></h1>
+      </div>
+      <div><p class="about-intro-p">I'm Ilyas Muzaffar — a communications professional and writer who believes the most powerful tool in any organisation's arsenal is a well-told truth.</p></div>
+    </div>
+  </div>
+  <div class="about-body">
+    <div class="about-cols">
+      <div class="about-text reveal">
+        <p>With a background spanning journalism, public relations, and digital media, I bring a multidisciplinary lens to every brief. Whether shaping a brand narrative, running a crisis communications strategy, or writing a long-form essay — the goal is always the same: clarity, resonance, and trust.</p>
+        <p>I've worked across industries — from climate tech startups to established nonprofits — helping organisations find and amplify their authentic voice in an increasingly fragmented media landscape.</p>
+        <p>My approach is grounded in a belief that audiences are not targets. They're people. The moment a brand forgets that is the moment the message is lost.</p>
+        <p>When I'm not strategising or writing, I'm reading long-form journalism, exploring cities with a camera, or finding the stories most people walk past.</p>
+      </div>
+      <div class="reveal">
+        <div class="skills-box">
+          <h4>Areas of expertise</h4>
+          <div class="skill-item"><span class="skill-dot" style="background:var(--accent)"></span>Strategic Communications</div>
+          <div class="skill-item"><span class="skill-dot" style="background:var(--red)"></span>Media Relations</div>
+          <div class="skill-item"><span class="skill-dot" style="background:var(--amber)"></span>Brand Storytelling</div>
+          <div class="skill-item"><span class="skill-dot" style="background:var(--teal)"></span>Crisis PR</div>
+          <div class="skill-item"><span class="skill-dot" style="background:var(--indigo)"></span>Multimedia Production</div>
+          <div class="skill-item"><span class="skill-dot" style="background:var(--accent)"></span>Long-form Writing</div>
+          <div class="skill-item"><span class="skill-dot" style="background:var(--red)"></span>Campaign Strategy</div>
+          <div class="skill-item"><span class="skill-dot" style="background:var(--teal)"></span>Social Media</div>
+        </div>
+      </div>
+    </div>
+    <div class="stat-strip reveal">
+      <div class="stat-cell"><div class="stat-n" style="color:var(--red)">6+</div><div class="stat-l">Years Active</div></div>
+      <div class="stat-cell"><div class="stat-n" style="color:var(--amber)">40+</div><div class="stat-l">Campaigns</div></div>
+      <div class="stat-cell"><div class="stat-n" style="color:var(--teal)">120+</div><div class="stat-l">Published Pieces</div></div>
+      <div class="stat-cell"><div class="stat-n" style="color:var(--indigo)">2M+</div><div class="stat-l">Impressions</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ MULTIMEDIA ══════════ -->
+<section class="page" id="page-multimedia">
+  <div class="mm-header">
+    <p class="eyebrow" style="color:var(--teal);margin-bottom:14px">Visual Work</p>
+    <h1 class="mm-title">Multimedia &<br><em>creative production.</em></h1>
+  </div>
+  <p class="mm-section-label">Videos</p>
+  <div class="videos-grid" id="videos-grid"></div>
+  <p class="mm-section-label" style="margin-top:8px">Other Media</p>
+  <div class="media-grid">
+    <div class="media-tile reveal"><div class="media-thumb t-photo">📷</div><div class="media-info"><div class="m-cat">Photography</div><h4>Urban Portraits</h4><p>A documentary series capturing faces and stories of city life.</p></div></div>
+    <div class="media-tile reveal"><div class="media-thumb t-audio">🎙️</div><div class="media-info"><div class="m-cat">Podcast</div><h4>The Story Edit</h4><p>Conversations with creatives on craft, strategy, and storytelling.</p></div></div>
+    <div class="media-tile reveal"><div class="media-thumb t-design">🎨</div><div class="media-info"><div class="m-cat">Design</div><h4>Campaign Visuals</h4><p>Graphic and motion work created for digital campaigns across platforms.</p></div></div>
+    <div class="media-tile reveal"><div class="media-thumb t-social">📱</div><div class="media-info"><div class="m-cat">Social</div><h4>Short-Form Content</h4><p>Reels, TikToks and micro-content crafted for digital-first audiences.</p></div></div>
+  </div>
+</section>
+
+<!-- ══════════ PR CAMPAIGN ══════════ -->
+<section class="page" id="page-pr">
+  <div class="pr-hero">
+    <div class="pr-hero-inner">
+      <p class="eyebrow" style="color:var(--amber);margin-bottom:20px">Strategic Communications</p>
+      <h1 class="pr-hero-title">Campaigns that<br><em>cut through.</em></h1>
+    </div>
+  </div>
+  <div class="pr-list" id="pr-list"></div>
+</section>
+
+<!-- ══════════ WRITING ══════════ -->
+<section class="page" id="page-writing">
+  <div class="writing-hdr">
+    <p class="eyebrow" style="color:var(--red);margin-bottom:14px">Words & Ideas</p>
+    <h1 class="writing-hdr-title">Essays, profiles,<br><em>perspectives.</em></h1>
+  </div>
+  <div class="writing-list" id="writing-list"></div>
+</section>
+
+<!-- ══════════ BLOG ══════════ -->
+<section class="page" id="page-blog">
+  <div class="blog-hdr">
+    <div class="blog-hdr-inner">
+      <p class="eyebrow" style="color:#9b59b6;margin-bottom:16px">Personal Blog</p>
+      <h1 class="blog-hdr-title">Thoughts &<br><em>reflections.</em></h1>
+      <p class="blog-hdr-sub">Unfiltered writing on life, work, culture, and whatever is occupying my mind.</p>
+    </div>
+  </div>
+  <div class="blog-grid" id="blog-grid"></div>
+</section>
+
+<!-- ══════════ CONTACT ══════════ -->
+<section class="page" id="page-contact">
+  <div class="contact-page">
+
+    <div class="contact-top">
+      <p class="eyebrow" style="color:var(--accent);margin-bottom:20px">Get in touch</p>
+      <h1 class="contact-big-title">Let's make<br>something <em>real.</em></h1>
+      <p class="contact-intro">I'm always open to interesting conversations, commissions, and collaborations.<br>Reach out directly through any of the channels below.</p>
+    </div>
+
+    <div class="contact-socials-grid">
+
+      <a class="social-card" href="/cdn-cgi/l/email-protection#6b0207120a182b0207120a18061e110a0d0d0a1945080406">
+        <div class="social-icon-wrap" style="background:#f0f4ff">✉️</div>
+        <div class="social-info">
+          <div class="social-label">Email</div>
+          <div class="social-value"><span class="__cf_email__" data-cfemail="7c1510051d0f3c1510051d0f1109061d1a1a1d0e521f1311">[email&#160;protected]</span></div>
+          <div class="social-hint">Click to open in your mail app</div>
+        </div>
+        <div class="social-arrow">→</div>
+      </a>
+
+      <a class="social-card" href="https://linkedin.com/in/ilyasmuzaffar" target="_blank" rel="noopener">
+        <div class="social-icon-wrap" style="background:#e8f4ff">💼</div>
+        <div class="social-info">
+          <div class="social-label">LinkedIn</div>
+          <div class="social-value">linkedin.com/in/ilyasmuzaffar</div>
+          <div class="social-hint">Connect or send a message</div>
+        </div>
+        <div class="social-arrow">→</div>
+      </a>
+
+      <a class="social-card" href="https://twitter.com/ilyasmuzaffar" target="_blank" rel="noopener">
+        <div class="social-icon-wrap" style="background:#f0f9ff">🐦</div>
+        <div class="social-info">
+          <div class="social-label">Twitter / X</div>
+          <div class="social-value">@ilyasmuzaffar</div>
+          <div class="social-hint">DMs are open</div>
+        </div>
+        <div class="social-arrow">→</div>
+      </a>
+
+      <a class="social-card" href="https://instagram.com/ilyasmuzaffar" target="_blank" rel="noopener">
+        <div class="social-icon-wrap" style="background:#fff0f5">📸</div>
+        <div class="social-info">
+          <div class="social-label">Instagram</div>
+          <div class="social-value">@ilyasmuzaffar</div>
+          <div class="social-hint">Photos, stories, and behind the scenes</div>
+        </div>
+        <div class="social-arrow">→</div>
+      </a>
+
+    </div>
+
+    <div class="contact-footer-note">
+      <span>📍 Based in London, UK</span>
+      <span>·</span>
+      <span>Open to remote work worldwide</span>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════ ARTICLE OVERLAY ══════════ -->
+<div class="overlay" id="article-overlay">
+  <div class="overlay-bar">
+    <button class="back-btn" onclick="closeOverlay('article')">← Back to Writing</button>
+    <span class="overlay-bar-cat" id="article-overlay-cat"></span>
+  </div>
+  <div class="art-body" id="article-content"></div>
+</div>
+
+<!-- ══════════ VIDEO OVERLAY ══════════ -->
+<div class="overlay" id="video-overlay">
+  <div class="overlay-bar">
+    <button class="back-btn" onclick="closeOverlay('video')">← Back to Multimedia</button>
+  </div>
+  <div class="video-overlay-inner" id="video-content"></div>
+</div>
+
+<!-- ══════════ PR DETAIL OVERLAY ══════════ -->
+<div class="overlay" id="pr-overlay">
+  <div class="overlay-bar">
+    <button class="back-btn" onclick="closeOverlay('pr')">← Back to PR Campaigns</button>
+    <span class="overlay-bar-cat" id="pr-overlay-cat"></span>
+  </div>
+  <div class="pr-detail-body" id="pr-detail-content"></div>
+</div>
+
+<!-- ══════════ BLOG POST OVERLAY ══════════ -->
+<div class="overlay" id="blog-overlay">
+  <div class="overlay-bar">
+    <button class="back-btn" onclick="closeOverlay('blog')">← Back to Blog</button>
+  </div>
+  <div class="blog-post-body" id="blog-post-content"></div>
+</div>
+
+<!-- ══════════ BOTTOM NAV ══════════ -->
+<nav class="bottom-nav">
+  <button class="nav-btn active" id="nav-home"       onclick="navClick('home')"><span class="nav-icon">⌂</span><span class="nav-lbl">Home</span></button>
+  <button class="nav-btn"        id="nav-about"      onclick="navClick('about')"><span class="nav-icon">◉</span><span class="nav-lbl">About</span></button>
+  <button class="nav-btn"        id="nav-multimedia" onclick="navClick('multimedia')"><span class="nav-icon">▶</span><span class="nav-lbl">Media</span></button>
+  <button class="nav-btn"        id="nav-pr"         onclick="navClick('pr')"><span class="nav-icon">◈</span><span class="nav-lbl">PR</span></button>
+  <button class="nav-btn"        id="nav-writing"    onclick="navClick('writing')"><span class="nav-icon">✦</span><span class="nav-lbl">Writing</span></button>
+  <button class="nav-btn"        id="nav-blog"       onclick="navClick('blog')"><span class="nav-icon">📓</span><span class="nav-lbl">Blog</span></button>
+  <button class="nav-btn"        id="nav-contact"    onclick="navClick('contact')"><span class="nav-icon">✉</span><span class="nav-lbl">Contact</span></button>
+</nav>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+/* ═══════════════════════════════════════════
+   VIDEOS DATABASE
+   ───────────────────────────────────────────────────────
+   TO ADD A VIDEO:
+   Copy one object below and fill in all fields.
+   youtube = the YouTube video ID only
+   e.g. youtube.com/watch?v=dQw4w9WgXcQ → "dQw4w9WgXcQ"
+═══════════════════════════════════════════════════════ */
+const VIDEOS = [
+  {
+    id: "brand-reel",
+    title: "Brand Reel 2024",
+    category: "Showreel",
+    description: "A highlight reel showcasing client campaigns and creative direction from the past year.",
+    youtube: "dQw4w9WgXcQ"   // ← replace with your YouTube video ID
+  },
+  {
+    id: "greenwave-doc",
+    title: "Greenwave — Launch Film",
+    category: "Documentary",
+    description: "Behind the scenes of the Greenwave Initiative public launch campaign.",
+    youtube: "LXb3EKWsInQ"   // ← replace with your YouTube video ID
+  },
+  {
+    id: "story-edit-ep1",
+    title: "The Story Edit — Episode 1",
+    category: "Podcast",
+    description: "Conversations with creatives on craft, strategy, and what it means to tell honest stories.",
+    youtube: "9bZkp7q19f0"   // ← replace with your YouTube video ID
+  }
+];
+
+/* ═══════════════════════════════════════════════════════
+   PR CAMPAIGNS DATABASE
+   ───────────────────────────────────────────────────────
+   Each campaign has a detail page. Fields:
+     id, title, client, result, resultLabel, color,
+     tags[], summary, challenge, approach, outcome,
+     kpis: [{n, label}]  — up to 3 KPIs shown as boxes
+═══════════════════════════════════════════════════════ */
+const PR_CAMPAIGNS = [
+  {
+    id: "greenwave",
+    num: "01",
+    title: "Greenwave Initiative — Public Launch",
+    client: "Greenwave Initiative",
+    result: "2M+", resultLabel: "Impressions",
+    color: "var(--red)",
+    tags: ["Media Relations","Brand Launch","Digital Strategy","Thought Leadership"],
+    summary: "A full-scale PR campaign for a climate tech startup's debut. Built the media strategy from scratch, developed executive messaging, and orchestrated a digital-first launch that dominated the news cycle.",
+    challenge: "Greenwave had a genuinely groundbreaking product but zero brand recognition. The challenge was to break through a noisy news environment, earn credibility with climate journalists who are notoriously sceptical of startup PR, and generate enough momentum to attract the next round of investment.",
+    approach: "We built a three-phase strategy: a six-week pre-launch media seeding period where we briefed select journalists under embargo; a coordinated launch day with a news conference, exclusive long-lead features, and a social media takeover; and a two-month follow-up programme sustaining coverage through op-eds, podcast placements, and executive profiling.",
+    outcome: "The launch generated 2M+ organic impressions in the first week, with coverage in 14 major outlets including The Guardian, TechCrunch, and BBC News Online. CEO interview requests tripled post-launch. The campaign directly contributed to a successful Series A raise the following quarter.",
+    kpis: [ {n:"2M+", l:"Impressions wk 1"}, {n:"14", l:"Major outlets"}, {n:"3×", l:"Interview requests"} ]
+  },
+  {
+    id: "trustfirst",
+    num: "02",
+    title: "TrustFirst Bank — Crisis Communications",
+    client: "TrustFirst Bank",
+    result: "94%", resultLabel: "Sentiment Recovery",
+    color: "var(--amber)",
+    tags: ["Crisis PR","Messaging Strategy","Stakeholder Comms"],
+    summary: "Managed a sensitive communications crisis for a financial services firm. Developed messaging frameworks, prepared spokespeople, and crafted a transparency narrative that turned a potential collapse into a trust-building moment.",
+    challenge: "A data breach affecting 40,000 customers was about to go public via a journalist tipoff. The bank had 48 hours to get ahead of the story, notify customers, satisfy the regulator, and avoid the reputational collapse that had destroyed similar institutions.",
+    approach: "We developed a tiered communications plan: immediate customer notification via email and SMS with clear, jargon-free language; a proactive press statement that named the issue plainly without legal obfuscation; a media briefing with the CEO and CTO; and a commitment to a 90-day public accountability update.",
+    outcome: "The story broke on our terms, not the journalist's. Sentiment analysis across social media showed a 94% recovery from the initial negative spike within three weeks — significantly outperforming industry benchmarks. Regulator feedback was positive, and customer churn was contained at under 2%.",
+    kpis: [ {n:"94%", l:"Sentiment recovery"}, {n:"48h", l:"Response window"}, {n:"<2%", l:"Customer churn"} ]
+  },
+  {
+    id: "foodbridge",
+    num: "03",
+    title: "FoodBridge — Nonprofit Awareness Campaign",
+    client: "FoodBridge",
+    result: "£400K", resultLabel: "Raised",
+    color: "var(--teal)",
+    tags: ["Nonprofit PR","Fundraising","Community Engagement"],
+    summary: "Built a year-long awareness and fundraising communications campaign for a food security nonprofit. Grew media profile from local to national and crafted emotional storytelling that drove donor engagement.",
+    challenge: "FoodBridge had strong community roots but was invisible to national donors and funders. With a target of £400K in new donations, they needed a communications strategy that could translate local stories of impact into a nationally compelling narrative without losing their community authenticity.",
+    approach: "We built the campaign around human stories — profiling the people FoodBridge served with their permission and framing each as a systemic critique of food inequality. We secured a Times feature as an anchor piece, then cascaded the content across radio, regional press, and social. A targeted grant communications programme ran in parallel.",
+    outcome: "The campaign raised £400K over 12 months — 160% of the original target. The Times piece alone generated £62K in direct donations within 72 hours. FoodBridge now has relationships with three national media outlets and a donor base that has grown by 340%.",
+    kpis: [ {n:"£400K", l:"Funds raised"}, {n:"160%", l:"Of target"}, {n:"340%", l:"Donor base growth"} ]
+  },
+  {
+    id: "apex",
+    num: "04",
+    title: "Apex Consumer Products — Brand Rebrand",
+    client: "Apex Consumer Products",
+    result: "38%", resultLabel: "Brand Uplift",
+    color: "var(--indigo)",
+    tags: ["Brand Strategy","Thought Leadership","Influencer PR"],
+    summary: "Orchestrated communications for a legacy brand's complete identity refresh across earned media, executive thought leadership, and influencer partnerships.",
+    challenge: "Apex had strong legacy recognition among over-45s but was invisible — or worse, seen as dated — among 25–35 year olds, their target growth demographic. A new product line needed a communications strategy that could reposition the brand without alienating the existing loyal customer base.",
+    approach: "The rebrand narrative was built around craft and heritage rather than novelty — framing Apex not as a brand that was changing, but one that had always known what it stood for and was now ready to say so louder. Influencer partnerships focused on makers, artisans, and cultural figures rather than mainstream lifestyle accounts.",
+    outcome: "Brand tracking research conducted six months post-launch showed a 38% uplift in brand affinity among 25–35 year olds, with no statistically significant decline among the existing base. Social follower growth of 180% was achieved organically over nine months.",
+    kpis: [ {n:"38%", l:"Brand uplift 25-35s"}, {n:"180%", l:"Social growth"}, {n:"0%", l:"Base erosion"} ]
+  }
+];
+
+/* ═══════════════════════════════════════════════════════
+   ARTICLES DATABASE
+   ───────────────────────────────────────────────────────
+   TO ADD AN ARTICLE:
+   Copy one object, give it a unique id, fill all fields.
+   body uses HTML: <p> paragraphs, <h2> subheadings,
+   <blockquote><p>quote</p></blockquote> for pull quotes.
+═══════════════════════════════════════════════════════ */
+const ARTICLES = [
+  {
+    id: "media-collapse",
+    title: "The Quiet Collapse of Local Journalism",
+    date: "March 2025", category: "Feature", catColor: "var(--red)", publication: "The Atlantic",
+    excerpt: "What happens to democracy when nobody's watching city hall?",
+    body: `
+      <p>Every week, somewhere in the English-speaking world, a local newspaper quietly closes its doors. There is rarely a ceremony. The last edition doesn't trend on social media. A few loyal readers mourn, and then the town moves on — slightly blinder than it was before.</p>
+      <p>This is the story of local journalism's collapse. Not a dramatic implosion, but a slow, grinding erosion that has been happening for two decades and shows no sign of stopping.</p>
+      <h2>The numbers don't lie</h2>
+      <p>Since 2005, the United States alone has lost more than 2,500 local newspapers. The UK has seen hundreds of regional titles fold or merge. The journalists who once covered planning committees, school board meetings, and local court hearings have disappeared. What's left is a void.</p>
+      <blockquote><p>"When the local press dies, corruption doesn't disappear. It just becomes invisible."</p></blockquote>
+      <p>There's a growing body of research connecting the collapse of local journalism to increased municipal corruption, lower voter turnout, and reduced civic engagement. When nobody's watching, the watchers stop caring.</p>
+      <h2>The accountability gap</h2>
+      <p>Consider what local journalists actually do. They attend the council meeting that runs until 11pm on a Tuesday. They file Freedom of Information requests for budget documents. It is unglamorous, underpaid, and indispensable. National journalists cannot do this work. They are structurally incapable of it.</p>
+      <h2>What comes next</h2>
+      <p>There's no silver bullet. What is clear is that this is a public goods problem — and public goods problems usually require public solutions. The question is whether we'll acknowledge the scale of the crisis before it's too late.</p>
+    `
+  },
+  {
+    id: "authenticity",
+    title: "What Brands Get Wrong About Authenticity",
+    date: "November 2024", category: "Essay", catColor: "var(--amber)", publication: "Personal",
+    excerpt: "In an age of performative transparency, audiences can smell the gap between what companies say and what they do.",
+    body: `
+      <p>Authenticity has become the most misused word in marketing. Brands decided that the antidote to inauthenticity was more content: more behind-the-scenes footage, more candid CEO interviews, more "honest" social media posts about failure. The result is a carefully produced performance of not performing.</p>
+      <h2>The transparency trap</h2>
+      <p>There's a difference between transparency and honesty. Transparency is a communication strategy. Honesty is a value. Many brands have embraced the former while avoiding the latter entirely.</p>
+      <blockquote><p>"You cannot manufacture trust. You can only behave in ways that make it possible."</p></blockquote>
+      <p>The most trusted brands in any sector are the ones where the product, the culture, and the public-facing narrative are actually aligned. When they're not, audiences feel it — even if they can't always name what's wrong.</p>
+      <h2>The way forward</h2>
+      <p>The brands that will earn genuine loyalty over the next decade are the ones willing to do the harder, slower work: fixing the internal stuff before communicating it externally. Authenticity isn't a tone of voice. It's a decision about what you're actually willing to be held accountable for.</p>
+    `
+  },
+  {
+    id: "pr-journalism",
+    title: "PR Firms Are Not the Enemy of Good Journalism",
+    date: "June 2023", category: "Opinion", catColor: "var(--indigo)", publication: "The Guardian",
+    excerpt: "A defence of communications professionals — and a call for a more honest relationship with the press.",
+    body: `
+      <p>Every journalist has a story about a terrible PR professional. The ones who send irrelevant pitches at 6am. The ones who call to ask if you "got the release." They exist, they are annoying, and they have given the entire industry a reputation problem.</p>
+      <p>But the conclusion that public relations is inherently at odds with good journalism is wrong. And it's a view that does real damage to both industries.</p>
+      <h2>The uncomfortable truth</h2>
+      <p>Studies suggest that between 50 and 80% of news content has some PR origin. That's not a scandal — it's a reflection of resource constraints on both sides.</p>
+      <blockquote><p>"The best PR professionals are journalists working for the other side. That's a feature, not a bug."</p></blockquote>
+      <h2>What both sides owe each other</h2>
+      <p>Journalists owe PR professionals honest feedback when a pitch misses. PR professionals owe journalists their honest assessment of what's genuinely newsworthy. Neither side always delivers. Both should try harder.</p>
+    `
+  },
+  {
+    id: "tiktok-influence",
+    title: "How TikTok Rewrote the Rules of Influence",
+    date: "February 2023", category: "Analysis", catColor: "var(--red)", publication: "Wired",
+    excerpt: "Short-form video didn't just change the influencer playbook — it shredded it.",
+    body: `
+      <p>In 2019, the influencer economy had a fairly legible shape: mega-influencers commanding five-figure post fees, mid-tier creators with engaged niche audiences, and micro-influencers offering better ROI. The model was borrowed from celebrity endorsement and, within its own logic, reasonably predictable.</p>
+      <p>TikTok changed all of that. And brands, communications teams, and PR professionals are still catching up.</p>
+      <h2>The algorithm changes everything</h2>
+      <p>Unlike every platform that preceded it, TikTok's recommendation engine doesn't primarily serve content to existing followers. A creator with three hundred followers can reach three million people if the content is right.</p>
+      <blockquote><p>"On TikTok, you don't buy an audience. You earn attention, one video at a time."</p></blockquote>
+      <h2>What actually works</h2>
+      <p>What works on TikTok is cultural fluency. Brands that have succeeded there have done so by ceding control: finding creators who genuinely like their products and giving them near-total creative freedom. The opposite of traditional PR strategy. The platforms will keep changing. The underlying lesson won't.</p>
+    `
+  }
+];
+
+/* ═══════════════════════════════════════════════════════
+   BLOG DATABASE
+   ───────────────────────────────────────────────────────
+   TO ADD A BLOG POST:
+   Copy one object, give it a unique id, fill all fields.
+   tag    = category label shown on the card
+   color  = banner colour at top of card
+   body   = full post in HTML (same rules as articles)
+═══════════════════════════════════════════════════════ */
+const BLOG_POSTS = [
+  {
+    id: "why-i-write",
+    title: "Why I Write",
+    date: "February 2025",
+    tag: "Reflection",
+    color: "#9b59b6",
+    excerpt: "A honest answer to the question I get asked most often — and the one I find hardest to answer.",
+    body: `
+      <p>People ask me why I write, and I usually give a polished answer about communication and craft and the power of language. It sounds good. It's not entirely untrue. But it's not the real answer.</p>
+      <p>The real answer is that writing is the only thing that makes the world make sense to me. Not reading — though I love that too — but the specific act of sitting down, finding words for something, and watching it take shape. It's the closest I get to actually understanding what I think.</p>
+      <h2>Thinking out loud, slowly</h2>
+      <p>There's a quote I keep coming back to, variously attributed to various writers, that goes something like: "How do I know what I think until I see what I say?" That's it exactly. I don't write to express ideas I already have. I write to find out what those ideas are.</p>
+      <blockquote><p>"Writing is the act of discovering what you believe."</p></blockquote>
+      <p>This is uncomfortable to admit in professional contexts, where you're supposed to have the ideas first and then communicate them. But I think a lot of people who write — properly write, not just produce content — know what I mean.</p>
+      <h2>The discipline of being wrong in public</h2>
+      <p>Publishing writing is terrifying in a specific way. A published piece is a record of what you thought at a particular moment. If you're doing it honestly, that means being wrong sometimes, or changing your mind, or holding a position that turns out to be naive. I've had all three. I expect I'll have all three again.</p>
+      <p>But I'd rather be wrong publicly and learning than right privately and static. That's the real reason I write.</p>
+    `
+  },
+  {
+    id: "on-attention",
+    title: "The Attention Economy Has Made Us Worse Communicators",
+    date: "January 2025",
+    tag: "Media & Culture",
+    color: "var(--teal)",
+    excerpt: "We've optimised so hard for clicks that we've forgotten how to say something worth reading.",
+    body: `
+      <p>The most valuable thing in media right now is your attention. Not your opinion, not your loyalty, not your money — your attention. And because attention is the thing being competed for, everything in the media environment has been optimised to capture it, hold it, and convert it into something monetisable before you scroll away.</p>
+      <p>This has produced some genuinely impressive technology. It has also, I think, made us significantly worse at communicating.</p>
+      <h2>The headline problem</h2>
+      <p>Headlines used to describe what was in an article. Now they're often designed to create a feeling — urgency, outrage, curiosity — that compels a click. The content doesn't always have to deliver on that feeling, because by the time the reader realises they've been misled, the click has already been recorded.</p>
+      <p>This creates a systematic incentive to mislead. Not dramatically, not maliciously — just by a little, just enough, just routinely. And after enough exposure to this, readers stop trusting headlines. So writers make the headlines even more extreme to compensate. The spiral tightens.</p>
+      <h2>What we lose</h2>
+      <p>What we lose in this environment is nuance — the ability to say "it's complicated" without it being read as evasion, or to change your mind without it being read as weakness, or to write a considered 2,000-word piece without worrying that everyone will abandon it after three paragraphs.</p>
+      <blockquote><p>"The medium doesn't just shape the message. It shapes the messenger."</p></blockquote>
+      <p>I don't have a solution. But I think the first step is noticing it — really noticing it — in your own reading and your own writing. And occasionally choosing the slower, harder, more honest thing.</p>
+    `
+  },
+  {
+    id: "first-year-freelance",
+    title: "One Year Freelance: What Nobody Tells You",
+    date: "December 2024",
+    tag: "Work & Life",
+    color: "var(--amber)",
+    excerpt: "The financial stuff is hard. The psychological stuff is harder.",
+    body: `
+      <p>A year ago I left a stable, reasonably well-paid communications job to go freelance. Everyone who had done it before me gave me advice. They warned me about the invoicing, the slow payments, the feast-and-famine cash flow, the loneliness of working alone. They were right about all of it.</p>
+      <p>What nobody told me was how much of freelancing is psychological work — and how unprepared I was for that.</p>
+      <h2>The silence is the hardest part</h2>
+      <p>In a job, you get constant feedback. Someone approves your work, a client emails back, a campaign launches and people react. Freelance work is mostly silence punctuated by occasional intense activity. You send a pitch and hear nothing for two weeks. You finish a piece and wait. You wonder if you're any good.</p>
+      <p>I don't think this gets easier quickly. I think you just get better at building your own internal feedback mechanisms — keeping notes on what's working, celebrating small wins without someone else prompting you to, deciding for yourself when something is done and good.</p>
+      <h2>The financial stuff, briefly</h2>
+      <p>It's exactly as variable and stressful as everyone says. Keep three months of expenses in reserve before you start. Invoice immediately. Chase late payments without embarrassment. Put money aside for tax before it feels real. None of this is complicated — it just requires discipline when you're already juggling everything else.</p>
+      <blockquote><p>"Freelancing is not freedom from work. It's freedom within work — which is both better and harder."</p></blockquote>
+      <p>Would I do it again? Yes, immediately. The work is better, the clients are ones I chose, and I'm doing the most interesting things I've ever done professionally. But I wish I'd known it was going to be as much a personal development exercise as a career one.</p>
+    `
+  }
+];
+
+/* ═══════════════════════════════════════════
+   RENDER FUNCTIONS
+═══════════════════════════════════════════ */
+function renderVideos() {
+  document.getElementById('videos-grid').innerHTML = VIDEOS.map(v => `
+    <div class="video-card reveal" onclick="openVideo('${v.id}')">
+      <div class="video-thumb">
+        <img src="https://img.youtube.com/vi/${v.youtube}/mqdefault.jpg" alt="${v.title}" loading="lazy">
+        <div class="play-btn"><div class="play-circle">▶</div></div>
+      </div>
+      <div class="video-info">
+        <div class="v-cat">${v.category}</div>
+        <h4>${v.title}</h4>
+        <p>${v.description}</p>
+      </div>
+    </div>
+  `).join('');
+}
+
+function renderPR() {
+  document.getElementById('pr-list').innerHTML = PR_CAMPAIGNS.map(c => `
+    <div class="pr-card reveal" onclick="openPR('${c.id}')">
+      <div class="pr-num">${c.num}</div>
+      <div>
+        <h3>${c.title}</h3>
+        <p>${c.summary}</p>
+        <div class="pr-tags">${c.tags.map(t => `<span class="pr-tag">${t}</span>`).join('')}</div>
+        <div class="pr-read-more">Read full case study →</div>
+      </div>
+      <div class="pr-stat">
+        <div class="pr-stat-n" style="color:${c.color}">${c.result}</div>
+        <div class="pr-stat-l">${c.resultLabel}</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function renderWriting() {
+  document.getElementById('writing-list').innerHTML = ARTICLES.map(a => `
+    <div class="wr-row reveal" onclick="openArticle('${a.id}')">
+      <div class="wr-date">${a.date}</div>
+      <div>
+        <div class="wr-cat" style="color:${a.catColor}">${a.category} · ${a.publication}</div>
+        <h3 class="wr-title">${a.title}</h3>
+        <p class="wr-excerpt">${a.excerpt}</p>
+      </div>
+      <div class="wr-arrow">→</div>
+    </div>
+  `).join('');
+}
+
+function renderBlog() {
+  const bannerColors = ["#9b59b6","var(--teal)","var(--amber)","var(--red)","var(--indigo)","var(--accent)"];
+  document.getElementById('blog-grid').innerHTML = BLOG_POSTS.map((p, i) => `
+    <div class="blog-card reveal" onclick="openBlogPost('${p.id}')">
+      <div class="blog-card-banner" style="background:${p.color || bannerColors[i % bannerColors.length]}"></div>
+      <div class="blog-card-body">
+        <div class="blog-card-meta">${p.date}</div>
+        <h3 class="blog-card-title">${p.title}</h3>
+        <p class="blog-card-excerpt">${p.excerpt}</p>
+        <div class="blog-card-footer">
+          <span class="blog-card-tag">${p.tag}</span>
+          <span class="blog-card-arrow">→</span>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+/* ═══════════════════════════════════════════
+   OPEN OVERLAYS
+═══════════════════════════════════════════ */
+function openArticle(id) {
+  const a = ARTICLES.find(x => x.id === id);
+  if (!a) return;
+  document.getElementById('article-overlay-cat').textContent = `${a.category} · ${a.publication}`;
+  document.getElementById('article-content').innerHTML = `
+    <p class="art-eyebrow" style="color:${a.catColor}">${a.category}</p>
+    <h1>${a.title}</h1>
+    <div class="art-meta"><span class="art-author">Ilyas Muzaffar</span><span class="art-date">${a.date} · ${a.publication}</span></div>
+    <div class="art-text">${a.body}</div>
+  `;
+  openOverlay('article');
+}
+
+function openVideo(id) {
+  const v = VIDEOS.find(x => x.id === id);
+  if (!v) return;
+  document.getElementById('video-content').innerHTML = `
+    <div class="video-player-wrap">
+      <iframe src="https://www.youtube.com/embed/${v.youtube}?autoplay=1&rel=0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
+    <h2 class="video-overlay-title">${v.title}</h2>
+    <p class="video-overlay-desc">${v.description}</p>
+  `;
+  openOverlay('video');
+}
+
+function openPR(id) {
+  const c = PR_CAMPAIGNS.find(x => x.id === id);
+  if (!c) return;
+  document.getElementById('pr-overlay-cat').textContent = c.client;
+  document.getElementById('pr-detail-content').innerHTML = `
+    <p class="art-eyebrow" style="color:${c.color};margin-bottom:12px">Case Study</p>
+    <h1 style="font-family:var(--font-display);font-size:clamp(28px,4vw,48px);font-weight:700;line-height:1.1;letter-spacing:-0.01em;color:var(--gray-900);margin-bottom:32px">${c.title}</h1>
+    <div class="pr-detail-hero">
+      <p style="font-size:16px;color:var(--gray-500);line-height:1.65;margin-bottom:24px">${c.summary}</p>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px">${c.tags.map(t=>`<span class="pr-tag">${t}</span>`).join('')}</div>
+      <div class="pr-detail-kpi">
+        ${c.kpis.map(k=>`<div class="kpi-box"><div class="kpi-n" style="color:${c.color}">${k.n}</div><div class="kpi-l">${k.l}</div></div>`).join('')}
+      </div>
+    </div>
+    <h2>The Challenge</h2><p>${c.challenge}</p>
+    <h2>The Approach</h2><p>${c.approach}</p>
+    <h2>The Outcome</h2><p>${c.outcome}</p>
+  `;
+  openOverlay('pr');
+}
+
+function openBlogPost(id) {
+  const p = BLOG_POSTS.find(x => x.id === id);
+  if (!p) return;
+  document.getElementById('blog-post-content').innerHTML = `
+    <p class="bp-tag">${p.tag}</p>
+    <h1>${p.title}</h1>
+    <div class="bp-meta"><span class="bp-author">Ilyas Muzaffar</span><span class="bp-date">${p.date}</span></div>
+    <div class="bp-text">${p.body}</div>
+  `;
+  openOverlay('blog');
+}
+
+/* ═══════════════════════════════════════════
+   OVERLAY OPEN / CLOSE
+═══════════════════════════════════════════ */
+function openOverlay(type) {
+  const el = document.getElementById(type + '-overlay');
+  el.classList.add('open');
+  el.scrollTop = 0;
+}
+
+function closeOverlay(type) {
+  document.getElementById(type + '-overlay').classList.remove('open');
+  if (type === 'video') document.getElementById('video-content').innerHTML = '';
+}
+
+/* ═══════════════════════════════════════════
+   NAVIGATION
+   navClick = from nav buttons → close overlays first
+   navigate = internal navigation (no overlay close)
+═══════════════════════════════════════════ */
+const PAGE_IDS = ['home','about','multimedia','pr','writing','blog','contact'];
+
+function navClick(id) {
+  ['article','video','pr','blog'].forEach(t => closeOverlay(t));
+  navigate(id);
+}
+
+function navigate(id) {
+  PAGE_IDS.forEach(p => {
+    document.getElementById('page-' + p).classList.remove('active');
+    const b = document.getElementById('nav-' + p);
+    if (b) b.classList.remove('active');
+  });
+  document.getElementById('page-' + id).classList.add('active');
+  const ab = document.getElementById('nav-' + id);
+  if (ab) ab.classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  setTimeout(triggerReveals, 60);
+}
+
+/* ═══════════════════════════════════════════
+   SCROLL REVEAL
+═══════════════════════════════════════════ */
+const revealObs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('vis'); });
+}, { threshold: 0.08 });
+
+function triggerReveals() {
+  document.querySelectorAll('.page.active .reveal:not(.vis)').forEach(el => revealObs.observe(el));
+}
+
+/* ═══════════════════════════════════════════
+   KEYBOARD
+═══════════════════════════════════════════ */
+document.addEventListener('key

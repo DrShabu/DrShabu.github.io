@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="color-scheme" content="light dark">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Ilyas Muzaffar</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -29,8 +30,8 @@
   --sans: "DM Sans", -apple-system, sans-serif;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
-body{font-family:var(--sans);background:var(--bg);color:var(--ink);padding-bottom:110px;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+html{scroll-behavior:smooth;color-scheme:light}
+body{font-family:var(--sans);background:var(--bg);color:var(--ink);padding-bottom:110px;overflow-x:hidden;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-rendering:optimizeLegibility}
 
 /* ---- PAGE TRANSITIONS ---- */
 .page{display:none;min-height:calc(100vh - 110px);animation:none}
@@ -50,7 +51,8 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);padding-botto
 .overlay.open{visibility:visible;pointer-events:auto}
 
 /* ---- NAV BAR ---- */
-.nav{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:9999;pointer-events:auto;background:rgba(162,186,148,0.95);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(100,140,90,0.18);border-radius:980px;padding:7px 10px;display:flex;gap:2px;box-shadow:0 8px 32px rgba(80,120,70,0.18)}
+.nav{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:9999;pointer-events:auto;background:rgb(162,186,148);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(100,140,90,0.25);border-radius:980px;padding:7px 10px;display:flex;gap:2px;box-shadow:0 8px 32px rgba(80,120,70,0.18)}
+@supports(backdrop-filter:blur(1px)){.nav{background:rgba(162,186,148,0.92)}}
 
 /* Nav button base */
 .nb{display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 13px;border-radius:980px;background:transparent;border:none;cursor:pointer;color:#3a5230;min-width:56px;font-family:var(--sans);transition:color 0.18s, background 0.18s, transform 0.18s cubic-bezier(0.34,1.56,0.64,1)}
@@ -228,7 +230,8 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);padding-botto
 .sc-arr{font-size:20px;color:var(--line2);transition:color 0.2s,transform 0.2s;flex-shrink:0}
 .sc:hover .sc-arr{color:var(--blue);transform:translateX(4px)}
 .contact-foot{display:flex;align-items:center;gap:12px;flex-wrap:wrap;font-size:13px;color:var(--muted);padding-top:32px;border-top:1px solid var(--line)}
-.ov-bar{position:sticky;top:0;background:rgba(162,186,148,0.97);backdrop-filter:blur(16px);border-bottom:1px solid rgba(100,140,90,0.18);padding:14px 28px;display:flex;align-items:center;gap:14px;z-index:10}
+.ov-bar{position:sticky;top:0;background:rgb(162,186,148);backdrop-filter:blur(16px);border-bottom:1px solid rgba(100,140,90,0.25);padding:14px 28px;display:flex;align-items:center;gap:14px;z-index:10}
+@supports(backdrop-filter:blur(1px)){.ov-bar{background:rgba(162,186,148,0.97)}}
 .back{font-family:var(--sans);font-size:13px;font-weight:500;color:#1a4f0f;background:none;border:none;cursor:pointer;display:flex;align-items:center;gap:6px;padding:0;transition:opacity 0.2s}
 .back:hover{opacity:0.7;transform:translateX(-2px)}
 .back:active{transform:scale(0.94) !important;opacity:0.5 !important;transition:transform 0.09s !important}
@@ -307,6 +310,115 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);padding-botto
 .about-portrait img{width:100%;height:100%;object-fit:cover;object-position:center center;display:block}
 .about-top-in-new{max-width:1080px;margin:0 auto;display:flex;gap:56px;align-items:center}
 @media(max-width:680px){.about-top-in-new{flex-direction:column;gap:32px}.about-portrait{max-width:100%}}
+
+
+/* ================================================================
+   DARK MODE
+   When the <html> element has class "dark", these variables
+   override every colour on the site automatically.
+   The dark background is a deep warm charcoal (not pure black)
+   to complement the cream theme.
+================================================================ */
+html.dark {
+  --bg: #1C1A12;         /* deep warm charcoal */
+  --card: #28251A;       /* slightly lighter warm dark */
+  --line: #38352A;
+  --line2: #4a4636;
+  --muted: #7a7668;
+  --mid: #a09880;
+  --dark: #c8bea8;
+  --ink: #F0EDD8;        /* warm off-white, echo of cream */
+  --blue: #4da3f5;
+  --blue2: #62b0ff;
+  --bluefade: rgba(77,163,245,0.12);
+  --red: #f07060;
+  --amber: #e8a830;
+  --teal: #3cb89e;
+  --indigo: #7b72e8;
+  --purple: #b88ad0;
+}
+html.dark body { background: var(--bg); color: var(--ink); }
+html.dark .hero { background: var(--bg); }
+html.dark .about-top { background: var(--bg); border-bottom-color: var(--line); }
+html.dark .blog-top { background: var(--bg); border-bottom-color: var(--line); }
+
+/* Dark nav — shift to warm dark */
+html.dark .nav {
+  background: #2a2820;
+  border-color: rgba(255,255,255,0.08);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.45);
+}
+@supports(backdrop-filter:blur(1px)){
+  html.dark .nav { background: rgba(42,40,32,0.95); }
+}
+html.dark .nb { color: #9a9070; }
+html.dark .nb:hover { color: #F0EDD8; background: rgba(255,255,255,0.07); }
+html.dark .nb.on { color: #4da3f5; background: rgba(77,163,245,0.12); }
+
+/* Dark overlay bar */
+html.dark .ov-bar {
+  background: #2a2820;
+  border-bottom-color: var(--line);
+}
+@supports(backdrop-filter:blur(1px)){
+  html.dark .ov-bar { background: rgba(42,40,32,0.97); }
+}
+html.dark .back { color: #4da3f5 !important; }
+
+/* Cards in dark */
+html.dark .card, html.dark .vc, html.dark .mt, html.dark .bc, html.dark .sc { background: var(--card); }
+html.dark .sc:hover { background: #322f22; }
+html.dark .skills-box { background: var(--card); }
+html.dark .wrr:active { background: rgba(255,255,255,0.04); }
+
+/* Dark mode page accents — slightly brighter to read on dark bg */
+html.dark #page-home .hero-name em { color: #e07040; }
+html.dark #page-home .btn.bp { background: #c06035; }
+html.dark #page-about .about-h em { color: #e8a830; }
+html.dark #page-about .eyebrow { color: #e8a830 !important; }
+html.dark #page-about .stat-n { color: #e8a830 !important; }
+html.dark #page-multimedia .eyebrow { color: #3cb89e !important; }
+html.dark #page-multimedia .mm-title em { color: #3cb89e; }
+html.dark #page-blog .blog-h em { color: #b88ad0; }
+html.dark #page-contact .contact-big-h em { color: #4da3f5; }
+
+/* Stats divider lines */
+html.dark .stats { border-color: var(--line); }
+html.dark .stat { border-right-color: var(--line); }
+
+/* DARK MODE TOGGLE BUTTON */
+/* ----------------------------------------------------------------
+   The button sits in the top-right corner on every page.
+   To move it: edit top/right values below.
+   To change the icon size: edit font-size.
+   ---------------------------------------------------------------- */
+.dm-btn {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 9998;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(0,0,0,0.08);
+  background: rgba(255,253,208,0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+  transition: transform 0.22s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.2s, background 0.2s;
+}
+.dm-btn:hover { transform: scale(1.12); box-shadow: 0 6px 20px rgba(0,0,0,0.15); }
+.dm-btn:active { transform: scale(0.9) !important; transition: transform 0.09s !important; }
+html.dark .dm-btn {
+  background: rgba(42,40,32,0.95);
+  border-color: rgba(255,255,255,0.1);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+}
 
 </style>
 </head>
@@ -1026,5 +1138,13 @@ renderVideos();
 renderWriting();
 renderBlog();
 </script>
+
+<!-- ============================================================
+     DARK MODE TOGGLE BUTTON
+     Fixed in the top-right corner. Click to switch modes.
+     The sun icon (☀️) shows in dark mode, moon (🌙) in light mode.
+     User preference is remembered for the session.
+     ============================================================ -->
+<button class="dm-btn" id="dm-btn" onclick="toggleDark()" aria-label="Toggle dark mode">🌙</button>
 </body>
 </html>

@@ -6,11 +6,11 @@
 <title>Ilyas Muzaffar</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap&font-display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg: #faf8f4;
-  --card: #f2efe9;
+  --bg: #FFFDD0;
+  --card: #F5F0C0;
   --line: #e8e8ed;
   --line2: #d2d2d7;
   --muted: #a1a1a6;
@@ -25,40 +25,61 @@
   --teal: #007a6e;
   --indigo: #3a28b8;
   --purple: #9b59b6;
-  --serif: 'Playfair Display', Georgia, serif;
-  --sans: 'DM Sans', -apple-system, sans-serif;
+  --serif: "Playfair Display", Georgia, serif;
+  --sans: "DM Sans", -apple-system, sans-serif;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
 body{font-family:var(--sans);background:var(--bg);color:var(--ink);padding-bottom:110px;overflow-x:hidden;-webkit-font-smoothing:antialiased}
 
-/* PAGES */
-.page{display:none;min-height:calc(100vh - 110px)}
-.page.active{display:block}
+/* ---- PAGE TRANSITIONS ---- */
+.page{display:none;min-height:calc(100vh - 110px);animation:none}
+.page.active{display:block;animation:appleIn 0.36s cubic-bezier(0.32,0.72,0,1) both}
+.page.leaving{display:block;animation:appleOut 0.2s cubic-bezier(0.32,0.72,0,1) both;pointer-events:none;position:absolute;width:100%}
+@keyframes appleIn{
+  from{opacity:0;transform:scale(0.97)}
+  to  {opacity:1;transform:scale(1)}
+}
+@keyframes appleOut{
+  from{opacity:1;transform:scale(1)}
+  to  {opacity:0;transform:scale(1.02)}
+}
 
-/* OVERLAY */
+/* ---- OVERLAY TRANSITIONS ---- */
 .overlay{visibility:hidden;pointer-events:none;position:fixed;inset:0;background:var(--bg);z-index:800;overflow-y:auto;padding-bottom:110px}
 .overlay.open{visibility:visible;pointer-events:auto}
 
-/* NAV */
-.nav{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:9999;pointer-events:auto;background:rgba(255,255,255,0.88);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(0,0,0,0.09);border-radius:980px;padding:7px 10px;display:flex;gap:2px;box-shadow:0 8px 32px rgba(0,0,0,0.12)}
-.nb{display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 13px;border-radius:980px;background:transparent;border:none;cursor:pointer;color:var(--mid);min-width:56px;font-family:var(--sans);transition:background 0.15s,color 0.15s}
-.nb:hover{color:var(--ink);background:rgba(0,0,0,0.04)}
+/* ---- NAV BAR ---- */
+.nav{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:9999;pointer-events:auto;background:rgba(255,253,208,0.92);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(0,0,0,0.09);border-radius:980px;padding:7px 10px;display:flex;gap:2px;box-shadow:0 8px 32px rgba(0,0,0,0.12)}
+
+/* Nav button base */
+.nb{display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 13px;border-radius:980px;background:transparent;border:none;cursor:pointer;color:var(--mid);min-width:56px;font-family:var(--sans);transition:color 0.18s, background 0.18s, transform 0.18s cubic-bezier(0.34,1.56,0.64,1)}
+.nb:hover{color:var(--ink);background:rgba(0,0,0,0.05);transform:translateY(-2px) scale(1.05)}
 .nb.on{color:var(--blue);background:var(--bluefade)}
-.ni{font-size:16px;line-height:1}
-.nl{font-size:9px;font-weight:500;letter-spacing:0.04em}
+.nb:active{transform:scale(0.84) !important;transition:transform 0.09s cubic-bezier(0.32,0.72,0,1) !important}
 
-/* UTIL */
+/* Icon bounces with a big spring when tab becomes active */
+.nb.on .ni{animation:iconBounce 0.45s cubic-bezier(0.34,1.56,0.64,1) both}
+@keyframes iconBounce{
+  0%  {transform:scale(0.55) translateY(4px)}
+  55% {transform:scale(1.35) translateY(-3px)}
+  100%{transform:scale(1)    translateY(0)}
+}
+
+.ni{font-size:16px;line-height:1;display:block}
+.nl{font-size:9px;font-weight:500;letter-spacing:0.04em;transition:color 0.18s}
+
+/* ---- BUTTONS ---- */
 .eyebrow{font-family:var(--sans);font-size:12px;font-weight:500;letter-spacing:0.12em;text-transform:uppercase}
-.btn{display:inline-flex;align-items:center;gap:8px;font-family:var(--sans);font-size:14px;font-weight:500;padding:13px 26px;border-radius:980px;border:none;cursor:pointer;text-decoration:none;transition:all 0.2s}
+.btn{display:inline-flex;align-items:center;gap:8px;font-family:var(--sans);font-size:14px;font-weight:500;padding:13px 26px;border-radius:980px;border:none;cursor:pointer;text-decoration:none;transition:transform 0.22s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.22s ease, background 0.18s ease}
 .bp{background:var(--blue);color:#fff}
-.bp:hover{background:var(--blue2);transform:translateY(-1px);box-shadow:0 6px 20px rgba(0,113,227,0.28)}
+.bp:hover{background:var(--blue2);transform:translateY(-3px) scale(1.05);box-shadow:0 10px 28px rgba(0,113,227,0.35)}
+.bp:active{transform:scale(0.93) !important;box-shadow:none !important;transition:transform 0.09s,box-shadow 0.09s !important}
 .bo{background:transparent;color:var(--blue);border:1.5px solid rgba(0,113,227,0.3)}
-.bo:hover{background:var(--bluefade);border-color:var(--blue)}
-
-/* HOME */
-.hero{min-height:calc(100vh - 110px);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:60px 28px 40px;background:linear-gradient(160deg,#f2efe9 0%,#faf8f4 55%,#f0f4ff 100%);position:relative;overflow:hidden}
-.hero::before{content:'';position:absolute;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(0,113,227,0.07) 0%,transparent 70%);top:-100px;right:-140px;pointer-events:none}
+.bo:hover{background:var(--bluefade);border-color:var(--blue);transform:translateY(-3px) scale(1.05)}
+.bo:active{transform:scale(0.93) !important;transition:transform 0.09s !important}
+.hero{min-height:calc(100vh - 110px);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:60px 28px 40px;background:linear-gradient(160deg,#F5F0C0 0%,#FFFDD0 55%,#f0f4ff 100%);position:relative;overflow:hidden}
+.hero::before{content:"";position:absolute;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(0,113,227,0.07) 0%,transparent 70%);top:-100px;right:-140px;pointer-events:none}
 .hero-label{color:var(--blue);margin-bottom:18px;position:relative;z-index:1}
 .hero-name{font-family:var(--serif);font-size:clamp(52px,9vw,108px);font-weight:700;line-height:1;letter-spacing:-0.02em;color:var(--ink);margin-bottom:24px;position:relative;z-index:1}
 .hero-name em{font-style:italic;color:var(--blue);font-weight:400}
@@ -67,22 +88,21 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);padding-botto
 .home-cards{padding:80px 28px;max-width:1080px;margin:0 auto}
 .cl{font-size:12px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);text-align:center;margin-bottom:36px}
 .cg{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px}
-.card{background:var(--card);border-radius:22px;padding:36px 30px;cursor:pointer;transition:transform 0.22s,box-shadow 0.22s;position:relative;overflow:hidden}
-.card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;border-radius:0 0 22px 22px;transform:scaleX(0);transform-origin:left;transition:transform 0.3s}
-.card:hover{transform:translateY(-5px);box-shadow:0 18px 44px rgba(0,0,0,0.09)}
+.card{background:var(--card);border-radius:22px;padding:36px 30px;cursor:pointer;transition:transform 0.3s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.3s ease;position:relative;overflow:hidden}
+.card::after{content:"";position:absolute;bottom:0;left:0;right:0;height:3px;border-radius:0 0 22px 22px;transform:scaleX(0);transform-origin:left;transition:transform 0.3s cubic-bezier(0.34,1.56,0.64,1)}
+.card:hover{transform:translateY(-6px) scale(1.015);box-shadow:0 20px 48px rgba(0,0,0,0.11)}
 .card:hover::after{transform:scaleX(1)}
+.card:active{transform:scale(0.95) !important;box-shadow:0 4px 12px rgba(0,0,0,0.08) !important;transition:transform 0.09s,box-shadow 0.09s !important}
 .cr::after{background:var(--red)}.ca::after{background:var(--amber)}.ct::after{background:var(--teal)}.ci::after{background:var(--indigo)}.cp::after{background:var(--purple)}.cb::after{background:var(--blue)}
 .card-icon{font-size:28px;margin-bottom:16px}
 .card h3{font-family:var(--serif);font-size:21px;font-weight:700;color:var(--ink);margin-bottom:8px}
 .card p{font-size:14px;color:var(--mid);line-height:1.6}
-
-/* ABOUT */
-.about-top{background:linear-gradient(160deg,#1d1d1f,#2a2a2c);padding:80px 28px}
+.about-top{background:linear-gradient(160deg,#F5F0C0 0%,#FFFDD0 60%,#f0f4ff 100%);padding:72px 28px 52px;border-bottom:1px solid var(--line)}
 .about-top-in{max-width:1080px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center}
 @media(max-width:680px){.about-top-in{grid-template-columns:1fr;gap:36px}}
-.about-h{font-family:var(--serif);font-size:clamp(44px,7vw,84px);font-weight:700;line-height:1;letter-spacing:-0.02em;color:#fff}
+.about-h{font-family:var(--serif);font-size:clamp(44px,7vw,84px);font-weight:700;line-height:1;letter-spacing:-0.02em;color:var(--ink)}
 .about-h em{font-style:italic;font-weight:400;color:var(--amber)}
-.about-intro{font-size:18px;font-weight:300;line-height:1.7;color:rgba(255,255,255,0.65)}
+.about-intro{font-size:18px;font-weight:300;line-height:1.7;color:var(--mid)}
 .about-body{max-width:1080px;margin:0 auto;padding:64px 28px}
 .about-cols{display:grid;grid-template-columns:3fr 2fr;gap:56px;align-items:start}
 @media(max-width:680px){.about-cols{grid-template-columns:1fr}}
@@ -98,16 +118,15 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);padding-botto
 .stat:last-child{border-right:none}
 .stat-n{font-family:var(--serif);font-size:44px;font-weight:700;line-height:1;margin-bottom:4px}
 .stat-l{font-size:11px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted)}
-
-/* MULTIMEDIA */
 .mm-hdr{padding:64px 28px 48px;max-width:1080px;margin:0 auto}
 .mm-title{font-family:var(--serif);font-size:clamp(40px,6vw,72px);font-weight:700;letter-spacing:-0.02em;line-height:1.05;color:var(--ink)}
 .mm-title em{font-style:italic;font-weight:400;color:var(--blue)}
 .sec-lbl{font-size:11px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);padding:0 28px;max-width:1080px;margin:0 auto 20px;display:flex;align-items:center;gap:12px}
-.sec-lbl::after{content:'';flex:1;height:1px;background:var(--line)}
+.sec-lbl::after{content:"";flex:1;height:1px;background:var(--line)}
 .vgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px;padding:0 28px 48px;max-width:1080px;margin:0 auto}
-.vc{background:var(--card);border-radius:18px;overflow:hidden;cursor:pointer;transition:transform 0.22s,box-shadow 0.22s}
-.vc:hover{transform:translateY(-4px);box-shadow:0 18px 44px rgba(0,0,0,0.1)}
+.vc{background:var(--card);border-radius:18px;overflow:hidden;cursor:pointer;transition:transform 0.3s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.3s ease}
+.vc:hover{transform:translateY(-5px) scale(1.015);box-shadow:0 20px 48px rgba(0,0,0,0.11)}
+.vc:active{transform:scale(0.95) !important;transition:transform 0.09s !important}
 .vthumb{position:relative;aspect-ratio:16/9;background:#1d1d1f;overflow:hidden}
 .vthumb img{width:100%;height:100%;object-fit:cover;transition:transform 0.4s;display:block}
 .vc:hover .vthumb img{transform:scale(1.04)}
@@ -120,8 +139,9 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);padding-botto
 .vinfo h4{font-family:var(--serif);font-size:18px;font-weight:700;color:var(--ink);margin-bottom:5px;line-height:1.2}
 .vinfo p{font-size:13px;color:var(--mid);line-height:1.5}
 .mgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:20px;padding:0 28px 80px;max-width:1080px;margin:0 auto}
-.mt{background:var(--card);border-radius:18px;overflow:hidden;cursor:pointer;transition:transform 0.22s,box-shadow 0.22s}
-.mt:hover{transform:translateY(-4px);box-shadow:0 18px 44px rgba(0,0,0,0.1)}
+.mt{background:var(--card);border-radius:18px;overflow:hidden;cursor:pointer;transition:transform 0.3s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.3s ease}
+.mt:hover{transform:translateY(-5px) scale(1.015);box-shadow:0 20px 48px rgba(0,0,0,0.11)}
+.mt:active{transform:scale(0.95) !important;transition:transform 0.09s !important}
 .mthumb{aspect-ratio:16/10;display:flex;align-items:center;justify-content:center;font-size:44px}
 .tp{background:linear-gradient(135deg,#e0f0ff,#c9e6ff)}
 .ta{background:linear-gradient(135deg,#e8ffe0,#cfffd7)}
@@ -131,17 +151,16 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);padding-botto
 .minfo .mcat{font-size:10px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
 .minfo h4{font-family:var(--serif);font-size:18px;font-weight:700;color:var(--ink);margin-bottom:4px}
 .minfo p{font-size:13px;color:var(--mid);line-height:1.5}
-
-/* PR */
-.pr-top{background:linear-gradient(160deg,#1d1d1f,#2a2a2c);padding:80px 28px 56px}
+.pr-top{background:linear-gradient(160deg,#F5F0C0 0%,#FFFDD0 60%,#f0f4ff 100%);padding:72px 28px 52px;border-bottom:1px solid var(--line)}
 .pr-top-in{max-width:1080px;margin:0 auto}
-.pr-h{font-family:var(--serif);font-size:clamp(44px,7vw,84px);font-weight:700;line-height:1;letter-spacing:-0.02em;color:#fff}
+.pr-h{font-family:var(--serif);font-size:clamp(44px,7vw,84px);font-weight:700;line-height:1;letter-spacing:-0.02em;color:var(--ink)}
 .pr-h em{font-style:italic;font-weight:400;color:var(--amber)}
 .pr-list{max-width:1080px;margin:0 auto;padding:0 28px 80px}
-.prc{background:var(--card);border-radius:22px;padding:36px 32px;display:grid;grid-template-columns:72px 1fr auto;gap:28px;align-items:start;margin-top:20px;cursor:pointer;transition:transform 0.22s,box-shadow 0.22s;position:relative;overflow:hidden}
-.prc::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;transform:scaleX(0);transform-origin:left;transition:transform 0.3s}
-.prc:hover{transform:translateY(-4px);box-shadow:0 18px 44px rgba(0,0,0,0.1)}
+.prc{background:var(--card);border-radius:22px;padding:36px 32px;display:grid;grid-template-columns:72px 1fr auto;gap:28px;align-items:start;margin-top:20px;cursor:pointer;transition:transform 0.3s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.3s ease;position:relative;overflow:hidden}
+.prc::after{content:"";position:absolute;bottom:0;left:0;right:0;height:3px;transform:scaleX(0);transform-origin:left;transition:transform 0.3s cubic-bezier(0.34,1.56,0.64,1)}
+.prc:hover{transform:translateY(-5px) scale(1.01);box-shadow:0 20px 48px rgba(0,0,0,0.11)}
 .prc:hover::after{transform:scaleX(1)}
+.prc:active{transform:scale(0.97) !important;transition:transform 0.09s !important}
 .prc:nth-child(1)::after{background:var(--red)}.prc:nth-child(2)::after{background:var(--amber)}.prc:nth-child(3)::after{background:var(--teal)}.prc:nth-child(4)::after{background:var(--indigo)}
 @media(max-width:680px){.prc{grid-template-columns:1fr}}
 .prnum{font-family:var(--serif);font-size:52px;font-weight:700;line-height:1;color:var(--line2)}
@@ -153,8 +172,6 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);padding-botto
 .prstat-n{font-family:var(--serif);font-size:36px;font-weight:700;line-height:1}
 .prstat-l{font-size:10px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-top:4px}
 .prrm{font-size:12px;font-weight:500;color:var(--blue);margin-top:8px;display:inline-flex;align-items:center;gap:4px}
-
-/* PR DETAIL */
 .prd-body{max-width:760px;margin:0 auto;padding:56px 28px 80px}
 .prd-hero{background:var(--card);border-radius:20px;padding:40px;margin-bottom:48px}
 .kpi-row{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:32px}
@@ -164,15 +181,14 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);padding-botto
 .kpi-l{font-size:10px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted)}
 .prd-body h2{font-family:var(--serif);font-size:26px;font-weight:700;color:var(--ink);margin:36px 0 14px}
 .prd-body p{font-size:17px;line-height:1.78;color:var(--dark);margin-bottom:22px}
-
-/* WRITING */
 .wr-hdr{padding:64px 28px 0;max-width:1080px;margin:0 auto}
 .wr-title{font-family:var(--serif);font-size:clamp(40px,6vw,72px);font-weight:700;letter-spacing:-0.02em;line-height:1.05;color:var(--ink)}
 .wr-title em{font-style:italic;font-weight:400;color:var(--blue)}
 .wr-list{max-width:1080px;margin:0 auto;padding:40px 28px 80px}
-.wrr{display:grid;grid-template-columns:96px 1fr auto;gap:24px;align-items:center;padding:28px 0;border-bottom:1px solid var(--line);cursor:pointer;transition:padding-left 0.2s}
+.wrr{display:grid;grid-template-columns:96px 1fr auto;gap:24px;align-items:center;padding:28px 0;border-bottom:1px solid var(--line);cursor:pointer;transition:padding-left 0.25s cubic-bezier(0.32,0.72,0,1), background 0.2s}
 .wrr:first-child{border-top:1px solid var(--line)}
 .wrr:hover{padding-left:8px}
+.wrr:active{background:rgba(0,0,0,0.03);border-radius:12px;transition:background 0.09s}
 @media(max-width:580px){.wrr{grid-template-columns:1fr auto}.wrd{display:none}}
 .wrd{font-size:11px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted)}
 .wrc{font-size:11px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:5px}
@@ -181,8 +197,6 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);padding-botto
 .wre{font-size:13px;color:var(--mid);line-height:1.55}
 .wra{font-size:20px;color:var(--line2);transition:color 0.2s,transform 0.2s}
 .wrr:hover .wra{color:var(--blue);transform:translateX(4px)}
-
-/* ARTICLE OVERLAY */
 .art-body{max-width:680px;margin:0 auto;padding:56px 28px 80px}
 .art-ey{font-size:12px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;margin-bottom:18px}
 .art-body h1{font-family:var(--serif);font-size:clamp(34px,5vw,58px);font-weight:700;line-height:1.08;letter-spacing:-0.01em;color:var(--ink);margin-bottom:24px}
@@ -193,23 +207,20 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);padding-botto
 .art-text h2{font-family:var(--serif);font-size:26px;font-weight:700;color:var(--ink);margin:44px 0 14px}
 .art-text blockquote{border-left:4px solid var(--blue);margin:36px 0;padding:6px 0 6px 24px}
 .art-text blockquote p{font-family:var(--serif);font-size:22px;font-style:italic;color:var(--ink);margin:0;line-height:1.4}
-
-/* VIDEO OVERLAY */
 .vid-wrap{max-width:900px;margin:0 auto;padding:40px 28px 80px}
 .vid-player{position:relative;padding-bottom:56.25%;height:0;border-radius:16px;overflow:hidden;background:#000;margin-bottom:28px;box-shadow:0 20px 60px rgba(0,0,0,0.18)}
 .vid-player iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:none}
 .vid-title{font-family:var(--serif);font-size:28px;font-weight:700;color:var(--ink);margin-bottom:8px}
 .vid-desc{font-size:15px;color:var(--mid);line-height:1.65}
-
-/* BLOG */
-.blog-top{background:linear-gradient(160deg,#f2efe9,#faf8f4 55%,#f0f4ff);padding:72px 28px 52px;border-bottom:1px solid var(--line)}
+.blog-top{background:linear-gradient(160deg,#F5F0C0,#FFFDD0 55%,#f0f4ff);padding:72px 28px 52px;border-bottom:1px solid var(--line)}
 .blog-top-in{max-width:1080px;margin:0 auto}
 .blog-h{font-family:var(--serif);font-size:clamp(40px,6vw,72px);font-weight:700;letter-spacing:-0.02em;line-height:1.05;color:var(--ink);margin-bottom:10px}
 .blog-h em{font-style:italic;font-weight:400;color:var(--purple)}
 .blog-sub{font-size:16px;color:var(--mid);font-weight:300;max-width:460px;line-height:1.6}
 .blog-grid{max-width:1080px;margin:0 auto;padding:48px 28px 80px;display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:28px}
-.bc{background:var(--card);border-radius:22px;overflow:hidden;cursor:pointer;transition:transform 0.22s,box-shadow 0.22s;display:flex;flex-direction:column}
-.bc:hover{transform:translateY(-5px);box-shadow:0 18px 44px rgba(0,0,0,0.1)}
+.bc{background:var(--card);border-radius:22px;overflow:hidden;cursor:pointer;transition:transform 0.3s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.3s ease;display:flex;flex-direction:column}
+.bc:hover{transform:translateY(-6px) scale(1.015);box-shadow:0 20px 48px rgba(0,0,0,0.11)}
+.bc:active{transform:scale(0.95) !important;transition:transform 0.09s !important}
 .bc-banner{height:10px}
 .bc-body{padding:28px;flex:1;display:flex;flex-direction:column}
 .bc-meta{font-size:11px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
@@ -220,8 +231,6 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);padding-botto
 .bc-tag{font-size:11px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;padding:4px 12px;border-radius:980px;background:rgba(155,89,182,0.1);color:var(--purple)}
 .bc-arr{font-size:18px;color:var(--muted);transition:color 0.2s,transform 0.2s}
 .bc:hover .bc-arr{color:var(--purple);transform:translateX(4px)}
-
-/* BLOG POST */
 .bp-body{max-width:680px;margin:0 auto;padding:56px 28px 80px}
 .bp-tag{font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--purple);margin-bottom:16px}
 .bp-body h1{font-family:var(--serif);font-size:clamp(32px,5vw,54px);font-weight:700;line-height:1.08;letter-spacing:-0.01em;color:var(--ink);margin-bottom:22px}
@@ -232,15 +241,14 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);padding-botto
 .bp-text h2{font-family:var(--serif);font-size:26px;font-weight:700;color:var(--ink);margin:44px 0 14px}
 .bp-text blockquote{border-left:4px solid var(--purple);margin:36px 0;padding:6px 0 6px 24px}
 .bp-text blockquote p{font-family:var(--serif);font-size:22px;font-style:italic;color:var(--ink);margin:0;line-height:1.4}
-
-/* CONTACT */
 .contact-page{min-height:calc(100vh - 110px);max-width:760px;margin:0 auto;padding:72px 28px 80px}
 .contact-big-h{font-family:var(--serif);font-size:clamp(48px,8vw,88px);font-weight:700;line-height:1;letter-spacing:-0.02em;color:var(--ink);margin-bottom:20px}
 .contact-big-h em{font-style:italic;font-weight:400;color:var(--blue)}
 .contact-intro{font-size:17px;font-weight:300;color:var(--mid);line-height:1.65;max-width:500px;margin-bottom:56px}
 .sc-grid{display:flex;flex-direction:column;gap:12px;margin-bottom:48px}
-.sc{display:flex;align-items:center;gap:20px;background:var(--card);border-radius:18px;padding:22px 24px;text-decoration:none;color:inherit;transition:transform 0.22s,box-shadow 0.22s,background 0.2s;cursor:pointer}
-.sc:hover{transform:translateY(-3px);box-shadow:0 12px 36px rgba(0,0,0,0.09);background:#fff}
+.sc{display:flex;align-items:center;gap:20px;background:var(--card);border-radius:18px;padding:22px 24px;text-decoration:none;color:inherit;transition:transform 0.3s cubic-bezier(0.34,1.56,0.64,1),box-shadow 0.3s ease,background 0.2s;cursor:pointer}
+.sc:hover{transform:translateY(-4px) scale(1.015);box-shadow:0 14px 40px rgba(0,0,0,0.1);background:#fffef0}
+.sc:active{transform:scale(0.97) !important;transition:transform 0.09s !important}
 .sc-icon{width:52px;height:52px;border-radius:14px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:24px}
 .sc-info{flex:1}
 .sc-lbl{font-size:10px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);margin-bottom:3px}
@@ -249,66 +257,149 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);padding-botto
 .sc-arr{font-size:20px;color:var(--line2);transition:color 0.2s,transform 0.2s;flex-shrink:0}
 .sc:hover .sc-arr{color:var(--blue);transform:translateX(4px)}
 .contact-foot{display:flex;align-items:center;gap:12px;flex-wrap:wrap;font-size:13px;color:var(--muted);padding-top:32px;border-top:1px solid var(--line)}
-
-/* OVERLAY CHROME */
-.ov-bar{position:sticky;top:0;background:rgba(250,248,244,0.92);backdrop-filter:blur(16px);border-bottom:1px solid var(--line);padding:14px 28px;display:flex;align-items:center;gap:14px;z-index:10}
+.ov-bar{position:sticky;top:0;background:rgba(255,253,208,0.94);backdrop-filter:blur(16px);border-bottom:1px solid var(--line);padding:14px 28px;display:flex;align-items:center;gap:14px;z-index:10}
 .back{font-family:var(--sans);font-size:13px;font-weight:500;color:var(--blue);background:none;border:none;cursor:pointer;display:flex;align-items:center;gap:6px;padding:0;transition:opacity 0.2s}
-.back:hover{opacity:0.7}
+.back:hover{opacity:0.7;transform:translateX(-2px)}
+.back:active{transform:scale(0.94) !important;opacity:0.5 !important;transition:transform 0.09s !important}
 .ov-cat{font-size:12px;color:var(--muted)}
-
 @media(max-width:560px){.nb{padding:8px 9px;min-width:44px}.nl{display:none}}
 </style>
 </head>
 <body>
 
-<!-- HOME -->
+
+<!-- ============================================================
+     HOME PAGE
+     ============================================================
+     HERO SECTION (the big splash at the top)
+     - Small label above your name: change "Portfolio" below
+     - Your name: change "Ilyas" and "Muzaffar" below
+     - Tagline: change the sentence after hero-sub below
+     - Buttons: change the button text between > and </button>
+     ============================================================ -->
 <section class="page active" id="page-home">
   <div class="hero">
+
+    <!-- SMALL LABEL above your name -->
     <p class="eyebrow hero-label">Portfolio</p>
+
+    <!-- YOUR NAME — the <em> tag makes "Muzaffar" italic and blue -->
     <h1 class="hero-name">Ilyas<br><em>Muzaffar</em></h1>
-    <p class="hero-sub">Communicator · Strategist · Storyteller. 
-      Crafting campaigns, writing, and media that cut through the noise.</p>
+
+    <!-- ONE-LINE TAGLINE shown under your name -->
+    <p class="hero-sub">Communicator · Strategist · Storyteller.<br>Crafting campaigns, writing, and media that cut through the noise.</p>
+
+    <!-- HERO BUTTONS — change the text between > and </button> to rename -->
     <div class="hero-btns">
       <button class="btn bp" onclick="navigate('writing')">Read my work</button>
-      <button class="btn bo" onclick="navigate('multimedia')">View multimedia</button>
-      <button class="btn bo" onclick="navigate('pr')">View campaigns</button>
+      <button class="btn bp" onclick="navigate('multimedia')">View multimedia</button>
+      <button class="btn bp" onclick="navigate('pr')">View campaigns</button>
     </div>
+
   </div>
+
+  <!-- ============================================================
+       HOME PAGE — CARDS SECTION (the grid of six clickable tiles)
+       Change the title and description inside each card below.
+       Do not change onclick="navigate(...)" — that controls where
+       each card links to.
+       ============================================================ -->
   <div class="home-cards">
+
+    <!-- Small heading above the cards grid -->
     <p class="cl">What I do</p>
+
     <div class="cg">
-      <div class="card ca" onclick="navigate('about')"><div class="card-icon">👤</div><h3>About Me</h3><p>6 years. 40+ campaigns. One unwavering belief in honest storytelling.</p></div>
-      <div class="card ci" onclick="navigate('multimedia')"><div class="card-icon">🎬</div><h3>Multimedia</h3><p>Photo, video, audio and design — a collection of visual and digital work.</p></div>
-      <div class="card ct" onclick="navigate('pr')"><div class="card-icon">📣</div><h3>PR Campaigns</h3><p>Strategic communications that build brands and shape narratives.</p></div>
-      <div class="card cr" onclick="navigate('writing')"><div class="card-icon">✍️</div><h3>Writing</h3><p>Articles, essays and profiles that inform, engage, and leave a mark.</p></div>
-      <div class="card cp" onclick="navigate('blog')"><div class="card-icon">📓</div><h3>Personal Blog</h3><p>Unfiltered thoughts, ideas, and reflections on life, work, and everything in between.</p></div>
-      <div class="card cb" onclick="navigate('contact')"><div class="card-icon">✉️</div><h3>Contact</h3><p>Got a project in mind? Let's talk about making something real together.</p></div>
+      <!-- ABOUT CARD -->
+      <div class="card ca" onclick="navigate('about')">
+        <div class="card-icon">👤</div>
+        <h3>About Me</h3>
+        <p>6 years. 40+ campaigns. One unwavering belief in honest storytelling.</p>
+      </div>
+      <!-- MULTIMEDIA CARD -->
+      <div class="card ci" onclick="navigate('multimedia')">
+        <div class="card-icon">🎬</div>
+        <h3>Multimedia</h3>
+        <p>Photo, video, audio and design — a collection of visual and digital work.</p>
+      </div>
+      <!-- PR CAMPAIGNS CARD -->
+      <div class="card ct" onclick="navigate('pr')">
+        <div class="card-icon">📣</div>
+        <h3>PR Campaigns</h3>
+        <p>Strategic communications that build brands and shape narratives.</p>
+      </div>
+      <!-- WRITING CARD -->
+      <div class="card cr" onclick="navigate('writing')">
+        <div class="card-icon">✍️</div>
+        <h3>Writing</h3>
+        <p>Articles, essays and profiles that inform, engage, and leave a mark.</p>
+      </div>
+      <!-- BLOG CARD -->
+      <div class="card cp" onclick="navigate('blog')">
+        <div class="card-icon">📓</div>
+        <h3>Personal Blog</h3>
+        <p>Unfiltered thoughts, ideas, and reflections on life, work, and everything in between.</p>
+      </div>
+      <!-- CONTACT CARD -->
+      <div class="card cb" onclick="navigate('contact')">
+        <div class="card-icon">✉️</div>
+        <h3>Contact</h3>
+        <p>Got a project in mind? Let's talk about making something real together.</p>
+      </div>
     </div>
+
   </div>
 </section>
 
-<!-- ABOUT -->
+
+<!-- ============================================================
+     ABOUT PAGE
+     ============================================================
+     TOP BANNER (dark background section)
+     - Big headline: edit the text inside <h1 class="about-h">
+       The <em> tag makes the last word italic and amber coloured.
+     - Intro sentence: edit the text inside <p class="about-intro">
+
+     BODY SECTION
+     - Bio paragraphs: edit each <p> inside <div class="about-text">
+     - Skills list: edit each line inside <div class="ski">...
+     - Stats bar: change the big number in stat-n and label in stat-l
+     ============================================================ -->
 <section class="page" id="page-about">
+
+  <!-- DARK BANNER at top of About page -->
   <div class="about-top">
     <div class="about-top-in">
       <div>
+        <!-- Small label above the headline -->
         <p class="eyebrow" style="color:var(--amber);margin-bottom:20px">About Ilyas</p>
+        <!-- BIG HEADLINE — wrap the last word(s) in <em>...</em> for italic amber effect -->
         <h1 class="about-h">Where strategy<br>meets <em>story.</em></h1>
       </div>
-      <div><p class="about-intro">I'm Ilyas Muzaffar — a communications professional and writer who believes the most powerful tool in any organisation's arsenal is a well-told truth.</p></div>
+      <div>
+        <!-- SHORT INTRO SENTENCE shown in the top banner -->
+        <p class="about-intro">I'm Ilyas Muzaffar — a communications professional and writer who believes the most powerful tool in any organisation's arsenal is a well-told truth.</p>
+      </div>
     </div>
   </div>
+
   <div class="about-body">
     <div class="about-cols">
+
+      <!-- BIO PARAGRAPHS — add, remove, or edit <p> tags freely -->
       <div class="about-text">
         <p>With a background spanning journalism, public relations, and digital media, I bring a multidisciplinary lens to every brief. Whether shaping a brand narrative, running a crisis communications strategy, or writing a long-form essay — the goal is always the same: clarity, resonance, and trust.</p>
         <p>I've worked across industries — from climate tech startups to established nonprofits — helping organisations find and amplify their authentic voice in an increasingly fragmented media landscape.</p>
         <p>My approach is grounded in a belief that audiences are not targets. They're people. The moment a brand forgets that is the moment the message is lost.</p>
         <p>When I'm not strategising or writing, I'm reading long-form journalism, exploring cities with a camera, or finding the stories most people walk past.</p>
       </div>
+
+      <!-- SKILLS LIST — edit the text after each </span> on the ski lines.
+           Change the dot colour by changing the background colour value. -->
       <div>
         <div class="skills-box">
           <h4>Areas of expertise</h4>
+          <!-- Each line: colour dot + skill name. Edit the skill name freely. -->
           <div class="ski"><span class="skd" style="background:var(--blue)"></span>Strategic Communications</div>
           <div class="ski"><span class="skd" style="background:var(--red)"></span>Media Relations</div>
           <div class="ski"><span class="skd" style="background:var(--amber)"></span>Brand Storytelling</div>
@@ -319,295 +410,701 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);padding-botto
           <div class="ski"><span class="skd" style="background:var(--teal)"></span>Social Media</div>
         </div>
       </div>
+
     </div>
+
+    <!-- STATS BAR — change the big number in stat-n and the label in stat-l -->
     <div class="stats">
       <div class="stat"><div class="stat-n" style="color:var(--red)">6+</div><div class="stat-l">Years Active</div></div>
       <div class="stat"><div class="stat-n" style="color:var(--amber)">40+</div><div class="stat-l">Campaigns</div></div>
       <div class="stat"><div class="stat-n" style="color:var(--teal)">120+</div><div class="stat-l">Published Pieces</div></div>
       <div class="stat"><div class="stat-n" style="color:var(--indigo)">2M+</div><div class="stat-l">Impressions</div></div>
     </div>
+
   </div>
 </section>
 
-<!-- MULTIMEDIA -->
+
+<!-- ============================================================
+     MULTIMEDIA PAGE
+     ============================================================
+     HEADER: edit the small label and the big title below.
+     VIDEOS: managed in the VIDEOS list in the JavaScript section.
+     OTHER MEDIA TILES: edit each tile's category, title, and
+     description directly below.
+     ============================================================ -->
 <section class="page" id="page-multimedia">
+
+  <!-- PAGE HEADER -->
   <div class="mm-hdr">
+    <!-- Small label above the title -->
     <p class="eyebrow" style="color:var(--teal);margin-bottom:14px">Visual Work</p>
+    <!-- BIG TITLE — wrap words in <em>...</em> for italic blue effect -->
     <h1 class="mm-title">Multimedia &<br><em>creative production.</em></h1>
   </div>
+
+  <!-- VIDEO TILES — populated automatically from the VIDEOS list in JavaScript -->
   <p class="sec-lbl">Videos</p>
   <div class="vgrid" id="vgrid"></div>
+
+  <!-- OTHER MEDIA TILES — edit each tile below directly -->
   <p class="sec-lbl" style="margin-top:8px">Other Media</p>
   <div class="mgrid">
-    <div class="mt"><div class="mthumb tp">📷</div><div class="minfo"><div class="mcat">Photography</div><h4>Urban Portraits</h4><p>A documentary series capturing faces and stories of city life.</p></div></div>
-    <div class="mt"><div class="mthumb ta">🎙️</div><div class="minfo"><div class="mcat">Podcast</div><h4>The Story Edit</h4><p>Conversations with creatives on craft, strategy, and storytelling.</p></div></div>
-    <div class="mt"><div class="mthumb td">🎨</div><div class="minfo"><div class="mcat">Design</div><h4>Campaign Visuals</h4><p>Graphic and motion work created for digital campaigns.</p></div></div>
-    <div class="mt"><div class="mthumb ts">📱</div><div class="minfo"><div class="mcat">Social</div><h4>Short-Form Content</h4><p>Reels, TikToks and micro-content for digital-first audiences.</p></div></div>
+
+    <!-- PHOTOGRAPHY TILE — edit category, title, description -->
+    <div class="mt">
+      <div class="mthumb tp">📷</div>
+      <div class="minfo">
+        <div class="mcat">Photography</div>
+        <h4>Urban Portraits</h4>
+        <p>A documentary series capturing faces and stories of city life.</p>
+      </div>
+    </div>
+
+    <!-- PODCAST TILE -->
+    <div class="mt">
+      <div class="mthumb ta">🎙️</div>
+      <div class="minfo">
+        <div class="mcat">Podcast</div>
+        <h4>The Story Edit</h4>
+        <p>Conversations with creatives on craft, strategy, and storytelling.</p>
+      </div>
+    </div>
+
+    <!-- DESIGN TILE -->
+    <div class="mt">
+      <div class="mthumb td">🎨</div>
+      <div class="minfo">
+        <div class="mcat">Design</div>
+        <h4>Campaign Visuals</h4>
+        <p>Graphic and motion work created for digital campaigns.</p>
+      </div>
+    </div>
+
+    <!-- SOCIAL TILE -->
+    <div class="mt">
+      <div class="mthumb ts">📱</div>
+      <div class="minfo">
+        <div class="mcat">Social</div>
+        <h4>Short-Form Content</h4>
+        <p>Reels, TikToks and micro-content for digital-first audiences.</p>
+      </div>
+    </div>
+
   </div>
 </section>
 
-<!-- PR -->
+
+<!-- ============================================================
+     PR CAMPAIGNS PAGE
+     ============================================================
+     The header text below is editable.
+     All campaign cards are managed in the PR_CAMPAIGNS list
+     in the JavaScript section further down.
+     ============================================================ -->
 <section class="page" id="page-pr">
   <div class="pr-top"><div class="pr-top-in">
+    <!-- Small label -->
     <p class="eyebrow" style="color:var(--amber);margin-bottom:20px">Strategic Communications</p>
+    <!-- BIG HEADLINE -->
     <h1 class="pr-h">Campaigns that<br><em>cut through.</em></h1>
   </div></div>
+  <!-- Campaign cards are injected here automatically from JavaScript -->
   <div class="pr-list" id="pr-list"></div>
 </section>
 
-<!-- WRITING -->
+
+<!-- ============================================================
+     WRITING PAGE
+     ============================================================
+     The header text below is editable.
+     All articles are managed in the ARTICLES list in the
+     JavaScript section further down.
+     ============================================================ -->
 <section class="page" id="page-writing">
   <div class="wr-hdr">
+    <!-- Small label -->
     <p class="eyebrow" style="color:var(--red);margin-bottom:14px">Words and Ideas</p>
+    <!-- BIG HEADLINE -->
     <h1 class="wr-title">Essays, profiles,<br><em>perspectives.</em></h1>
   </div>
+  <!-- Article rows are injected here automatically from JavaScript -->
   <div class="wr-list" id="wr-list"></div>
 </section>
 
-<!-- BLOG -->
+
+<!-- ============================================================
+     BLOG PAGE
+     ============================================================
+     The header text below is editable.
+     All blog posts are managed in the BLOG_POSTS list in the
+     JavaScript section further down.
+     ============================================================ -->
 <section class="page" id="page-blog">
   <div class="blog-top"><div class="blog-top-in">
+    <!-- Small label -->
     <p class="eyebrow" style="color:var(--purple);margin-bottom:16px">Personal Blog</p>
+    <!-- BIG HEADLINE -->
     <h1 class="blog-h">Thoughts &<br><em>reflections.</em></h1>
+    <!-- SUBTITLE shown under the headline -->
     <p class="blog-sub">Unfiltered writing on life, work, culture, and whatever is occupying my mind.</p>
   </div></div>
+  <!-- Blog post cards are injected here automatically from JavaScript -->
   <div class="blog-grid" id="blog-grid"></div>
 </section>
 
-<!-- CONTACT -->
+
+<!-- ============================================================
+     CONTACT PAGE
+     ============================================================
+     Edit the headline, intro sentence, and each social card below.
+     For each social card:
+       href="..."        — the link (mailto: for email, https:// for others)
+       sc-lbl            — the small ALL CAPS label e.g. "Email"
+       sc-val            — the value shown e.g. "@ilyasmuzaffar"
+       sc-hint           — the small grey hint text underneath
+     Bottom line: edit the two <span> tags in contact-foot.
+     ============================================================ -->
 <section class="page" id="page-contact">
   <div class="contact-page">
+
+    <!-- Small label -->
     <p class="eyebrow" style="color:var(--blue);margin-bottom:20px">Get in touch</p>
+
+    <!-- BIG HEADLINE -->
     <h1 class="contact-big-h">Let's make<br>something <em>real.</em></h1>
+
+    <!-- INTRO SENTENCE -->
     <p class="contact-intro">I'm always open to interesting conversations, commissions, and collaborations. Reach out directly through any of the channels below.</p>
+
     <div class="sc-grid">
-      <a class="sc" href="mailto:ilyas@ilyasmuzaffar.com">
+
+      <!-- EMAIL CARD — change href to your real email address -->
+      <a class="sc" href="/cdn-cgi/l/email-protection#90f9fce9f1e3d0f9fce9f1e3fde5eaf1f6f6f1e2bef3fffd">
         <div class="sc-icon" style="background:#f0f4ff">✉️</div>
-        <div class="sc-info"><div class="sc-lbl">Email</div><div class="sc-val">ilyas@ilyasmuzaffar.com</div><div class="sc-hint">Click to open in your mail app</div></div>
-        <div class="sc-arr">→</div>
+        <div class="sc-info">
+          <div class="sc-lbl">Email</div>
+          <div class="sc-val"><span class="__cf_email__" data-cfemail="365f5a4f5745765f5a4f57455b434c57505057441855595b">[email&#160;protected]</span></div>
+          <div class="sc-hint">Click to open in your mail app</div>
+        </div>
+        <div class="sc-arr">&#8594;</div>
       </a>
+
+      <!-- LINKEDIN CARD — change href and sc-val to your profile URL -->
       <a class="sc" href="https://linkedin.com/in/ilyasmuzaffar" target="_blank" rel="noopener">
         <div class="sc-icon" style="background:#e8f4ff">💼</div>
-        <div class="sc-info"><div class="sc-lbl">LinkedIn</div><div class="sc-val">linkedin.com/in/ilyasmuzaffar</div><div class="sc-hint">Connect or send a message</div></div>
-        <div class="sc-arr">→</div>
+        <div class="sc-info">
+          <div class="sc-lbl">LinkedIn</div>
+          <div class="sc-val">linkedin.com/in/ilyasmuzaffar</div>
+          <div class="sc-hint">Connect or send a message</div>
+        </div>
+        <div class="sc-arr">&#8594;</div>
       </a>
+
+      <!-- TWITTER / X CARD — change href and sc-val to your handle -->
       <a class="sc" href="https://twitter.com/ilyasmuzaffar" target="_blank" rel="noopener">
         <div class="sc-icon" style="background:#f0f9ff">🐦</div>
-        <div class="sc-info"><div class="sc-lbl">Twitter / X</div><div class="sc-val">@ilyasmuzaffar</div><div class="sc-hint">DMs are open</div></div>
-        <div class="sc-arr">→</div>
+        <div class="sc-info">
+          <div class="sc-lbl">Twitter / X</div>
+          <div class="sc-val">@ilyasmuzaffar</div>
+          <div class="sc-hint">DMs are open</div>
+        </div>
+        <div class="sc-arr">&#8594;</div>
       </a>
+
+      <!-- INSTAGRAM CARD — change href and sc-val to your handle -->
       <a class="sc" href="https://instagram.com/ilyasmuzaffar" target="_blank" rel="noopener">
         <div class="sc-icon" style="background:#fff0f5">📸</div>
-        <div class="sc-info"><div class="sc-lbl">Instagram</div><div class="sc-val">@ilyasmuzaffar</div><div class="sc-hint">Photos, stories, and behind the scenes</div></div>
-        <div class="sc-arr">→</div>
+        <div class="sc-info">
+          <div class="sc-lbl">Instagram</div>
+          <div class="sc-val">@ilyasmuzaffar</div>
+          <div class="sc-hint">Photos, stories, and behind the scenes</div>
+        </div>
+        <div class="sc-arr">&#8594;</div>
       </a>
+
     </div>
-    <div class="contact-foot"><span>Based in London, UK</span><span>·</span><span>Open to remote work worldwide</span></div>
+
+    <!-- FOOTER LINE at bottom of contact page — edit location and availability -->
+    <div class="contact-foot">
+      <span>Based in Singapore</span>
+      <span>&#183;</span>
+      <span>Open to remote work worldwide</span>
+    </div>
+
   </div>
 </section>
 
-<!-- ARTICLE OVERLAY -->
+
+<!-- Do not edit the overlay sections below — they are filled automatically -->
 <div class="overlay" id="ov-article">
   <div class="ov-bar">
-    <button class="back" onclick="closeOv('article')">← Back to Writing</button>
+    <button class="back" onclick="closeOv('article')">&#8592; Back to Writing</button>
     <span class="ov-cat" id="ov-article-cat"></span>
   </div>
   <div class="art-body" id="art-content"></div>
 </div>
 
-<!-- VIDEO OVERLAY -->
 <div class="overlay" id="ov-video">
   <div class="ov-bar">
-    <button class="back" onclick="closeOv('video')">← Back to Multimedia</button>
+    <button class="back" onclick="closeOv('video')">&#8592; Back to Multimedia</button>
   </div>
   <div class="vid-wrap" id="vid-content"></div>
 </div>
 
-<!-- PR DETAIL OVERLAY -->
 <div class="overlay" id="ov-pr">
   <div class="ov-bar">
-    <button class="back" onclick="closeOv('pr')">← Back to PR Campaigns</button>
+    <button class="back" onclick="closeOv('pr')">&#8592; Back to PR Campaigns</button>
     <span class="ov-cat" id="ov-pr-cat"></span>
   </div>
   <div class="prd-body" id="prd-content"></div>
 </div>
 
-<!-- BLOG POST OVERLAY -->
 <div class="overlay" id="ov-blog">
   <div class="ov-bar">
-    <button class="back" onclick="closeOv('blog')">← Back to Blog</button>
+    <button class="back" onclick="closeOv('blog')">&#8592; Back to Blog</button>
   </div>
   <div class="bp-body" id="bp-content"></div>
 </div>
 
-<!-- NAV -->
+
+<!-- ============================================================
+     NAVIGATION BAR
+     ============================================================
+     To rename a nav button, change the text inside <span class="nl">
+     To change the icon, replace the emoji inside <span class="ni">
+     Do NOT change onclick="go(...)" — that controls the navigation.
+     ============================================================ -->
 <nav class="nav">
-  <button class="nb on" id="nav-home"       onclick="go('home')"><span class="ni">&#8962;</span><span class="nl">Home</span></button>
-  <button class="nb"    id="nav-about"      onclick="go('about')"><span class="ni">&#9673;</span><span class="nl">About</span></button>
-  <button class="nb"    id="nav-multimedia" onclick="go('multimedia')"><span class="ni">&#9654;</span><span class="nl">Media</span></button>
-  <button class="nb"    id="nav-pr"         onclick="go('pr')"><span class="ni">&#9672;</span><span class="nl">PR</span></button>
-  <button class="nb"    id="nav-writing"    onclick="go('writing')"><span class="ni">&#10022;</span><span class="nl">Writing</span></button>
+  <button class="nb on" id="nav-home"       onclick="go('home')"><span class="ni">&#127968;</span><span class="nl">Home</span></button>
+  <button class="nb"    id="nav-about"      onclick="go('about')"><span class="ni">&#128100;</span><span class="nl">About</span></button>
+  <button class="nb"    id="nav-multimedia" onclick="go('multimedia')"><span class="ni">&#127916;</span><span class="nl">Media</span></button>
+  <button class="nb"    id="nav-pr"         onclick="go('pr')"><span class="ni">&#128227;</span><span class="nl">PR</span></button>
+  <button class="nb"    id="nav-writing"    onclick="go('writing')"><span class="ni">&#9997;&#65039;</span><span class="nl">Writing</span></button>
   <button class="nb"    id="nav-blog"       onclick="go('blog')"><span class="ni">&#128211;</span><span class="nl">Blog</span></button>
-  <button class="nb"    id="nav-contact"    onclick="go('contact')"><span class="ni">&#9993;</span><span class="nl">Contact</span></button>
+  <button class="nb"    id="nav-contact"    onclick="go('contact')"><span class="ni">&#128233;</span><span class="nl">Contact</span></button>
 </nav>
 
-<script>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+// ================================================================
+// VIDEOS — MULTIMEDIA PAGE
+// ================================================================
+// Each video appears as a clickable card on the Multimedia page.
+// When clicked, it plays inside the site using YouTube.
+//
+// HOW TO ADD A VIDEO:
+//   1. Copy one of the blocks below (from { to the closing },)
+//   2. Paste it after the last entry (before the closing ] )
+//   3. Fill in the fields — see what each field does below
+//
+// FIELDS:
+//   id          — a unique nickname, no spaces (e.g. "my-new-video")
+//   title       — the video title shown on the card and player
+//   category    — small label shown above the title (e.g. "Interview")
+//   description — one or two sentences shown under the player
+//   youtube     — the YouTube VIDEO ID only — NOT the full URL
+//                 Example: youtube.com/watch?v=dQw4w9WgXcQ
+//                 You would put:  youtube: "dQw4w9WgXcQ"
+// ================================================================
 var VIDEOS = [
-  { id:"brand-reel", title:"Brand Reel 2024", category:"Showreel", description:"A highlight reel showcasing client campaigns and creative direction from the past year.", youtube:"dQw4w9WgXcQ" },
-  { id:"greenwave-doc", title:"Greenwave Launch Film", category:"Documentary", description:"Behind the scenes of the Greenwave Initiative public launch campaign.", youtube:"LXb3EKWsInQ" },
-  { id:"story-edit-ep1", title:"The Story Edit Episode 1", category:"Podcast", description:"Conversations with creatives on craft, strategy, and what it means to tell honest stories.", youtube:"9bZkp7q19f0" }
+  {
+    id: "brand-reel",
+    title: "Brand Reel 2024",
+    category: "Showreel",
+    description: "A highlight reel showcasing client campaigns and creative direction from the past year.",
+    youtube: "dQw4w9WgXcQ"
+  },
+  {
+    id: "greenwave-doc",
+    title: "Greenwave Launch Film",
+    category: "Documentary",
+    description: "Behind the scenes of the Greenwave Initiative public launch campaign.",
+    youtube: "LXb3EKWsInQ"
+  },
+  {
+    id: "story-edit-ep1",
+    title: "The Story Edit Episode 1",
+    category: "Podcast",
+    description: "Conversations with creatives on craft, strategy, and what it means to tell honest stories.",
+    youtube: "9bZkp7q19f0"
+  }
 ];
 
+
+// ================================================================
+// PR CAMPAIGNS — PR PAGE
+// ================================================================
+// Each campaign appears as a clickable card on the PR page.
+// Clicking it opens a full case study with KPIs, challenge,
+// approach, and outcome.
+//
+// HOW TO ADD A CAMPAIGN:
+//   1. Copy one block (from { to },) and paste after the last entry
+//   2. Fill in all fields — see what each does below
+//
+// FIELDS:
+//   id          — unique nickname, no spaces (e.g. "new-campaign")
+//   num         — display number shown on the card e.g. "05"
+//   title       — campaign title shown on the card
+//   client      — client name shown in the overlay header
+//   result      — the big headline stat e.g. "2M+" or "94%"
+//   resultLabel — the small label under the stat e.g. "Impressions"
+//   color       — colour for the stat and case study accents
+//                 Options: "#e63329" (red), "#f0a500" (amber),
+//                          "#007a6e" (teal), "#3a28b8" (indigo)
+//   tags        — list of skill tags shown on the card
+//                 Format: ["Tag One", "Tag Two", "Tag Three"]
+//   summary     — 2-3 sentence overview shown on the card and overlay
+//   challenge   — paragraph for "The Challenge" section
+//   approach    — paragraph for "The Approach" section
+//   outcome     — paragraph for "The Outcome" section
+//   kpis        — up to 3 key numbers shown as boxes in the overlay
+//                 Format: [{n:"2M+", l:"Impressions"}, ...]
+//                 n = the big number, l = the small label below it
+// ================================================================
 var PR_CAMPAIGNS = [
-  { id:"greenwave", num:"01", title:"Greenwave Initiative - Public Launch", client:"Greenwave Initiative", result:"2M+", resultLabel:"Impressions", color:"#e63329", tags:["Media Relations","Brand Launch","Digital Strategy","Thought Leadership"], summary:"A full-scale PR campaign for a climate tech startup's debut. Built the media strategy from scratch, developed executive messaging, and orchestrated a digital-first launch that dominated the news cycle.", challenge:"Greenwave had a groundbreaking product but zero brand recognition. The challenge was to break through a noisy news environment and earn credibility with climate journalists who are notoriously sceptical of startup PR.", approach:"We built a three-phase strategy: a six-week pre-launch media seeding period; a coordinated launch day with a news conference and exclusive long-lead features; and a two-month follow-up programme through op-eds and podcast placements.", outcome:"The launch generated 2M+ organic impressions in the first week, with coverage in 14 major outlets including The Guardian, TechCrunch, and BBC News Online. CEO interview requests tripled post-launch.", kpis:[{n:"2M+",l:"Impressions wk 1"},{n:"14",l:"Major outlets"},{n:"3x",l:"Interview requests"}] },
-  { id:"trustfirst", num:"02", title:"TrustFirst Bank - Crisis Communications", client:"TrustFirst Bank", result:"94%", resultLabel:"Sentiment Recovery", color:"#f0a500", tags:["Crisis PR","Messaging Strategy","Stakeholder Comms"], summary:"Managed a sensitive communications crisis for a financial services firm, crafting a transparency narrative that turned a potential collapse into a trust-building moment.", challenge:"A data breach affecting 40,000 customers was about to go public. The bank had 48 hours to get ahead of the story, notify customers, satisfy the regulator, and avoid reputational collapse.", approach:"We developed a tiered plan: immediate customer notification in plain language; a proactive press statement; a media briefing with the CEO and CTO; and a commitment to a 90-day public accountability update.", outcome:"The story broke on our terms. Sentiment analysis showed a 94% recovery from the initial negative spike within three weeks. Customer churn was contained at under 2%.", kpis:[{n:"94%",l:"Sentiment recovery"},{n:"48h",l:"Response window"},{n:"<2%",l:"Customer churn"}] },
-  { id:"foodbridge", num:"03", title:"FoodBridge - Nonprofit Awareness Campaign", client:"FoodBridge", result:"400K", resultLabel:"Raised", color:"#007a6e", tags:["Nonprofit PR","Fundraising","Community Engagement"], summary:"Built a year-long awareness and fundraising campaign for a food security nonprofit, growing their media profile from local to national.", challenge:"FoodBridge had strong community roots but was invisible to national donors. They needed communications that could translate local stories into a nationally compelling narrative.", approach:"We built the campaign around human stories, secured a Times feature as an anchor piece, then cascaded content across radio, regional press, and social media.", outcome:"The campaign raised 400K over 12 months, 160% of the original target. The Times piece alone generated 62K in direct donations within 72 hours.", kpis:[{n:"400K",l:"Funds raised"},{n:"160%",l:"Of target"},{n:"340%",l:"Donor base growth"}] },
-  { id:"apex", num:"04", title:"Apex Consumer Products - Brand Rebrand", client:"Apex Consumer Products", result:"38%", resultLabel:"Brand Uplift", color:"#3a28b8", tags:["Brand Strategy","Thought Leadership","Influencer PR"], summary:"Orchestrated communications for a legacy brand's complete identity refresh across earned media, thought leadership, and influencer partnerships.", challenge:"Apex was invisible among 25-35 year olds, their target growth demographic. The rebrand needed to reposition without alienating the existing loyal customer base.", approach:"We built the narrative around craft and heritage rather than novelty. Influencer partnerships focused on makers and cultural figures rather than mainstream lifestyle accounts.", outcome:"Brand tracking showed a 38% uplift in brand affinity among 25-35 year olds with no decline among the existing base. Social follower growth of 180% over nine months.", kpis:[{n:"38%",l:"Brand uplift 25-35s"},{n:"180%",l:"Social growth"},{n:"0%",l:"Base erosion"}] }
+  {
+    id: "greenwave",
+    num: "01",
+    title: "Greenwave Initiative - Public Launch",
+    client: "Greenwave Initiative",
+    result: "2M+",
+    resultLabel: "Impressions",
+    color: "#e63329",
+    tags: ["Media Relations", "Brand Launch", "Digital Strategy", "Thought Leadership"],
+    summary: "A full-scale PR campaign for a climate tech startup's debut. Built the media strategy from scratch, developed executive messaging, and orchestrated a digital-first launch that dominated the news cycle.",
+    challenge: "Greenwave had a groundbreaking product but zero brand recognition. The challenge was to break through a noisy news environment and earn credibility with climate journalists who are notoriously sceptical of startup PR.",
+    approach: "We built a three-phase strategy: a six-week pre-launch media seeding period; a coordinated launch day with a news conference and exclusive long-lead features; and a two-month follow-up programme through op-eds and podcast placements.",
+    outcome: "The launch generated 2M+ organic impressions in the first week, with coverage in 14 major outlets including The Guardian, TechCrunch, and BBC News Online. CEO interview requests tripled post-launch.",
+    kpis: [
+      {n: "2M+", l: "Impressions wk 1"},
+      {n: "14",  l: "Major outlets"},
+      {n: "3x",  l: "Interview requests"}
+    ]
+  },
+  {
+    id: "trustfirst",
+    num: "02",
+    title: "TrustFirst Bank - Crisis Communications",
+    client: "TrustFirst Bank",
+    result: "94%",
+    resultLabel: "Sentiment Recovery",
+    color: "#f0a500",
+    tags: ["Crisis PR", "Messaging Strategy", "Stakeholder Comms"],
+    summary: "Managed a sensitive communications crisis for a financial services firm, crafting a transparency narrative that turned a potential collapse into a trust-building moment.",
+    challenge: "A data breach affecting 40,000 customers was about to go public. The bank had 48 hours to get ahead of the story, notify customers, satisfy the regulator, and avoid reputational collapse.",
+    approach: "We developed a tiered plan: immediate customer notification in plain language; a proactive press statement; a media briefing with the CEO and CTO; and a commitment to a 90-day public accountability update.",
+    outcome: "The story broke on our terms. Sentiment analysis showed a 94% recovery from the initial negative spike within three weeks. Customer churn was contained at under 2%.",
+    kpis: [
+      {n: "94%", l: "Sentiment recovery"},
+      {n: "48h", l: "Response window"},
+      {n: "<2%", l: "Customer churn"}
+    ]
+  },
+  {
+    id: "foodbridge",
+    num: "03",
+    title: "FoodBridge - Nonprofit Awareness Campaign",
+    client: "FoodBridge",
+    result: "400K",
+    resultLabel: "Raised",
+    color: "#007a6e",
+    tags: ["Nonprofit PR", "Fundraising", "Community Engagement"],
+    summary: "Built a year-long awareness and fundraising campaign for a food security nonprofit, growing their media profile from local to national.",
+    challenge: "FoodBridge had strong community roots but was invisible to national donors. They needed communications that could translate local stories into a nationally compelling narrative.",
+    approach: "We built the campaign around human stories, secured a Times feature as an anchor piece, then cascaded content across radio, regional press, and social media.",
+    outcome: "The campaign raised 400K over 12 months, 160% of the original target. The Times piece alone generated 62K in direct donations within 72 hours.",
+    kpis: [
+      {n: "400K", l: "Funds raised"},
+      {n: "160%", l: "Of target"},
+      {n: "340%", l: "Donor base growth"}
+    ]
+  },
+  {
+    id: "apex",
+    num: "04",
+    title: "Apex Consumer Products - Brand Rebrand",
+    client: "Apex Consumer Products",
+    result: "38%",
+    resultLabel: "Brand Uplift",
+    color: "#3a28b8",
+    tags: ["Brand Strategy", "Thought Leadership", "Influencer PR"],
+    summary: "Orchestrated communications for a legacy brand's complete identity refresh across earned media, thought leadership, and influencer partnerships.",
+    challenge: "Apex was invisible among 25-35 year olds, their target growth demographic. The rebrand needed to reposition without alienating the existing loyal customer base.",
+    approach: "We built the narrative around craft and heritage rather than novelty. Influencer partnerships focused on makers and cultural figures rather than mainstream lifestyle accounts.",
+    outcome: "Brand tracking showed a 38% uplift in brand affinity among 25-35 year olds with no decline among the existing base. Social follower growth of 180% over nine months.",
+    kpis: [
+      {n: "38%", l: "Brand uplift 25-35s"},
+      {n: "180%", l: "Social growth"},
+      {n: "0%",  l: "Base erosion"}
+    ]
+  }
 ];
 
+
+// ================================================================
+// ARTICLES — WRITING PAGE
+// ================================================================
+// Each article appears as a row on the Writing page.
+// Clicking it opens the full article as an overlay.
+//
+// HOW TO ADD AN ARTICLE:
+//   1. Copy one block (from { to },) and paste after the last entry
+//   2. Fill in all fields — see what each does below
+//
+// FIELDS:
+//   id          — unique nickname, no spaces (e.g. "my-article")
+//   title       — the article headline
+//   date        — shown on the list row e.g. "March 2025"
+//   category    — e.g. "Feature", "Essay", "Opinion", "Analysis"
+//   catColor    — colour of the category label. Options:
+//                 "#e63329" (red)  "#f0a500" (amber)
+//                 "#007a6e" (teal) "#3a28b8" (indigo)  "#0071e3" (blue)
+//   publication — where it was published, or "Personal"
+//   excerpt     — one sentence teaser shown on the list
+//   body        — the full article in HTML. Rules:
+//                 <p>Your paragraph text here.</p>
+//                 <h2>A subheading</h2>
+//                 <blockquote><p>A pull quote in large italic.</p></blockquote>
+// ================================================================
 var ARTICLES = [
-  { id:"media-collapse", title:"The Quiet Collapse of Local Journalism", date:"March 2025", category:"Feature", catColor:"#e63329", publication:"The Atlantic", excerpt:"What happens to democracy when nobody is watching city hall?", body:"<p>Every week, somewhere in the English-speaking world, a local newspaper quietly closes its doors. There is rarely a ceremony. The last edition does not trend on social media. A few loyal readers mourn, and then the town moves on slightly blinder than it was before.</p><p>This is the story of local journalism's collapse. Not a dramatic implosion, but a slow grinding erosion that has been happening for two decades and shows no sign of stopping.</p><h2>The numbers do not lie</h2><p>Since 2005, the United States alone has lost more than 2,500 local newspapers. The UK has seen hundreds of regional titles fold or merge. The journalists who once covered planning committees, school board meetings, and local court hearings have disappeared. What is left is a void.</p><blockquote><p>When the local press dies, corruption does not disappear. It just becomes invisible.</p></blockquote><p>There is a growing body of research connecting the collapse of local journalism to increased municipal corruption, lower voter turnout, and reduced civic engagement. When nobody is watching, the watchers stop caring.</p><h2>What comes next</h2><p>There is no silver bullet. What is clear is that this is a public goods problem and public goods problems usually require public solutions. The question is whether we will acknowledge the scale of the crisis before it is too late.</p>" },
-  { id:"authenticity", title:"What Brands Get Wrong About Authenticity", date:"November 2024", category:"Essay", catColor:"#f0a500", publication:"Personal", excerpt:"In an age of performative transparency, audiences can smell the gap between what companies say and what they do.", body:"<p>Authenticity has become the most misused word in marketing. Brands decided that the antidote to inauthenticity was more content: more behind-the-scenes footage, more candid CEO interviews, more honest social media posts about failure. The result is a carefully produced performance of not performing.</p><h2>The transparency trap</h2><p>There is a difference between transparency and honesty. Transparency is a communication strategy. Honesty is a value. Many brands have embraced the former while avoiding the latter entirely.</p><blockquote><p>You cannot manufacture trust. You can only behave in ways that make it possible.</p></blockquote><p>The most trusted brands are the ones where the product, the culture, and the public-facing narrative are actually aligned. When they are not, audiences feel it even if they cannot always name what is wrong.</p><h2>The way forward</h2><p>The brands that will earn genuine loyalty over the next decade are the ones willing to fix the internal stuff before communicating it externally. Authenticity is not a tone of voice. It is a decision about what you are actually willing to be held accountable for.</p>" },
-  { id:"pr-journalism", title:"PR Firms Are Not the Enemy of Good Journalism", date:"June 2023", category:"Opinion", catColor:"#3a28b8", publication:"The Guardian", excerpt:"A defence of communications professionals and a call for a more honest relationship with the press.", body:"<p>Every journalist has a story about a terrible PR professional. The ones who send irrelevant pitches at 6am. The ones who call to ask if you got the release. They exist, they are annoying, and they have given the entire industry a reputation problem.</p><p>But the conclusion that public relations is inherently at odds with good journalism is wrong. And it is a view that does real damage to both industries.</p><h2>The uncomfortable truth</h2><p>Studies suggest that between 50 and 80 percent of news content has some PR origin. That is not a scandal. It is a reflection of resource constraints on both sides.</p><blockquote><p>The best PR professionals are journalists working for the other side. That is a feature, not a bug.</p></blockquote><h2>What both sides owe each other</h2><p>Journalists owe PR professionals honest feedback when a pitch misses. PR professionals owe journalists their honest assessment of what is genuinely newsworthy. Neither side always delivers. Both should try harder.</p>" },
-  { id:"tiktok-influence", title:"How TikTok Rewrote the Rules of Influence", date:"February 2023", category:"Analysis", catColor:"#e63329", publication:"Wired", excerpt:"Short-form video did not just change the influencer playbook. It shredded it.", body:"<p>In 2019, the influencer economy had a legible shape. Mega-influencers commanding five-figure post fees, mid-tier creators with engaged niche audiences, and micro-influencers brands were just beginning to discover. The model was borrowed from celebrity endorsement and within its own logic reasonably predictable.</p><p>TikTok changed all of that.</p><h2>The algorithm changes everything</h2><p>Unlike every platform that preceded it, TikTok's recommendation engine does not primarily serve content to existing followers. A creator with three hundred followers can reach three million people if the content is right.</p><blockquote><p>On TikTok, you do not buy an audience. You earn attention, one video at a time.</p></blockquote><h2>What actually works</h2><p>What works on TikTok is cultural fluency. Brands that have succeeded there have done so by ceding control, finding creators who genuinely like their products and giving them near-total creative freedom. The opposite of traditional PR strategy. The platforms will keep changing. The underlying lesson will not.</p>" }
+  {
+    id: "media-collapse",
+    title: "The Quiet Collapse of Local Journalism",
+    date: "March 2025",
+    category: "Feature",
+    catColor: "#e63329",
+    publication: "The Atlantic",
+    excerpt: "What happens to democracy when nobody is watching city hall?",
+    body: "<p>Every week, somewhere in the English-speaking world, a local newspaper quietly closes its doors. There is rarely a ceremony. The last edition does not trend on social media. A few loyal readers mourn, and then the town moves on slightly blinder than it was before.</p><p>This is the story of local journalism's collapse. Not a dramatic implosion, but a slow grinding erosion that has been happening for two decades and shows no sign of stopping.</p><h2>The numbers do not lie</h2><p>Since 2005, the United States alone has lost more than 2,500 local newspapers. The UK has seen hundreds of regional titles fold or merge. The journalists who once covered planning committees, school board meetings, and local court hearings have disappeared. What is left is a void.</p><blockquote><p>When the local press dies, corruption does not disappear. It just becomes invisible.</p></blockquote><p>There is a growing body of research connecting the collapse of local journalism to increased municipal corruption, lower voter turnout, and reduced civic engagement. When nobody is watching, the watchers stop caring.</p><h2>What comes next</h2><p>There is no silver bullet. What is clear is that this is a public goods problem and public goods problems usually require public solutions. The question is whether we will acknowledge the scale of the crisis before it is too late.</p>"
+  },
+  {
+    id: "authenticity",
+    title: "What Brands Get Wrong About Authenticity",
+    date: "November 2024",
+    category: "Essay",
+    catColor: "#f0a500",
+    publication: "Personal",
+    excerpt: "In an age of performative transparency, audiences can smell the gap between what companies say and what they do.",
+    body: "<p>Authenticity has become the most misused word in marketing. Brands decided that the antidote to inauthenticity was more content: more behind-the-scenes footage, more candid CEO interviews, more honest social media posts about failure. The result is a carefully produced performance of not performing.</p><h2>The transparency trap</h2><p>There is a difference between transparency and honesty. Transparency is a communication strategy. Honesty is a value. Many brands have embraced the former while avoiding the latter entirely.</p><blockquote><p>You cannot manufacture trust. You can only behave in ways that make it possible.</p></blockquote><p>The most trusted brands are the ones where the product, the culture, and the public-facing narrative are actually aligned. When they are not, audiences feel it even if they cannot always name what is wrong.</p><h2>The way forward</h2><p>The brands that will earn genuine loyalty over the next decade are the ones willing to fix the internal stuff before communicating it externally. Authenticity is not a tone of voice. It is a decision about what you are actually willing to be held accountable for.</p>"
+  },
+  {
+    id: "pr-journalism",
+    title: "PR Firms Are Not the Enemy of Good Journalism",
+    date: "June 2023",
+    category: "Opinion",
+    catColor: "#3a28b8",
+    publication: "The Guardian",
+    excerpt: "A defence of communications professionals and a call for a more honest relationship with the press.",
+    body: "<p>Every journalist has a story about a terrible PR professional. The ones who send irrelevant pitches at 6am. The ones who call to ask if you got the release. They exist, they are annoying, and they have given the entire industry a reputation problem.</p><p>But the conclusion that public relations is inherently at odds with good journalism is wrong. And it is a view that does real damage to both industries.</p><h2>The uncomfortable truth</h2><p>Studies suggest that between 50 and 80 percent of news content has some PR origin. That is not a scandal. It is a reflection of resource constraints on both sides.</p><blockquote><p>The best PR professionals are journalists working for the other side. That is a feature, not a bug.</p></blockquote><h2>What both sides owe each other</h2><p>Journalists owe PR professionals honest feedback when a pitch misses. PR professionals owe journalists their honest assessment of what is genuinely newsworthy. Neither side always delivers. Both should try harder.</p>"
+  },
+  {
+    id: "tiktok-influence",
+    title: "How TikTok Rewrote the Rules of Influence",
+    date: "February 2023",
+    category: "Analysis",
+    catColor: "#e63329",
+    publication: "Wired",
+    excerpt: "Short-form video did not just change the influencer playbook. It shredded it.",
+    body: "<p>In 2019, the influencer economy had a legible shape. Mega-influencers commanding five-figure post fees, mid-tier creators with engaged niche audiences, and micro-influencers brands were just beginning to discover. The model was borrowed from celebrity endorsement and within its own logic reasonably predictable.</p><p>TikTok changed all of that.</p><h2>The algorithm changes everything</h2><p>Unlike every platform that preceded it, TikTok's recommendation engine does not primarily serve content to existing followers. A creator with three hundred followers can reach three million people if the content is right.</p><blockquote><p>On TikTok, you do not buy an audience. You earn attention, one video at a time.</p></blockquote><h2>What actually works</h2><p>What works on TikTok is cultural fluency. Brands that have succeeded there have done so by ceding control, finding creators who genuinely like their products and giving them near-total creative freedom. The opposite of traditional PR strategy. The platforms will keep changing. The underlying lesson will not.</p>"
+  }
 ];
 
+
+// ================================================================
+// BLOG POSTS — BLOG PAGE
+// ================================================================
+// Each post appears as a card on the Blog page.
+// Clicking it opens the full post as an overlay.
+//
+// HOW TO ADD A POST:
+//   1. Copy one block (from { to },) and paste after the last entry
+//   2. Fill in all fields — see what each does below
+//
+// FIELDS:
+//   id      — unique nickname, no spaces (e.g. "my-post")
+//   title   — the post headline
+//   date    — shown on the card e.g. "March 2025"
+//   tag     — category label on the card e.g. "Reflection"
+//   color   — the colour stripe at the top of the card. Options:
+//             "#9b59b6" (purple) "#007a6e" (teal)  "#f0a500" (amber)
+//             "#e63329" (red)    "#3a28b8" (indigo) "#0071e3" (blue)
+//   excerpt — one sentence teaser shown on the card
+//   body    — the full post in HTML. Same rules as articles:
+//             <p>Paragraph</p>
+//             <h2>Subheading</h2>
+//             <blockquote><p>Pull quote.</p></blockquote>
+// ================================================================
 var BLOG_POSTS = [
-  { id:"why-i-write", title:"Why I Write", date:"February 2025", tag:"Reflection", color:"#9b59b6", excerpt:"A honest answer to the question I get asked most often and the one I find hardest to answer.", body:"<p>People ask me why I write, and I usually give a polished answer about communication and craft and the power of language. It sounds good. It is not entirely untrue. But it is not the real answer.</p><p>The real answer is that writing is the only thing that makes the world make sense to me. Not reading, though I love that too, but the specific act of sitting down, finding words for something, and watching it take shape. It is the closest I get to actually understanding what I think.</p><h2>Thinking out loud, slowly</h2><p>There is a quote I keep coming back to: How do I know what I think until I see what I say? That is it exactly. I do not write to express ideas I already have. I write to find out what those ideas are.</p><blockquote><p>Writing is the act of discovering what you believe.</p></blockquote><h2>The discipline of being wrong in public</h2><p>Publishing writing is terrifying in a specific way. A published piece is a record of what you thought at a particular moment. If you are doing it honestly, that means being wrong sometimes, or changing your mind. I have had both. I expect I will have both again. But I would rather be wrong publicly and learning than right privately and static. That is the real reason I write.</p>" },
-  { id:"attention-economy", title:"The Attention Economy Has Made Us Worse Communicators", date:"January 2025", tag:"Media and Culture", color:"#007a6e", excerpt:"We have optimised so hard for clicks that we have forgotten how to say something worth reading.", body:"<p>The most valuable thing in media right now is your attention. Not your opinion, not your loyalty, not your money. Your attention. And because attention is the thing being competed for, everything in the media environment has been optimised to capture it before you scroll away.</p><p>This has produced some genuinely impressive technology. It has also made us significantly worse at communicating.</p><h2>The headline problem</h2><p>Headlines used to describe what was in an article. Now they are often designed to create a feeling, urgency, outrage, curiosity, that compels a click. The content does not always have to deliver on that feeling, because by the time the reader realises they have been misled, the click has already been recorded.</p><blockquote><p>The medium does not just shape the message. It shapes the messenger.</p></blockquote><h2>What we lose</h2><p>What we lose in this environment is nuance. The ability to say it is complicated without it being read as evasion, or to change your mind without it being read as weakness. I do not have a solution. But I think the first step is noticing it in your own reading and your own writing, and occasionally choosing the slower, harder, more honest thing.</p>" },
-  { id:"first-year-freelance", title:"One Year Freelance: What Nobody Tells You", date:"December 2024", tag:"Work and Life", color:"#f0a500", excerpt:"The financial stuff is hard. The psychological stuff is harder.", body:"<p>A year ago I left a stable, reasonably well-paid communications job to go freelance. Everyone who had done it before me gave me advice. They warned me about the invoicing, the slow payments, the feast-and-famine cash flow, the loneliness of working alone. They were right about all of it.</p><p>What nobody told me was how much of freelancing is psychological work.</p><h2>The silence is the hardest part</h2><p>In a job, you get constant feedback. Freelance work is mostly silence punctuated by occasional intense activity. You send a pitch and hear nothing for two weeks. You finish a piece and wait. You wonder if you are any good.</p><p>I do not think this gets easier quickly. I think you just get better at building your own internal feedback mechanisms, keeping notes on what is working, celebrating small wins without someone else prompting you to.</p><blockquote><p>Freelancing is not freedom from work. It is freedom within work, which is both better and harder.</p></blockquote><h2>The financial stuff, briefly</h2><p>It is exactly as variable and stressful as everyone says. Keep three months of expenses in reserve before you start. Invoice immediately. Chase late payments without embarrassment. Would I do it again? Yes, immediately. The work is better, the clients are ones I chose, and I am doing the most interesting things I have ever done professionally.</p>" }
+  {
+    id: "why-i-write",
+    title: "Why I Write",
+    date: "February 2025",
+    tag: "Reflection",
+    color: "#9b59b6",
+    excerpt: "A honest answer to the question I get asked most often and the one I find hardest to answer.",
+    body: "<p>People ask me why I write, and I usually give a polished answer about communication and craft and the power of language. It sounds good. It is not entirely untrue. But it is not the real answer.</p><p>The real answer is that writing is the only thing that makes the world make sense to me. Not reading, though I love that too, but the specific act of sitting down, finding words for something, and watching it take shape. It is the closest I get to actually understanding what I think.</p><h2>Thinking out loud, slowly</h2><p>There is a quote I keep coming back to: How do I know what I think until I see what I say? That is it exactly. I do not write to express ideas I already have. I write to find out what those ideas are.</p><blockquote><p>Writing is the act of discovering what you believe.</p></blockquote><h2>The discipline of being wrong in public</h2><p>Publishing writing is terrifying in a specific way. A published piece is a record of what you thought at a particular moment. If you are doing it honestly, that means being wrong sometimes, or changing your mind. But I would rather be wrong publicly and learning than right privately and static. That is the real reason I write.</p>"
+  },
+  {
+    id: "attention-economy",
+    title: "The Attention Economy Has Made Us Worse Communicators",
+    date: "January 2025",
+    tag: "Media and Culture",
+    color: "#007a6e",
+    excerpt: "We have optimised so hard for clicks that we have forgotten how to say something worth reading.",
+    body: "<p>The most valuable thing in media right now is your attention. Not your opinion, not your loyalty, not your money. Your attention. And because attention is the thing being competed for, everything in the media environment has been optimised to capture it before you scroll away.</p><p>This has produced some genuinely impressive technology. It has also made us significantly worse at communicating.</p><h2>The headline problem</h2><p>Headlines used to describe what was in an article. Now they are often designed to create a feeling, urgency, outrage, curiosity, that compels a click. The content does not always have to deliver on that feeling, because by the time the reader realises they have been misled, the click has already been recorded.</p><blockquote><p>The medium does not just shape the message. It shapes the messenger.</p></blockquote><h2>What we lose</h2><p>What we lose in this environment is nuance. The ability to say it is complicated without it being read as evasion, or to change your mind without it being read as weakness. I do not have a solution. But I think the first step is noticing it in your own reading and your own writing, and occasionally choosing the slower, harder, more honest thing.</p>"
+  },
+  {
+    id: "first-year-freelance",
+    title: "One Year Freelance: What Nobody Tells You",
+    date: "December 2024",
+    tag: "Work and Life",
+    color: "#f0a500",
+    excerpt: "The financial stuff is hard. The psychological stuff is harder.",
+    body: "<p>A year ago I left a stable, reasonably well-paid communications job to go freelance. Everyone who had done it before me gave me advice. They warned me about the invoicing, the slow payments, the feast-and-famine cash flow, the loneliness of working alone. They were right about all of it.</p><p>What nobody told me was how much of freelancing is psychological work.</p><h2>The silence is the hardest part</h2><p>In a job, you get constant feedback. Freelance work is mostly silence punctuated by occasional intense activity. You send a pitch and hear nothing for two weeks. You finish a piece and wait. You wonder if you are any good.</p><p>I do not think this gets easier quickly. I think you just get better at building your own internal feedback mechanisms, keeping notes on what is working, celebrating small wins without someone else prompting you to.</p><blockquote><p>Freelancing is not freedom from work. It is freedom within work, which is both better and harder.</p></blockquote><h2>The financial stuff, briefly</h2><p>It is exactly as variable and stressful as everyone says. Keep three months of expenses in reserve before you start. Invoice immediately. Chase late payments without embarrassment. Would I do it again? Yes, immediately. The work is better, the clients are ones I chose, and I am doing the most interesting things I have ever done professionally.</p>"
+  }
 ];
+
+
+// ================================================================
+// EVERYTHING BELOW THIS LINE IS SITE MACHINERY — DO NOT EDIT
+// ================================================================
 
 function renderVideos() {
-  var html = '';
+  var html = "";
   for (var i = 0; i < VIDEOS.length; i++) {
     var v = VIDEOS[i];
-    html += '<div class="vc" onclick="openVideo(\'' + v.id + '\')">' +
-      '<div class="vthumb"><img src="https://img.youtube.com/vi/' + v.youtube + '/mqdefault.jpg" alt="' + v.title + '" loading="lazy"><div class="play"><div class="playcircle">&#9654;</div></div></div>' +
-      '<div class="vinfo"><div class="vcat">' + v.category + '</div><h4>' + v.title + '</h4><p>' + v.description + '</p></div>' +
-      '</div>';
+    html += "<div class='vc' onclick='openVideo(\"" + v.id + "\")'>"+
+      "<div class='vthumb'><img src='https://img.youtube.com/vi/" + v.youtube + "/mqdefault.jpg' alt='" + v.title + "' loading='lazy'><div class='play'><div class='playcircle'>&#9654;</div></div></div>"+
+      "<div class='vinfo'><div class='vcat'>" + v.category + "</div><h4>" + v.title + "</h4><p>" + v.description + "</p></div>"+
+      "</div>";
   }
-  document.getElementById('vgrid').innerHTML = html;
+  document.getElementById("vgrid").innerHTML = html;
 }
 
 function renderPR() {
-  var html = '';
+  var html = "";
   for (var i = 0; i < PR_CAMPAIGNS.length; i++) {
     var c = PR_CAMPAIGNS[i];
-    var tagsHtml = '';
-    for (var j = 0; j < c.tags.length; j++) {
-      tagsHtml += '<span class="tag">' + c.tags[j] + '</span>';
-    }
-    html += '<div class="prc" onclick="openPR(\'' + c.id + '\')">' +
-      '<div class="prnum">' + c.num + '</div>' +
-      '<div><h3>' + c.title + '</h3><p>' + c.summary + '</p><div class="tags">' + tagsHtml + '</div><div class="prrm">Read full case study &#8594;</div></div>' +
-      '<div class="prstat"><div class="prstat-n" style="color:' + c.color + '">' + c.result + '</div><div class="prstat-l">' + c.resultLabel + '</div></div>' +
-      '</div>';
+    var tagsHtml = "";
+    for (var j = 0; j < c.tags.length; j++) { tagsHtml += "<span class='tag'>" + c.tags[j] + "</span>"; }
+    html += "<div class='prc' onclick='openPR(\"" + c.id + "\")'>"+
+      "<div class='prnum'>" + c.num + "</div>"+
+      "<div><h3>" + c.title + "</h3><p>" + c.summary + "</p><div class='tags'>" + tagsHtml + "</div><div class='prrm'>Read full case study &#8594;</div></div>"+
+      "<div class='prstat'><div class='prstat-n' style='color:" + c.color + "'>" + c.result + "</div><div class='prstat-l'>" + c.resultLabel + "</div></div>"+
+      "</div>";
   }
-  document.getElementById('pr-list').innerHTML = html;
+  document.getElementById("pr-list").innerHTML = html;
 }
 
 function renderWriting() {
-  var html = '';
+  var html = "";
   for (var i = 0; i < ARTICLES.length; i++) {
     var a = ARTICLES[i];
-    html += '<div class="wrr" onclick="openArticle(\'' + a.id + '\')">' +
-      '<div class="wrd">' + a.date + '</div>' +
-      '<div><div class="wrc" style="color:' + a.catColor + '">' + a.category + ' - ' + a.publication + '</div><div class="wrt">' + a.title + '</div><div class="wre">' + a.excerpt + '</div></div>' +
-      '<div class="wra">&#8594;</div>' +
-      '</div>';
+    html += "<div class='wrr' onclick='openArticle(\"" + a.id + "\")'>"+
+      "<div class='wrd'>" + a.date + "</div>"+
+      "<div><div class='wrc' style='color:" + a.catColor + "'>" + a.category + " - " + a.publication + "</div><div class='wrt'>" + a.title + "</div><div class='wre'>" + a.excerpt + "</div></div>"+
+      "<div class='wra'>&#8594;</div>"+
+      "</div>";
   }
-  document.getElementById('wr-list').innerHTML = html;
+  document.getElementById("wr-list").innerHTML = html;
 }
 
 function renderBlog() {
-  var html = '';
+  var html = "";
   for (var i = 0; i < BLOG_POSTS.length; i++) {
     var p = BLOG_POSTS[i];
-    html += '<div class="bc" onclick="openBlog(\'' + p.id + '\')">' +
-      '<div class="bc-banner" style="background:' + p.color + '"></div>' +
-      '<div class="bc-body"><div class="bc-meta">' + p.date + '</div><div class="bc-title">' + p.title + '</div><div class="bc-ex">' + p.excerpt + '</div>' +
-      '<div class="bc-foot"><span class="bc-tag">' + p.tag + '</span><span class="bc-arr">&#8594;</span></div></div>' +
-      '</div>';
+    html += "<div class='bc' onclick='openBlog(\"" + p.id + "\")'>"+
+      "<div class='bc-banner' style='background:" + p.color + "'></div>"+
+      "<div class='bc-body'><div class='bc-meta'>" + p.date + "</div><div class='bc-title'>" + p.title + "</div><div class='bc-ex'>" + p.excerpt + "</div>"+
+      "<div class='bc-foot'><span class='bc-tag'>" + p.tag + "</span><span class='bc-arr'>&#8594;</span></div></div>"+
+      "</div>";
   }
-  document.getElementById('blog-grid').innerHTML = html;
+  document.getElementById("blog-grid").innerHTML = html;
 }
 
 function openArticle(id) {
   var a = null;
   for (var i = 0; i < ARTICLES.length; i++) { if (ARTICLES[i].id === id) { a = ARTICLES[i]; break; } }
   if (!a) return;
-  document.getElementById('ov-article-cat').textContent = a.category + ' - ' + a.publication;
-  document.getElementById('art-content').innerHTML = '<p class="art-ey" style="color:' + a.catColor + '">' + a.category + '</p><h1>' + a.title + '</h1><div class="art-meta"><span class="art-au">Ilyas Muzaffar</span><span class="art-dt">' + a.date + ' - ' + a.publication + '</span></div><div class="art-text">' + a.body + '</div>';
-  openOv('article');
+  document.getElementById("ov-article-cat").textContent = a.category + " - " + a.publication;
+  document.getElementById("art-content").innerHTML = "<p class='art-ey' style='color:" + a.catColor + "'>" + a.category + "</p><h1>" + a.title + "</h1><div class='art-meta'><span class='art-au'>Ilyas Muzaffar</span><span class='art-dt'>" + a.date + " - " + a.publication + "</span></div><div class='art-text'>" + a.body + "</div>";
+  openOv("article");
 }
 
 function openVideo(id) {
   var v = null;
   for (var i = 0; i < VIDEOS.length; i++) { if (VIDEOS[i].id === id) { v = VIDEOS[i]; break; } }
   if (!v) return;
-  document.getElementById('vid-content').innerHTML = '<div class="vid-player"><iframe src="https://www.youtube.com/embed/' + v.youtube + '?autoplay=1&rel=0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div><div class="vid-title">' + v.title + '</div><p class="vid-desc">' + v.description + '</p>';
-  openOv('video');
+  document.getElementById("vid-content").innerHTML = "<div class='vid-player'><iframe src='https://www.youtube.com/embed/" + v.youtube + "?autoplay=1&rel=0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture' allowfullscreen></iframe></div><div class='vid-title'>" + v.title + "</div><p class='vid-desc'>" + v.description + "</p>";
+  openOv("video");
 }
 
 function openPR(id) {
   var c = null;
   for (var i = 0; i < PR_CAMPAIGNS.length; i++) { if (PR_CAMPAIGNS[i].id === id) { c = PR_CAMPAIGNS[i]; break; } }
   if (!c) return;
-  document.getElementById('ov-pr-cat').textContent = c.client;
-  var kpisHtml = '';
-  for (var i = 0; i < c.kpis.length; i++) {
-    kpisHtml += '<div class="kpi"><div class="kpi-n" style="color:' + c.color + '">' + c.kpis[i].n + '</div><div class="kpi-l">' + c.kpis[i].l + '</div></div>';
-  }
-  var tagsHtml = '';
-  for (var i = 0; i < c.tags.length; i++) { tagsHtml += '<span class="tag">' + c.tags[i] + '</span>'; }
-  document.getElementById('prd-content').innerHTML = '<p class="art-ey" style="color:' + c.color + '">Case Study</p><h1 style="font-family:var(--serif);font-size:clamp(28px,4vw,48px);font-weight:700;line-height:1.1;color:var(--ink);margin-bottom:32px">' + c.title + '</h1><div class="prd-hero"><p style="font-size:16px;color:var(--mid);line-height:1.65;margin-bottom:24px">' + c.summary + '</p><div class="tags" style="margin-bottom:20px">' + tagsHtml + '</div><div class="kpi-row">' + kpisHtml + '</div></div><h2>The Challenge</h2><p>' + c.challenge + '</p><h2>The Approach</h2><p>' + c.approach + '</p><h2>The Outcome</h2><p>' + c.outcome + '</p>';
-  openOv('pr');
+  document.getElementById("ov-pr-cat").textContent = c.client;
+  var kpisHtml = "";
+  for (var i = 0; i < c.kpis.length; i++) { kpisHtml += "<div class='kpi'><div class='kpi-n' style='color:" + c.color + "'>" + c.kpis[i].n + "</div><div class='kpi-l'>" + c.kpis[i].l + "</div></div>"; }
+  var tagsHtml = "";
+  for (var i = 0; i < c.tags.length; i++) { tagsHtml += "<span class='tag'>" + c.tags[i] + "</span>"; }
+  document.getElementById("prd-content").innerHTML = "<p class='art-ey' style='color:" + c.color + "'>Case Study</p><h1 style='font-family:var(--serif);font-size:clamp(28px,4vw,48px);font-weight:700;line-height:1.1;color:var(--ink);margin-bottom:32px'>" + c.title + "</h1><div class='prd-hero'><p style='font-size:16px;color:var(--mid);line-height:1.65;margin-bottom:24px'>" + c.summary + "</p><div class='tags' style='margin-bottom:20px'>" + tagsHtml + "</div><div class='kpi-row'>" + kpisHtml + "</div></div><h2>The Challenge</h2><p>" + c.challenge + "</p><h2>The Approach</h2><p>" + c.approach + "</p><h2>The Outcome</h2><p>" + c.outcome + "</p>";
+  openOv("pr");
 }
 
 function openBlog(id) {
   var p = null;
   for (var i = 0; i < BLOG_POSTS.length; i++) { if (BLOG_POSTS[i].id === id) { p = BLOG_POSTS[i]; break; } }
   if (!p) return;
-  document.getElementById('bp-content').innerHTML = '<p class="bp-tag">' + p.tag + '</p><h1>' + p.title + '</h1><div class="bp-meta"><span class="bp-au">Ilyas Muzaffar</span><span class="bp-dt">' + p.date + '</span></div><div class="bp-text">' + p.body + '</div>';
-  openOv('blog');
+  document.getElementById("bp-content").innerHTML = "<p class='bp-tag'>" + p.tag + "</p><h1>" + p.title + "</h1><div class='bp-meta'><span class='bp-au'>Ilyas Muzaffar</span><span class='bp-dt'>" + p.date + "</span></div><div class='bp-text'>" + p.body + "</div>";
+  openOv("blog");
 }
 
 function openOv(type) {
-  var el = document.getElementById('ov-' + type);
-  el.classList.add('open');
+  var el = document.getElementById("ov-" + type);
+  el.classList.add("open");
   el.scrollTop = 0;
 }
 
 function closeOv(type) {
-  document.getElementById('ov-' + type).classList.remove('open');
-  if (type === 'video') { document.getElementById('vid-content').innerHTML = ''; }
+  document.getElementById("ov-" + type).classList.remove("open");
+  if (type === "video") { document.getElementById("vid-content").innerHTML = ""; }
 }
 
-var PAGES = ['home','about','multimedia','pr','writing','blog','contact'];
+var PAGES = ["home", "about", "multimedia", "pr", "writing", "blog", "contact"];
 
 function go(id) {
-  closeOv('article');
-  closeOv('video');
-  closeOv('pr');
-  closeOv('blog');
+  closeOv("article"); closeOv("video"); closeOv("pr"); closeOv("blog");
   navigate(id);
 }
 
 function navigate(id) {
+  var outgoing = null;
   for (var i = 0; i < PAGES.length; i++) {
-    document.getElementById('page-' + PAGES[i]).classList.remove('active');
-    var b = document.getElementById('nav-' + PAGES[i]);
-    if (b) b.classList.remove('on');
+    var pg = document.getElementById("page-" + PAGES[i]);
+    if (pg.classList.contains("active")) outgoing = pg;
+    pg.classList.remove("active","leaving");
+    var b = document.getElementById("nav-" + PAGES[i]);
+    if (b) b.classList.remove("on");
   }
-  document.getElementById('page-' + id).classList.add('active');
-  var ab = document.getElementById('nav-' + id);
-  if (ab) ab.classList.add('on');
-  window.scrollTo(0, 0);
+  if (outgoing) {
+    outgoing.classList.add("leaving");
+    setTimeout(function(){ outgoing.classList.remove("leaving"); }, 200);
+  }
+  var incoming = document.getElementById("page-" + id);
+  var ab = document.getElementById("nav-" + id);
+  // Tiny delay so both animations can coexist briefly
+  setTimeout(function(){
+    incoming.classList.add("active");
+    if (ab) ab.classList.add("on");
+    window.scrollTo(0,0);
+  }, 30);
 }
 
-document.addEventListener('keydown', function(e) {
-  if (e.key === 'Escape') { closeOv('article'); closeOv('video'); closeOv('pr'); closeOv('blog'); }
+document.addEventListener("keydown", function(e) {
+  if (e.key === "Escape") { closeOv("article"); closeOv("video"); closeOv("pr"); closeOv("blog"); }
 });
 
 renderVideos();

@@ -558,17 +558,19 @@ html.dark #page-contact .contact-big-h em{color:#4da3f5}
     <h1 class="contact-big-h">Let&rsquo;s make<br>something <em>real.</em></h1>
     <p class="contact-intro">I&rsquo;m always open to interesting conversations, commissions, and collaborations. Reach out directly through any of the channels below.</p>
     <div class="sc-grid">
-      <!-- EMAIL — change href to your real email -->
-      <a class="sc" href="/cdn-cgi/l/email-protection#34575b5a40555740745d584d554759414e55525255461a575b59">
+      <!-- EMAIL
+           To update: change the href="mailto:..." address and the sc-val text to your email address. -->
+      <a class="sc" href="mailto:contact@ilyasmuzaffar.com">
         <div class="sc-icon" style="background:#f0f4ff">&#9993;&#65039;</div>
         <div class="sc-info">
           <div class="sc-lbl">Email</div>
-          <div class="sc-val"><span class="__cf_email__" data-cfemail="cba8a4a5bfaaa8bf8ba2a7b2aab8a6beb1aaadadaab9e5a8a4a6">[email&#160;protected]</span></div>
+          <div class="sc-val">contact@ilyasmuzaffar.com</div>
           <div class="sc-hint">Click to open in your mail app</div>
         </div>
         <div class="sc-arr">&#8594;</div>
       </a>
-      <!-- LINKEDIN — change href to your profile URL -->
+      <!-- LINKEDIN
+           To update: change the href to your LinkedIn profile URL (e.g. https://linkedin.com/in/your-name). -->
       <a class="sc" href="https://linkedin.com/in/ilyas-muzaffar-538314207" target="_blank" rel="noopener">
         <div class="sc-icon" style="background:#e8f4ff">&#128188;</div>
         <div class="sc-info">
@@ -577,26 +579,12 @@ html.dark #page-contact .contact-big-h em{color:#4da3f5}
         </div>
         <div class="sc-arr">&#8594;</div>
       </a>
-      <!-- TWITTER/X — change href and sc-val -->
-      <a class="sc" href="https://twitter.com/ilyasmuzaffar" target="_blank" rel="noopener">
-        <div class="sc-icon" style="background:#f0f9ff">&#128038;</div>
-        <div class="sc-info">
-          <div class="sc-lbl">Twitter / X</div>
-          <div class="sc-val">@ilyasmuzaffar</div>
-          <div class="sc-hint">DMs are open</div>
-        </div>
-        <div class="sc-arr">&#8594;</div>
-      </a>
-      <!-- INSTAGRAM — change href and sc-val -->
-      <a class="sc" href="https://instagram.com/ilyasmuzaffar" target="_blank" rel="noopener">
-        <div class="sc-icon" style="background:#fff0f5">&#128247;</div>
-        <div class="sc-info">
-          <div class="sc-lbl">Instagram</div>
-          <div class="sc-val">@ilyasmuzaffar</div>
-          <div class="sc-hint">Follow for work and behind-the-scenes</div>
-        </div>
-        <div class="sc-arr">&#8594;</div>
-      </a>
+      <!-- TO ADD A NEW CONTACT CHANNEL (e.g. GitHub, YouTube):
+           1. Copy one of the <a class="sc"> blocks above.
+           2. Paste it here, before the closing </div> of sc-grid.
+           3. Update href to the full URL of your profile.
+           4. Change sc-icon background colour to match the platform.
+           5. Update sc-lbl (platform name), sc-val (your handle), and sc-hint (call to action). -->
     </div>
     <!-- FOOTER LINE — edit the two spans -->
     <p class="contact-foot">
@@ -711,23 +699,10 @@ var VIDEOS = [
 //      body        — full article HTML. Use <p>, <h2>, <blockquote>
 // ================================================================
 var ARTICLES = [
-  // ── TO ADD AN ARTICLE ──────────────────────────────────────────
-  // 1. Copy one block from { to the closing },
-  // 2. Paste it above the last entry (before the closing ] )
-  // 3. Fill in the fields:
-  //    id          — unique nickname, no spaces (e.g. "my-article")
-  //    title       — the article headline
-  //    date        — display date (e.g. "Jan 2025")
-  //    category    — label shown on the row (e.g. "Feature", "Essay")
-  //    catColor    — colour of that label (any CSS hex colour)
-  //    publication — where it was published
-  //    excerpt     — 1-2 sentence teaser shown in the list
-  //    body        — full article HTML (use <p>, <h2>, <blockquote>)
-  // ──────────────────────────────────────────────────────────────
   {
     id: "rp-open-house-2023",
     title: "RP Opens Its Doors: Behind the Scenes of Open House 2023",
-    date: "Jan 12, 2025",
+    date: "2023",
     category: "News",
     catColor: "#B85C38",
     publication: "Republic Polytechnic",
@@ -774,31 +749,13 @@ var ARTICLES = [
 // ================================================================
 var BLOG_POSTS = [
   {
-    id: "on-attention",
-    title: "On Attention",
-    date: "12 Jan 2025",
-    tag: "Reflection",
-    color: "#7B5EA7",
-    excerpt: "We talk about attention like it's a resource that gets depleted. Maybe it's more like a muscle.",
-    body: "<p>I have been thinking about attention. Not the lack of it &mdash; everyone talks about the lack of it &mdash; but the thing itself. What it actually is. How it works. Whether it is something we do or something that happens to us.</p><p>The productivity literature treats attention like a tank. You start the day full, and every decision, distraction, or difficult task draws it down. By the end of the day, the tank is empty. This is why you are supposed to do important work in the morning and save email for the afternoon.</p><h2>The tank model is wrong</h2><p>I do not think this is right. Or at least, it is not the whole story. Because attention is not just depleted by use. It is also depleted by the wrong kind of use. And restored by the right kind.</p><p>An hour of genuine deep work on something I care about leaves me more energised than I started. An hour of shallow scrolling leaves me hollowed out. The difference is not about the quantity of attention expended &mdash; it is about the quality of what I gave it to.</p><h2>What this means practically</h2><p>I have stopped trying to protect my attention by limiting what I do. I have started trying to direct it more deliberately toward things that are worth the expenditure. Not because this is more productive, though it often is. But because it is a more honest relationship with my own mind.</p>"
-  },
-  {
-    id: "singapore-walks",
-    title: "Walking Singapore",
-    date: "28 Dec 2024",
-    tag: "Place",
-    color: "#2E8B7A",
-    excerpt: "A city you can walk in a day reveals itself differently than one you have to drive through.",
-    body: "<p>Singapore is one of the few cities in the world where you can, in a single afternoon, walk from a colonial-era cathedral through a hawker centre, past a gleaming financial district, into a neighbourhood that looks largely unchanged since the 1970s. The transitions happen in metres, not kilometres.</p><p>This compression is what makes it strange and wonderful in equal measure.</p><h2>What compression does to a city</h2><p>In a larger city, you have to choose which version you are going to inhabit. You live in your neighbourhood. You work in your district. The rest is somewhere you pass through, occasionally, on the way to somewhere else. Singapore does not allow this. Everything is too close. You are always adjacent to something that contradicts your current location.</p><blockquote><p>The city does not let you forget that it contains multitudes. It puts them all next door.</p></blockquote><h2>What this teaches you about attention</h2><p>Walking Singapore teaches you to slow down. Because if you move through it at the pace most city-dwellers move through urban environments &mdash; efficiently, purposefully, headphones in &mdash; you miss the point. The city is not a setting. It is the content. The walk is the story.</p>"
-  },
-  {
-    id: "first-edit",
-    title: "My First Proper Edit",
-    date: "5 Nov 2024",
-    tag: "Craft",
-    color: "#B85C38",
-    excerpt: "Three days in a dark room. One four-minute film. Everything I did not know that I did not know.",
-    body: "<p>The first time I sat down to edit a piece of video journalism from scratch &mdash; not a class exercise, not a practice clip, but a real piece with a real subject who had trusted me with their time and story &mdash; I thought I understood what I was doing. I had watched enough tutorials. I knew the software. I had a clear idea of what I wanted the film to be.</p><p>Twenty minutes into the timeline, I realised I had no idea what I was doing.</p><h2>The gap between footage and film</h2><p>The issue was not technical. The issue was that I was trying to edit the film I had planned rather than the film I had shot. These were different films. The one I had planned was tidy, logical, structured. The one I had shot had three moments of genuine, unplanned beauty that did not fit the structure I had planned around them.</p><blockquote><p>The edit is where you find out what you actually made. It is not where you execute the plan. It is where you discover whether the plan was any good.</p></blockquote><h2>What I kept</h2><p>I kept the three unplanned moments. I rebuilt the structure around them. The film was better for it. Not because I had abandoned the plan, but because the footage told me something the plan could not have anticipated: that the subject's hands were more eloquent than their words. I had filmed the hands by accident. I cut to them on purpose. That is, I think, what editing actually is.</p>"
+    id: "ai-media-writeup",
+    title: "Generative AI and the Media: A Double-Edged Sword",
+    date: "26 Feb 2026",
+    tag: "Essay",
+    color: "#3a28b8",
+    excerpt: "Written originally for my university applications \u2014 a look at how generative AI is reshaping media, journalism, and the professionals who power it.",
+    body: "<p class='bp-tag' style='font-size:13px;color:#6e6e73;margin-bottom:18px'><em>I wrote this piece as part of my university applications. It felt worth sharing here too.</em></p><p>When ChatGPT was released in November 2022, it was the first LLM to be widely adopted by the public. It would soon rattle every industry \u2014 offering efficiency and creativity never seen before at this scale. Workers wanted to use it to lighten their load. Shareholders saw it as a way to cut labour costs and push up stock prices.</p><p>Despite being an AI cynic myself, I can identify a few genuine positives. AI tools can draft articles and summarise documents, allowing professionals to focus on more strategic and creative work. Surveys show that roughly 75% of PR professionals now use generative AI for brainstorming, editing, and research \u2014 a sign of how rapidly it has been adopted across communication industries.</p><p>Gen AI\u2019s ability to produce large volumes of content quickly also helps media professionals keep pace with the 24/7 demand for updates. For journalists under tight deadlines, AI can accelerate research and transcription, freeing them to focus on what machines cannot replicate: on-the-ground interviews and investigative work.</p><p>Beyond productivity, AI is changing how audiences engage with content. Research suggests AI enables a new form of journalism by personalising content and facilitating interaction between audiences and media. In marketing and PR, this sharpens campaign effectiveness and expands creative possibilities.</p><h2>The Other Side</h2><p>These advantages come with serious ethical questions. A major concern is reliability. Gen AI systems can produce convincing but incorrect information \u2014 so-called \u201challucinations.\u201d Journalists worldwide are growing anxious: 88% now report concerns about AI\u2019s impact on journalistic quality. Because journalism depends on accuracy and verification, AI introduces new risks of misinformation entering the news ecosystem.</p><p>Closely related is the problem of disinformation and deepfakes. Unlike misinformation, which is unintentional, disinformation is deliberate. Studies show that nearly 90% of journalists believe AI will significantly increase disinformation risks, particularly because AI-generated content can be difficult to detect. The ability to fabricate realistic images and video threatens public trust in media institutions.</p><p>AI also raises questions about authorship and professional identity. When AI drafts news stories, the journalist shifts from creator to supervisor. Some argue this weakens professional authority as audiences struggle to distinguish human-generated from machine-generated content. Because AI learns from existing datasets, it may also reproduce biases and stereotypes embedded within its training data \u2014 and the growing presence of undisclosed AI-generated material in publications complicates transparency further.</p><p>On the employment front, automation threatens entry-level roles in writing and production. Some in the industry have already experienced displacement linked to Gen AI adoption.</p><h2>Where This Leaves Us</h2><p>Gen AI is reshaping the media landscape \u2014 redefining how content is produced and consumed. The impact is neither entirely positive nor entirely negative. The future of media professionals will likely hinge on their ability to use AI as an assistant rather than a replacement. As the technology advances, the value of human media professionals will lie not in producing information faster, but in providing creativity and credibility that machines cannot manufacture.</p>"
   }
 ];
 

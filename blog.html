@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en" style="color-scheme:light">
+<head>
+<meta charset="UTF-8">
+<meta name="color-scheme" content="light">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blog — Ilyas Muzaffar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+/* BLOG accent — Soft Indigo */
+.eyebrow{color:#7B5EA7!important}
+.blog-h em{color:#7B5EA7}
+.bc:hover .bc-title{color:#7B5EA7}
+.bc-tag{color:#7B5EA7;background:rgba(123,94,167,0.1)}
+.bc:hover .bc-arr{color:#7B5EA7}
+.bp-tag{color:#7B5EA7}
+.back{color:#7B5EA7!important}
+html.dark .blog-h em{color:#b88ad0}
+html.dark .back{color:#b88ad0!important}
+</style>
+</head>
+<body>
+
+<div class="blog-top">
+  <div class="blog-top-in">
+    <p class="eyebrow" style="margin-bottom:16px">Personal Blog</p>
+    <h1 class="blog-h">Thoughts &amp;<br><em>reflections.</em></h1>
+    <p class="blog-sub">Unfiltered writing on life, work, culture, and whatever is occupying my mind.</p>
+  </div>
+</div>
+
+<div class="blog-grid" id="blog-grid"></div>
+
+<!-- Blog post overlay -->
+<div class="overlay" id="ov-blog">
+  <div class="ov-bar">
+    <button class="back" onclick="closeOv('blog')">&#8592; Back to Blog</button>
+  </div>
+  <div class="bp-body" id="bp-content"></div>
+</div>
+
+<!-- NAV -->
+<nav class="nav">
+  <a class="nb" href="index.html"><span class="ni">&#127968;</span><span class="nl">Home</span></a>
+  <a class="nb" href="about.html"><span class="ni">&#128100;</span><span class="nl">About</span></a>
+  <a class="nb" href="work.html"><span class="ni">&#127916;</span><span class="nl">Work</span></a>
+  <a class="nb on" href="blog.html"><span class="ni">&#128211;</span><span class="nl">Blog</span></a>
+  <a class="nb" href="contact.html"><span class="ni">&#128233;</span><span class="nl">Contact</span></a>
+</nav>
+
+<button class="dm-btn" id="dm-btn" onclick="toggleDark()" aria-label="Toggle dark mode">&#127769;</button>
+
+<script>
+var BLOG_POSTS = [
+  {id:"ai-media-writeup",title:"Generative AI and the Media: A Double-Edged Sword",date:"26 Feb 2026",tag:"Essay",color:"#3a28b8",excerpt:"Written originally for my university applications \u2014 a look at how generative AI is reshaping media, journalism, and the professionals who power it.",body:"<p class='bp-tag' style='font-size:13px;color:#6e6e73;margin-bottom:18px'><em>I wrote this piece as part of my university applications. It felt worth sharing here too.</em></p><p>When ChatGPT was released in November 2022, it was the first LLM to be widely adopted by the public. It would soon rattle every industry \u2014 offering efficiency and creativity never seen before at this scale. Workers wanted to use it to lighten their load. Shareholders saw it as a way to cut labour costs and push up stock prices.</p><p>Despite being an AI cynic myself, I can identify a few genuine positives. AI tools can draft articles and summarise documents, allowing professionals to focus on more strategic and creative work. Surveys show that roughly 75% of PR professionals now use generative AI for brainstorming, editing, and research \u2014 a sign of how rapidly it has been adopted across communication industries.</p><p>Gen AI\u2019s ability to produce large volumes of content quickly also helps media professionals keep pace with the 24/7 demand for updates. For journalists under tight deadlines, AI can accelerate research and transcription, freeing them to focus on what machines cannot replicate: on-the-ground interviews and investigative work.</p><p>Beyond productivity, AI is changing how audiences engage with content. Research suggests AI enables a new form of journalism by personalising content and facilitating interaction between audiences and media. In marketing and PR, this sharpens campaign effectiveness and expands creative possibilities.</p><h2>The Other Side</h2><p>These advantages come with serious ethical questions. A major concern is reliability. Gen AI systems can produce convincing but incorrect information \u2014 so-called \u201challucinations.\u201d Journalists worldwide are growing anxious: 88% now report concerns about AI\u2019s impact on journalistic quality. Because journalism depends on accuracy and verification, AI introduces new risks of misinformation entering the news ecosystem.</p><p>Closely related is the problem of disinformation and deepfakes. Unlike misinformation, which is unintentional, disinformation is deliberate. Studies show that nearly 90% of journalists believe AI will significantly increase disinformation risks, particularly because AI-generated content can be difficult to detect. The ability to fabricate realistic images and video threatens public trust in media institutions.</p><p>AI also raises questions about authorship and professional identity. When AI drafts news stories, the journalist shifts from creator to supervisor. Some argue this weakens professional authority as audiences struggle to distinguish human-generated from machine-generated content. Because AI learns from existing datasets, it may also reproduce biases and stereotypes embedded within its training data \u2014 and the growing presence of undisclosed AI-generated material in publications complicates transparency further.</p><p>On the employment front, automation threatens entry-level roles in writing and production. Some in the industry have already experienced displacement linked to Gen AI adoption.</p><h2>Where This Leaves Us</h2><p>Gen AI is reshaping the media landscape \u2014 redefining how content is produced and consumed. The impact is neither entirely positive nor entirely negative. The future of media professionals will likely hinge on their ability to use AI as an assistant rather than a replacement. As the technology advances, the value of human media professionals will lie not in producing information faster, but in providing creativity and credibility that machines cannot manufacture.</p>"}
+];
+
+function renderBlog(){
+  var html="";
+  for(var i=0;i<BLOG_POSTS.length;i++){
+    var p=BLOG_POSTS[i];
+    html+="<div class='bc' onclick=\"openBlog('"+p.id+"')\">"+
+      "<div class='bc-banner' style='background:"+p.color+"'></div>"+
+      "<div class='bc-body'><div class='bc-meta'>"+p.date+"</div>"+
+      "<div class='bc-title'>"+p.title+"</div>"+
+      "<div class='bc-ex'>"+p.excerpt+"</div>"+
+      "<div class='bc-foot'><span class='bc-tag' style='color:"+p.color+";background:"+p.color+"22'>"+p.tag+"</span>"+
+      "<span class='bc-arr'>&#8594;</span></div></div></div>";
+  }
+  document.getElementById("blog-grid").innerHTML=html;
+}
+
+function openBlog(id){
+  var p=null;
+  for(var i=0;i<BLOG_POSTS.length;i++){if(BLOG_POSTS[i].id===id){p=BLOG_POSTS[i];break;}}
+  if(!p)return;
+  document.getElementById("bp-content").innerHTML=
+    "<p class='bp-tag'>"+p.tag+"</p><h1>"+p.title+"</h1>"+
+    "<div class='bp-meta'><span class='bp-au'>Ilyas Muzaffar</span><span class='bp-dt'>"+p.date+"</span></div>"+
+    "<div class='bp-text'>"+p.body+"</div>";
+  openOv("blog");
+}
+
+function openOv(type){
+  var el=document.getElementById("ov-"+type);
+  if(el){el.classList.add("open");el.scrollTop=0;}
+}
+function closeOv(type){
+  var el=document.getElementById("ov-"+type);
+  if(el)el.classList.remove("open");
+}
+document.addEventListener("keydown",function(e){if(e.key==="Escape")closeOv("blog");});
+
+function applyTheme(isDark){
+  var h=document.documentElement;
+  h.classList.remove("dark","light");h.classList.add(isDark?"dark":"light");
+  h.style.colorScheme=isDark?"dark":"light";
+  var b=document.getElementById("dm-btn");
+  if(b)b.innerHTML=isDark?"&#9728;&#65039;":"&#127769;";
+  try{localStorage.setItem("theme",isDark?"dark":"light");}catch(e){}
+}
+function toggleDark(){applyTheme(!document.documentElement.classList.contains("dark"));}
+(function(){var s=null;try{s=localStorage.getItem("theme");}catch(e){}applyTheme(s==="dark");})();
+
+renderBlog();
+</script>
+</body>
+</html>

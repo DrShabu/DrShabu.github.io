@@ -181,5 +181,93 @@ function toggleDark(){applyTheme(!document.documentElement.classList.contains("d
 renderVideos();
 renderWriting();
 </script>
+
+<!-- MUSIC PLAYER -->
+<div class="music-player" id="music-player">
+  <div class="mp-record-wrap">
+    <div class="mp-record" id="mp-record" onclick="mpToggle()">
+      <img id="mp-art" src="cottonwood_cover.jpeg" alt="Album art">
+      <div class="mp-spindle"></div>
+    </div>
+  </div>
+  <div class="mp-info">
+    <div class="mp-title" id="mp-title">Hospital Beach</div>
+    <div class="mp-artist" id="mp-artist">Cottonwood Firing Squad</div>
+  </div>
+  <div class="mp-controls">
+    <button class="mp-btn prev" onclick="mpPrev()" aria-label="Previous">&#9664;&#9664;</button>
+    <button class="mp-btn" id="mp-play-btn" onclick="mpToggle()" aria-label="Play/Pause">&#9654;</button>
+    <button class="mp-btn next" onclick="mpNext()" aria-label="Next">&#9654;&#9654;</button>
+  </div>
+  <div class="mp-progress" id="mp-progress" onclick="mpSeek(event)">
+    <div class="mp-bar" id="mp-bar"></div>
+  </div>
+  <div class="mp-time">
+    <span id="mp-cur">0:00</span>
+    <span id="mp-dur">0:00</span>
+  </div>
+</div>
+
+<audio id="mp-audio" preload="metadata"></audio>
+
+<script>
+var MP_TRACKS=[
+  {title:"Hospital Beach",artist:"Cottonwood Firing Squad",src:"hospital_beach.mp3",art:"cottonwood_cover.jpeg"},
+  {title:"Loving Machine",artist:"TV Girl",src:"Loving_Machine.mp3",art:"tvgirl_cover.webp"}
+];
+var mpIdx=0,mpPlaying=false;
+var mpAudio=document.getElementById("mp-audio");
+var mpRecord=document.getElementById("mp-record");
+var mpPlayBtn=document.getElementById("mp-play-btn");
+var mpBar=document.getElementById("mp-bar");
+var mpCur=document.getElementById("mp-cur");
+var mpDur=document.getElementById("mp-dur");
+
+function mpLoad(idx){
+  mpIdx=idx;
+  var t=MP_TRACKS[idx];
+  mpAudio.src=t.src;
+  document.getElementById("mp-title").textContent=t.title;
+  document.getElementById("mp-artist").textContent=t.artist;
+  document.getElementById("mp-art").src=t.art;
+  mpBar.style.width="0%";
+  mpCur.textContent="0:00";
+  mpDur.textContent="0:00";
+}
+
+function mpToggle(){
+  if(mpPlaying){mpAudio.pause();}
+  else{mpAudio.play();}
+}
+
+function mpNext(){mpLoad((mpIdx+1)%MP_TRACKS.length);if(mpPlaying)mpAudio.play();}
+function mpPrev(){mpLoad((mpIdx-1+MP_TRACKS.length)%MP_TRACKS.length);if(mpPlaying)mpAudio.play();}
+
+function mpFmt(s){var m=Math.floor(s/60);var sec=Math.floor(s%60);return m+":"+(sec<10?"0":"")+sec;}
+
+mpAudio.addEventListener("play",function(){
+  mpPlaying=true;mpRecord.classList.add("playing");mpPlayBtn.innerHTML="&#9646;&#9646;";
+});
+mpAudio.addEventListener("pause",function(){
+  mpPlaying=false;mpRecord.classList.remove("playing");mpPlayBtn.innerHTML="&#9654;";
+});
+mpAudio.addEventListener("timeupdate",function(){
+  if(mpAudio.duration){
+    mpBar.style.width=(mpAudio.currentTime/mpAudio.duration*100)+"%";
+    mpCur.textContent=mpFmt(mpAudio.currentTime);
+    mpDur.textContent=mpFmt(mpAudio.duration);
+  }
+});
+mpAudio.addEventListener("ended",function(){mpNext();});
+
+function mpSeek(e){
+  var rect=document.getElementById("mp-progress").getBoundingClientRect();
+  var pct=(e.clientX-rect.left)/rect.width;
+  if(mpAudio.duration)mpAudio.currentTime=pct*mpAudio.duration;
+}
+
+mpLoad(0);
+</script>
+
 </body>
 </html>

@@ -33,7 +33,7 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);padding-botto
 /* ============================================================
    OVERLAYS
    ============================================================ */
-.overlay{visibility:hidden;pointer-events:none;position:fixed;inset:0;background:var(--bg);z-index:800;overflow-y:auto;padding-bottom:110px}
+.overlay{visibility:hidden;pointer-events:none;position:fixed;inset:0;bottom:0;background:var(--bg);z-index:500;overflow-y:auto;padding-bottom:110px}
 .overlay.open{visibility:visible;pointer-events:auto}
 
 /* ============================================================
@@ -77,16 +77,18 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);padding-botto
 .hero-btns{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
 .home-btn{background:#B85C38}
 .home-btn:hover{background:#a04e2e;transform:translateY(-3px) scale(1.05);box-shadow:0 10px 28px rgba(184,92,56,0.35)}
-.photo-strip{display:grid;grid-template-columns:1fr 1fr;gap:16px;padding:72px 28px 80px;max-width:1080px;margin:0 auto}
+.photo-strip{display:grid;grid-template-columns:1fr 1fr;gap:16px;padding:64px 28px;max-width:1080px;margin:0 auto}
 @media(max-width:600px){.photo-strip{grid-template-columns:1fr}}
 .photo-card{border-radius:20px;overflow:hidden;position:relative;aspect-ratio:4/3}
 .photo-card img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 0.5s cubic-bezier(0.32,0.72,0,1)}
 .photo-card:hover img{transform:scale(1.04)}
 .photo-caption{position:absolute;bottom:0;left:0;right:0;padding:16px 20px;background:linear-gradient(transparent,rgba(0,0,0,0.55));color:#fff;font-size:12px;font-weight:500;letter-spacing:0.04em;opacity:0;transition:opacity 0.25s}
 .photo-card:hover .photo-caption{opacity:1}
-.home-cards{padding:0 28px 80px;max-width:1080px;margin:0 auto}
+.home-cards{padding:0 28px 64px;max-width:1080px;margin:0 auto}
 .cl{font-size:12px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);text-align:center;margin-bottom:36px}
-.cg{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px}
+.cg{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+@media(max-width:700px){.cg{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:400px){.cg{grid-template-columns:1fr}}
 .card{background:var(--card);border-radius:22px;padding:36px 30px;cursor:pointer;transition:transform 0.3s cubic-bezier(0.34,1.56,0.64,1),box-shadow 0.3s ease;position:relative;overflow:hidden;border:none;width:100%;text-align:left;font-family:var(--sans);color:inherit;display:block}
 .card::after{content:"";position:absolute;bottom:0;left:0;right:0;height:3px;border-radius:0 0 22px 22px;transform:scaleX(0);transform-origin:left;transition:transform 0.3s cubic-bezier(0.34,1.56,0.64,1)}
 .card:hover{transform:translateY(-6px) scale(1.015);box-shadow:0 20px 48px rgba(0,0,0,0.11)}
@@ -142,7 +144,7 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);padding-botto
 .vc:hover .vthumb img{transform:scale(1.04)}
 .play{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.22);transition:background 0.2s}
 .vc:hover .play{background:rgba(0,0,0,0.38)}
-.playcircle{width:52px;height:52px;border-radius:50%;background:rgba(255,255,255,0.93);display:flex;align-items:center;justify-content:center;font-size:18px;padding-left:4px;box-shadow:0 4px 20px rgba(0,0,0,0.3);transition:transform 0.2s}
+.playcircle{width:52px;height:52px;border-radius:50%;background:rgba(255,255,255,0.95);color:#1d1d1f;display:flex;align-items:center;justify-content:center;font-size:18px;padding-left:4px;box-shadow:0 4px 20px rgba(0,0,0,0.3),0 0 0 2px rgba(255,255,255,0.6),0 0 0 4px rgba(0,0,0,0.15);transition:transform 0.2s}
 .vc:hover .playcircle{transform:scale(1.1)}
 .vinfo{padding:18px 20px}
 .vinfo .vcat{font-size:10px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:#2E8B7A;margin-bottom:5px}
@@ -246,21 +248,37 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);padding-botto
 .back:hover{opacity:0.7;transform:translateX(-2px)}
 .ov-cat{font-size:12px;color:#3a5230}
 
-/* FLOATING BACK BUTTON */
-.float-back{position:fixed;bottom:20px;z-index:10000;background:rgba(162,186,148,0.95);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(100,140,90,0.25);border-radius:980px;padding:10px 18px;font-family:var(--sans);font-size:13px;font-weight:600;color:#1a4f0f;cursor:pointer;display:none;align-items:center;gap:6px;box-shadow:0 8px 32px rgba(80,120,70,0.18);transition:transform 0.18s cubic-bezier(0.34,1.56,0.64,1),box-shadow 0.2s;left:calc(50% - 220px);transform:translateX(-100%) translateX(-12px)}
+/* FLOATING BACK BUTTON — matches nav pill height exactly */
+.float-back{position:fixed;bottom:20px;z-index:10000;background:rgba(162,186,148,0.92);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(100,140,90,0.25);border-radius:980px;padding:7px 10px;font-family:var(--sans);font-size:9px;font-weight:500;letter-spacing:0.04em;color:#3a5230;cursor:pointer;display:none;flex-direction:column;align-items:center;justify-content:center;gap:3px;box-shadow:0 8px 32px rgba(80,120,70,0.18);transition:color 0.18s,background 0.18s,transform 0.18s cubic-bezier(0.34,1.56,0.64,1);min-width:56px;right:calc(50% + var(--nav-half, 170px) + 8px)}
+.float-back .fb-icon{font-size:16px;line-height:1;display:block}
 .float-back.visible{display:flex}
-.float-back:hover{transform:translateX(-100%) translateX(-12px) translateY(-2px) scale(1.05);box-shadow:0 12px 36px rgba(80,120,70,0.28)}
-.float-back:active{transform:translateX(-100%) translateX(-12px) scale(0.94)!important;transition:transform 0.09s!important}
-html.dark .float-back{background:rgba(42,40,32,0.97);border-color:rgba(255,255,255,0.08);color:#4da3f5;box-shadow:0 8px 32px rgba(0,0,0,0.45)}
-@media(max-width:700px){.float-back{left:20px;transform:none}.float-back:hover{transform:translateY(-2px) scale(1.05)}.float-back:active{transform:scale(0.94)!important}}
+.float-back:hover{color:#1a2e14;background:rgba(200,220,190,0.97);transform:translateY(-2px) scale(1.05)}
+.float-back:active{transform:scale(0.84)!important;transition:transform 0.09s cubic-bezier(0.32,0.72,0,1)!important}
+html.dark .float-back{background:rgba(60,50,28,0.95);border-color:rgba(200,170,80,0.18);color:#c8b87a;box-shadow:0 8px 32px rgba(0,0,0,0.5)}
+html.dark .float-back:hover{color:#F0EDD8;background:rgba(255,255,255,0.08)}
 
 /* ============================================================
    MUSIC PLAYER
    ============================================================ */
-.music-player{position:fixed;bottom:90px;right:20px;z-index:9997;width:220px;background:var(--card);border:1px solid var(--line);border-radius:20px;padding:14px;box-shadow:0 8px 32px rgba(0,0,0,0.13);user-select:none;cursor:grab}
+.music-player{position:fixed;bottom:90px;right:20px;z-index:9997;width:220px;background:var(--card);border:1px solid var(--line);border-radius:20px;padding:14px;box-shadow:0 8px 32px rgba(0,0,0,0.13);user-select:none;cursor:grab;transition:width 0.3s cubic-bezier(0.32,0.72,0,1)}
 .music-player:active{cursor:grabbing}
 .music-player:hover{box-shadow:0 14px 40px rgba(0,0,0,0.18)}
-.mp-tag{font-size:9px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);text-align:center;margin-bottom:10px}
+/* Collapsed state */
+.music-player.mp-collapsed{width:52px;padding:8px;border-radius:50%;overflow:hidden;cursor:pointer}
+.music-player.mp-collapsed .mp-tag,
+.music-player.mp-collapsed .mp-disclaimer,
+.music-player.mp-collapsed .mp-info,
+.music-player.mp-collapsed .mp-controls,
+.music-player.mp-collapsed .mp-progress,
+.music-player.mp-collapsed .mp-time,
+.music-player.mp-collapsed .mp-vol{display:none}
+.music-player.mp-collapsed .mp-record-wrap{margin-bottom:0}
+.music-player.mp-collapsed .mp-record{width:36px;height:36px}
+.mp-collapse-btn{position:absolute;top:8px;right:10px;background:none;border:none;cursor:pointer;font-size:14px;color:var(--muted);padding:2px 4px;line-height:1;border-radius:4px;transition:color 0.15s,transform 0.2s}
+.mp-collapse-btn:hover{color:var(--ink);transform:scale(1.2)}
+.music-player.mp-collapsed .mp-collapse-btn{display:none}
+.mp-tag{font-size:9px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);text-align:center;margin-bottom:4px;padding-right:16px}
+.mp-disclaimer{font-size:8px;color:var(--muted);text-align:center;line-height:1.4;margin-bottom:10px;opacity:0.7}
 .mp-record-wrap{display:flex;justify-content:center;margin-bottom:12px}
 .mp-record{width:80px;height:80px;border-radius:50%;position:relative;overflow:hidden;box-shadow:0 4px 16px rgba(0,0,0,0.25);animation:spin 4s linear infinite;animation-play-state:paused;cursor:pointer;flex-shrink:0}
 .mp-record.playing{animation-play-state:running}
@@ -297,16 +315,17 @@ html.dark{
 }
 html.dark body{background:var(--bg);color:var(--ink)}
 html.dark .overlay{background:var(--bg)}
-html.dark .nav{background:rgba(42,40,32,0.95);border-color:rgba(255,255,255,0.08);box-shadow:0 8px 32px rgba(0,0,0,0.45)}
-html.dark .nb{color:#9a9070}
-html.dark .nb:hover{color:#F0EDD8;background:rgba(255,255,255,0.07)}
-html.dark .nb.on{color:#4da3f5;background:rgba(77,163,245,0.12)}
-html.dark .ov-bar{background:rgba(42,40,32,0.97);border-bottom-color:var(--line)}
+html.dark .nav{background:rgba(60,50,28,0.95);border-color:rgba(200,170,80,0.18);box-shadow:0 8px 32px rgba(0,0,0,0.5)}
+html.dark .nb{color:#a09060}
+html.dark .nb:hover{color:#F0EDD8;background:rgba(200,170,80,0.12)}
+html.dark .nb.on{color:#e8c76a;background:rgba(200,170,80,0.18)}
+html.dark .ov-bar{background:rgba(60,50,28,0.97);border-bottom-color:rgba(200,170,80,0.18)}
 html.dark .back{color:#4da3f5!important}
 html.dark .dm-btn{background:rgb(60,80,50);box-shadow:0 4px 18px rgba(0,0,0,0.5)}
 html.dark .dm-btn:hover{background:rgb(75,100,62)}
 html.dark .music-player{box-shadow:0 8px 32px rgba(0,0,0,0.4)}
 html.dark .mp-btn.prev,html.dark .mp-btn.next{background:var(--line2);color:var(--ink)}
+html.dark .playcircle{background:rgba(255,255,255,0.95);color:#1d1d1f}
 html.dark .about-h em{color:#e8a830}
 html.dark .skills-box h4,.html.dark .hl-label{color:#e8a830}
 html.dark .skd{background:#e8a830}
@@ -338,7 +357,7 @@ html.dark .hero-name em{color:#e07040}
 
   <div class="photo-strip">
     <div class="photo-card">
-      <img src="photo1.JPG" alt="On location — filming session">
+      <img src="photo1.JPG" alt="With colleagues">
       <span class="photo-caption">On location &mdash; filming session</span>
     </div>
     <div class="photo-card">
@@ -359,11 +378,6 @@ html.dark .hero-name em{color:#e07040}
         <div class="card-icon">&#127916;</div>
         <h3>Multimedia</h3>
         <p>Video, photography, audio, design, and writing &mdash; all in one place.</p>
-      </button>
-      <button class="card cr" onclick="goTo('work')">
-        <div class="card-icon">&#9997;&#65039;</div>
-        <h3>Writing</h3>
-        <p>Articles, essays and profiles that inform, engage, and leave a mark.</p>
       </button>
       <button class="card cp" onclick="goTo('blog')">
         <div class="card-icon">&#128211;</div>
@@ -436,23 +450,6 @@ html.dark .hero-name em{color:#e07040}
   <div class="vgrid" id="vgrid"></div>
   <p class="sec-lbl" style="margin-top:8px">Writing</p>
   <div class="wr-list" id="wr-list"></div>
-
-  <!-- Article overlay -->
-  <div class="overlay" id="ov-article">
-    <div class="ov-bar">
-      <button class="back" onclick="closeOv('article')">&#8592; Back to Work</button>
-      <span class="ov-cat" id="ov-article-cat"></span>
-    </div>
-    <div class="art-body" id="art-content"></div>
-  </div>
-
-  <!-- Video overlay -->
-  <div class="overlay" id="ov-video">
-    <div class="ov-bar">
-      <button class="back" onclick="closeOv('video')">&#8592; Back to Work</button>
-    </div>
-    <div class="vid-wrap" id="vid-content"></div>
-  </div>
 </div>
 
 <!-- ============================================================
@@ -467,14 +464,6 @@ html.dark .hero-name em{color:#e07040}
     </div>
   </div>
   <div class="blog-grid" id="blog-grid"></div>
-
-  <!-- Blog post overlay -->
-  <div class="overlay" id="ov-blog">
-    <div class="ov-bar">
-      <button class="back" onclick="closeOv('blog')">&#8592; Back to Blog</button>
-    </div>
-    <div class="bp-body" id="bp-content"></div>
-  </div>
 </div>
 
 <!-- ============================================================
@@ -509,6 +498,34 @@ html.dark .hero-name em{color:#e07040}
 </div>
 
 <!-- ============================================================
+     OVERLAYS (top-level so display:none on pages never hides them)
+     ============================================================ -->
+<!-- Article overlay -->
+<div class="overlay" id="ov-article">
+  <div class="ov-bar">
+    <button class="back" onclick="closeOv('article')">&#8592; Back to Work</button>
+    <span class="ov-cat" id="ov-article-cat"></span>
+  </div>
+  <div class="art-body" id="art-content"></div>
+</div>
+
+<!-- Video overlay -->
+<div class="overlay" id="ov-video">
+  <div class="ov-bar">
+    <button class="back" onclick="closeOv('video')">&#8592; Back to Work</button>
+  </div>
+  <div class="vid-wrap" id="vid-content"></div>
+</div>
+
+<!-- Blog post overlay -->
+<div class="overlay" id="ov-blog">
+  <div class="ov-bar">
+    <button class="back" onclick="closeOv('blog')">&#8592; Back to Blog</button>
+  </div>
+  <div class="bp-body" id="bp-content"></div>
+</div>
+
+<!-- ============================================================
      PERSISTENT NAV
      ============================================================ -->
 <nav class="nav">
@@ -522,13 +539,15 @@ html.dark .hero-name em{color:#e07040}
 <button class="dm-btn" id="dm-btn" onclick="toggleDark()" aria-label="Toggle dark mode">&#127769;</button>
 
 <!-- FLOATING BACK BUTTON (shown when overlay is open) -->
-<button class="float-back" id="float-back" onclick="floatBack()">&#8592; Back</button>
+<button class="float-back" id="float-back" onclick="floatBack()"><span class="fb-icon">&#8592;</span>Back</button>
 
 <!-- ============================================================
      MUSIC PLAYER
      ============================================================ -->
-<div class="music-player" id="music-player">
+<div class="music-player" id="music-player" style="position:fixed">
+  <button class="mp-collapse-btn" onclick="mpCollapse(event)" title="Collapse player">&#8211;</button>
   <div class="mp-tag">🎵 What I'm Listening to Now!</div>
+  <div class="mp-disclaimer">Music belongs to respective artists &amp; labels. No copyright claimed.</div>
   <div class="mp-record-wrap">
     <div class="mp-record" id="mp-record" onclick="mpToggle()">
       <img id="mp-art" src="cottonwood_cover.jpeg" alt="Album art">
@@ -576,7 +595,7 @@ var VIDEOS=[
 
 var ARTICLES=[
   {id:"rp-open-house-2023",title:"RP Opens Its Doors: Behind the Scenes of Open House 2023",date:"2023",category:"News",catColor:"#B85C38",publication:"Republic Polytechnic",excerpt:"After years of Covid-19 restrictions, Republic Polytechnic welcomed the public back. Here\u2019s the untold story of the students who made it happen.",body:"<p>Republic Polytechnic opened its doors to the public once again to showcase its courses and facilities &mdash; the first time it had done so fully since the start of Covid-19. Each school and Interest Group was given the opportunity to present their strengths to secondary schoolers and graduates, with RP\u2019s own student population driving the effort.</p><p>Performances were staged in the North and South Agoras. Activities including floorball were set up across campus. From the outside, it looked effortless. Behind the scenes, it was anything but.</p><h2>Weeks Before the Doors Opened</h2><p>The RP Open House ran from 5 to 7 January 2023, but preparation had been underway since December at the latest. Nur Surfina Binte Ishak, a member of Campus Art Productions, was called in for performance previews as early as the first week of that month.</p><p>&ldquo;It took about 10 days, including the actual open house days to prepare,&rdquo; she said. &ldquo;It took a lot of hours, especially since there were days that dragged on longer than expected. There were days I ended at 10 pm or later instead of 9 pm.&rdquo;</p><p>How Jing Yi, one of the event\u2019s emcees across all three days, described a similar grind. Preparation involved four to five sessions a day, most weeks. Classes ended at 5, IG ran from 6 to 9 &mdash; and often later. The script was written just days before the event.</p><h2>The Cost of Showing Up</h2><p>Shreeyaa, from RP\u2019s hip-hop interest group StyleGroovaz Crew, said that participating students had to use their December holidays for practice and previews.</p><p>&ldquo;It definitely did affect my studies,&rdquo; she said. &ldquo;In conjunction with open house, we had other showcases to prepare for. On top of finishing schoolwork, I had to study and attend to family commitments. So yes, it did affect both my education and my sleep schedule.&rdquo;</p><h2>Worth It Anyway</h2><p>When asked whether they would do it again, all three said yes, without hesitation. Their answers converged on the same point: it was exhausting, and it was worth it.</p><blockquote><p>We spent a lot of time together, definitely made new friends and new connections with one another.</p></blockquote><p>The performances lasted a few minutes each. The preparation lasted weeks. The memories, it seems, will last considerably longer.</p>"},
-  {id:"emerging-influencers",title:"Navigating Uncharted Waters: A Glimpse into the Lives of Emerging Influencers",date:"2023",category:"Feature",catColor:"#C68B2A",publication:"Republic Polytechnic",excerpt:"Beyond the likes and sponsorships \u2014 two rising Singapore influencers building content around family, finance, and authenticity.",body:"<p>In the vast ocean of influencers, a group of rising stars is carving their niche, challenging the norms and reshaping the landscape. Beyond the glitz and glamour often associated with the influencer industry, these content creators are driven by passion, purpose, and a desire to make a meaningful impact.</p><h2>The Family Man</h2><p>Nuqman Shaifuddin, 32, known online as <em>Dad Bored</em>, stands out with his refreshing focus on family-centric content. His videos capture the essence of family outings, recommending places for families to explore.</p><p>&ldquo;I wanted to create content that not only entertains but also inspires families to bond and create lasting memories together,&rdquo; Nuqman shares.</p><h2>The Financial Guru</h2><p>Meanwhile, Justin Sng has carved out a distinctive corner of the internet where finance meets car culture. &ldquo;I do financial content because it\u2019s something I wish I had access to when I was younger,&rdquo; he explains.</p><h2>What Sets Them Apart</h2><p>What distinguishes Nuqman and Justin in a crowded landscape is their unwavering commitment to authenticity. Neither avoids the harder realities of the job. &ldquo;When I post content, the majority of comments I get are hate comments,&rdquo; Justin says. His response? &ldquo;I can\u2019t be bothered. It\u2019s just free engagement.&rdquo;</p><blockquote><p>Influencing isn\u2019t just about vanity metrics &mdash; it\u2019s about connecting with audiences, sharing valuable insights, and making a positive impact.</p></blockquote>"},
+  {id:"emerging-influencers",title:"Navigating Uncharted Waters: A Glimpse into the Lives of Emerging Influencers",date:"2023",category:"Feature",catColor:"#C68B2A",publication:"Republic Polytechnic",excerpt:"Beyond the likes and sponsorships \u2014 two rising Singapore influencers building content around family, finance, and authenticity.",body:"<p>In the vast ocean of influencers, a group of rising stars is carving their niche, challenging the norms and reshaping the landscape. Beyond the glitz and glamour often associated with the influencer industry, these content creators are driven by passion, purpose, and a desire to make a meaningful impact.</p><p>In a world where influencer marketing is rapidly expanding, projected to reach a staggering US$21.1 billion globally by the end of 2023, the influence wielded by social media personalities cannot be overstated. According to a survey conducted by Rakuten Insight, about 89 per cent of respondents aged 16 to 24 in Singapore follow at least one influencer on social media.</p><p>As influencers continue to shape online content, the spotlight now turns to a new generation breaking free from conventional norms. They are not just chasing followers but are on a mission to provide unique, inspiring, and authentic content that resonates with diverse audiences.</p><h2>The Family Man</h2><img src='influencer_photo_02.jpg' class='pe-img' alt='Nuqman, known as Dad Bored, with his family at a pool'><p class='pe-caption'>Nuqman, known as Dad Bored, captures a candid moment with his family, embodying the essence of his family-focused content. His genuine passion for fostering connections shines through in every post.</p><p>In the bustling world of social media, Nuqman Shaifuddin, 32, also known as Dad Bored, stands out with his refreshing focus on family-centric content. His videos capture the essence of family outings, recommending places for families to explore and fostering connections that transcend the digital realm.</p><p>&ldquo;I wanted to create content that not only entertains but also inspires families to bond and create lasting memories together,&rdquo; Nuqman shares. His passion for bringing families together radiates through every post, as he encourages viewers to prioritise quality time with loved ones.</p><h2>The Financial Guru</h2><img src='influencer_photo_03.jpg' class='pe-img' alt='Justin Sng in front of a white Mercedes'><p class='pe-caption'>Justin Sng strikes a confident pose in front of a sleek Mercedes, blending his passion for finance and cars. Through his content, Justin aims to educate and empower his audience while staying true to his values of authenticity and practicality.</p><p>Meanwhile, in the fast lanes of the financial world, Justin Sng transforms into an influencer with a distinctive voice. Known for his financial content intertwined with his love for cars, Justin&rsquo;s approach to influencing is as pragmatic as his financial advice.</p><p>&ldquo;I do financial content because it&rsquo;s something I wish I had access to when I was younger,&rdquo; Justin states. His desire to bridge the knowledge gap and empower the younger generation with financial literacy adds depth to his influencer persona.</p><h2>What Sets Them Apart</h2><p>What sets Nuqman and Justin apart in the influencer landscape is their unwavering commitment to authenticity and purpose. In an industry often criticised for promoting unrealistic standards and materialism, both offer a refreshing perspective.</p><p>Nuqman&rsquo;s family-focused content stands out for its genuine portrayal of everyday moments &mdash; from shared laughter to spontaneous adventures. Justin&rsquo;s financial content is distinguished by its practicality and accessibility, empowering audiences with tools to achieve financial freedom rather than simply showcasing wealth.</p><h2>Navigating Choppy Waters</h2><p>As Nuqman and Justin navigate the tumultuous seas of the influencer industry, they encounter both storms and sunshine. From relentless criticism to the constant pressure to stay relevant, their journey is fraught with challenges.</p><p>&ldquo;I feel like when I post content, the majority of comments I get are hate comments,&rdquo; said Justin. When asked how he deals with it, he&rsquo;s matter-of-fact: he takes note of valid criticism to improve his content, but for those who hate for the sake of it &mdash; &ldquo;I can&rsquo;t be bothered. It&rsquo;s just free engagement.&rdquo;</p><h2>Redefining &ldquo;Real Jobs&rdquo;</h2><p>In a landscape where the definition of a &ldquo;real job&rdquo; continues to evolve, influencers like Nuqman and Justin are redefining the narrative. Through their unique content and genuine passion, they showcase that influencing isn&rsquo;t just about vanity metrics &mdash; it&rsquo;s about connecting with audiences, sharing valuable insights, and making a positive impact.</p><blockquote><p>Influencing isn\u2019t just about vanity metrics &mdash; it\u2019s about connecting with audiences, sharing valuable insights, and making a positive impact.</p></blockquote>"},
   {id:"tapestry-of-faith",title:"A Tapestry of Faith and Heritage in Singapore\u2019s Mosques",date:"2023",category:"Photo Essay",catColor:"#2E8B7A",publication:"Republic Polytechnic",excerpt:"Exploring the intertwining of spiritual devotion and cultural heritage through Singapore\u2019s mosques \u2014 their architectural diversity, historical significance, and the communities they nurture.",body:"<p class='pe-intro'>Exploring the intertwining of spiritual devotion and cultural heritage through Singapore\u2019s mosques, highlighting their architectural diversity, historical significance, and the communities they nurture.</p><div class='pe-section'><div class='pe-num'>01</div><h2>Masjid Sultan, Kampong Gelam</h2><img src='mosque_01.jpg' class='pe-img' alt='Masjid Sultan exterior'><p class='pe-caption'>Standing as the jewel of Kampong Gelam since 1824, Masjid Sultan is a beacon of Islamic heritage in Singapore. Its majestic golden dome reflects the unity of the Muslim community and the rich history of Arab traders and Malay royalty who once thrived in the area.</p></div><div class='pe-section'><div class='pe-num'>02</div><h2>Community at Masjid Sultan</h2><img src='mosque_02.jpg' class='pe-img' alt='Inside Masjid Sultan'><p class='pe-caption'>A meeting point for worshippers and visitors alike, Masjid Sultan transcends its role as a mosque to become a cultural and social hub. The bustle of Bussorah Street complements the serene prayers within its walls.</p></div><div class='pe-section'><div class='pe-num'>03</div><h2>Masjid Ar-Raudah</h2><img src='mosque_03.jpg' class='pe-img' alt='Masjid Ar-Raudah interior'><p class='pe-caption'>Intricacy meets spirituality. The modern design of Masjid Ar-Raudah, with its elegant latticework, embodies the seamless blend of contemporary architecture and traditional Islamic principles.</p></div><div class='pe-section'><div class='pe-num'>04</div><h2>Masjid Ar-Raudah</h2><img src='mosque_04.jpg' class='pe-img' alt='Masjid Ar-Raudah exterior'><p class='pe-caption'>A path to tranquility. Nestled in the heart of Bukit Batok, Masjid Ar-Raudah invites worshippers and passersby alike to pause, reflect, and embrace serenity amidst urban life.</p></div><div class='pe-section'><div class='pe-num'>05</div><h2>Hajjah Fatimah Mosque &amp; Leaning Minaret</h2><img src='mosque_05.jpg' class='pe-img' alt='Hajjah Fatimah Mosque exterior'><p class='pe-caption'>Nicknamed &ldquo;Singapore\u2019s Leaning Tower,&rdquo; Hajjah Fatimah Mosque\u2019s unique minaret tilts with time, a testament to the enduring legacy of its founder, a wealthy Malay businesswoman who exemplified resilience and faith.</p></div><div class='pe-section'><div class='pe-num'>06</div><h2>Hajjah Fatimah Mosque</h2><img src='mosque_06.jpg' class='pe-img' alt='Hajjah Fatimah Mosque facade'><p class='pe-caption'>Ornate and timeless. The mosque\u2019s floral carvings and colonial-inspired details celebrate Singapore\u2019s multicultural identity, blending Malay, Chinese, and European design elements.</p></div><div class='pe-section'><div class='pe-num'>07</div><h2>Masjid Jamae (Chulia Mosque)</h2><img src='mosque_07.jpg' class='pe-img' alt='Masjid Jamae interior dome'><p class='pe-caption'>A gateway to the past. Built by Tamil Muslim merchants in 1826, Masjid Jamae\u2019s South Indian Islamic design reflects the vibrant history of early migrants shaping Singapore\u2019s religious landscape.</p></div><div class='pe-section'><div class='pe-num'>08</div><h2>Masjid Jamae on South Bridge Road</h2><img src='mosque_08.jpg' class='pe-img' alt='Masjid Jamae exterior street view'><p class='pe-caption'>Where history meets modernity. Nestled in the bustling streets of Chinatown, Masjid Jamae continues to be a spiritual anchor for the community, offering peace amidst the city\u2019s vibrance.</p></div><div class='pe-section'><div class='pe-num'>09</div><h2>Reflection Inside a Mosque</h2><img src='mosque_09.jpg' class='pe-img' alt='Mosque prayer hall interior'><p class='pe-caption'>Moments of quiet devotion. The simplicity of prayer mats and Qur\u2019an stands inside the mosque symbolises the unchanging essence of worship through generations.</p></div><div class='pe-section'><div class='pe-num'>10</div><h2>Sultan Mosque at Sunset</h2><img src='mosque_10.jpg' class='pe-img' alt='Masjid Sultan up close with visitors'><p class='pe-caption'>A golden glow for a golden legacy. As the sun sets over Kampong Gelam, Sultan Mosque stands as a radiant reminder of Singapore\u2019s enduring spirit of faith, community, and heritage.</p></div>"}
 ];
 
@@ -696,7 +715,11 @@ function openBlog(id){
 }
 
 /* ----------------------------------------------------------
-   OVERLAYS
+   OVERLAYS — React Router-style history management
+   Mirrors how React Router v6 works:
+   • openOv  → history.pushState  (adds entry so back gesture works)
+   • popstate → closeOv           (browser/swipe-back fires this)
+   • floatBack → history.back()   (triggers popstate, keeps stack clean)
    ---------------------------------------------------------- */
 var _activeOv=null;
 function openOv(type){
@@ -704,6 +727,7 @@ function openOv(type){
   if(el){el.classList.add("open");el.scrollTop=0;}
   _activeOv=type;
   document.getElementById("float-back").classList.add("visible");
+  history.pushState({overlay:type},"");
 }
 function closeOv(type){
   var el=document.getElementById("ov-"+type);
@@ -713,10 +737,16 @@ function closeOv(type){
   document.getElementById("float-back").classList.remove("visible");
 }
 function floatBack(){
-  if(_activeOv)closeOv(_activeOv);
+  // Use history.back() so the pushState entry is consumed — keeps
+  // browser forward/back stack clean, same as React Router's navigate(-1)
+  if(_activeOv) history.back();
 }
+// Fires when browser back button, swipe-back, or floatBack() is used
+window.addEventListener("popstate",function(e){
+  if(_activeOv) closeOv(_activeOv);
+});
 document.addEventListener("keydown",function(e){
-  if(e.key==="Escape"){if(_activeOv)closeOv(_activeOv);}
+  if(e.key==="Escape"&&_activeOv) history.back();
 });
 
 /* ----------------------------------------------------------
@@ -724,7 +754,9 @@ document.addEventListener("keydown",function(e){
    ---------------------------------------------------------- */
 var MP_TRACKS=[
   {title:"Hospital Beach",artist:"Cottonwood Firing Squad",src:"hospital_beach.mp3",art:"cottonwood_cover.jpeg"},
-  {title:"Loving Machine",artist:"TV Girl",src:"Loving_Machine.mp3",art:"tvgirl_cover.webp"}
+  {title:"Loving Machine",artist:"TV Girl",src:"Loving_Machine.mp3",art:"tvgirl_cover.webp"},
+  {title:"Image",artist:"Magdalena Bay",src:"magdalena_bay_image.mp3",art:"magdalena_bay_cover.webp"},
+  {title:"iPod Touch",artist:"Ninajirachi",src:"ninajirachi_ipod_touch.mp3",art:"ninajirachi_cover.jpeg"}
 ];
 var mpAudio=document.getElementById("mp-audio");
 var mpRecord=document.getElementById("mp-record");
@@ -778,11 +810,26 @@ mpVolSlider.addEventListener("change",function(){
   mpAudio.volume=this.value/100;
 });
 
+// Collapse / expand
+var mpCollapsed=false;
+function mpCollapse(e){
+  e.stopPropagation();
+  mpCollapsed=true;
+  document.getElementById("music-player").classList.add("mp-collapsed");
+}
+function mpExpand(){
+  if(mpCollapsed){
+    mpCollapsed=false;
+    document.getElementById("music-player").classList.remove("mp-collapsed");
+  }
+}
+
 // Draggable
 (function(){
   var el=document.getElementById("music-player");
   var dragging=false,startX,startY,origRight,origBottom;
   el.addEventListener("mousedown",function(e){
+    if(mpCollapsed){mpExpand();return;}
     if(e.target.closest("button")||e.target.closest(".mp-progress")||e.target.closest(".mp-vol")||e.target===mpRecord)return;
     dragging=true;startX=e.clientX;startY=e.clientY;
     var rect=el.getBoundingClientRect();
@@ -790,6 +837,7 @@ mpVolSlider.addEventListener("change",function(){
     el.style.transition="none";e.preventDefault();
   });
   el.addEventListener("touchstart",function(e){
+    if(mpCollapsed){mpExpand();return;}
     if(e.target.closest("button")||e.target.closest(".mp-progress")||e.target.closest(".mp-vol")||e.target===mpRecord)return;
     var t=e.touches[0];dragging=true;startX=t.clientX;startY=t.clientY;
     var rect=el.getBoundingClientRect();
@@ -814,6 +862,8 @@ mpVolSlider.addEventListener("change",function(){
 })();
 
 mpLoad(0,false);
+// Auto-collapse on small screens
+if(window.innerWidth < 600){mpCollapse({stopPropagation:function(){}});}
 
 /* ----------------------------------------------------------
    DARK MODE
@@ -831,6 +881,14 @@ function toggleDark(){applyTheme(!document.documentElement.classList.contains("d
   var s=null;try{s=localStorage.getItem("theme");}catch(e){}
   applyTheme(s==="dark");
 })();
+
+// Measure nav to position back button flush beside it
+function updateNavHalf(){
+  var nav=document.querySelector(".nav");
+  if(nav){document.documentElement.style.setProperty("--nav-half",(nav.offsetWidth/2)+"px");}
+}
+updateNavHalf();
+window.addEventListener("resize",updateNavHalf);
 
 </script>
 </body>

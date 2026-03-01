@@ -25,16 +25,56 @@ html{scroll-behavior:smooth;color-scheme:light}
 body{font-family:var(--sans);background:var(--bg);color:var(--ink);padding-bottom:110px;overflow-x:hidden;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-rendering:optimizeLegibility}
 
 /* ============================================================
-   PAGE SYSTEM
+   PAGE SYSTEM — with crossfade transitions
    ============================================================ */
-.page{display:none}
-.page.active{display:block}
+.page{display:none;opacity:0}
+.page.active{display:block;animation:pageFadeIn 0.28s ease forwards}
+@keyframes pageFadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 
 /* ============================================================
    OVERLAYS
    ============================================================ */
-.overlay{visibility:hidden;pointer-events:none;position:fixed;inset:0;bottom:0;background:var(--bg);z-index:500;overflow-y:auto;padding-bottom:110px}
-.overlay.open{visibility:visible;pointer-events:auto}
+.overlay{visibility:hidden;pointer-events:none;position:fixed;inset:0;background:var(--bg);z-index:500;overflow-y:auto;padding-bottom:110px;transition:opacity 0.22s ease}
+.overlay.open{visibility:visible;pointer-events:auto;animation:pageFadeIn 0.22s ease forwards}
+
+/* ============================================================
+   SCROLL PROGRESS BAR (inside overlays)
+   ============================================================ */
+.scroll-progress{position:sticky;top:0;left:0;height:3px;background:linear-gradient(90deg,#C68B2A,#2E8B7A);width:0%;z-index:20;transition:width 0.08s linear;border-radius:0 0 3px 0;margin-bottom:-3px}
+/* Back to top — left side so it doesn't clash with float-back on the right */
+.back-to-top{position:fixed;bottom:90px;left:20px;z-index:10001;width:38px;height:38px;border-radius:50%;background:var(--ink);color:var(--bg);border:none;cursor:pointer;font-size:15px;display:none;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(0,0,0,0.2);transition:transform 0.22s cubic-bezier(0.34,1.56,0.64,1),opacity 0.18s,background 0.18s;opacity:0}
+.back-to-top.visible{display:flex;opacity:1}
+.back-to-top:hover{transform:translateY(-3px) scale(1.1)}
+.back-to-top:active{transform:scale(0.9)!important}
+
+/* ============================================================
+   IMAGE LIGHTBOX
+   ============================================================ */
+.lightbox{position:fixed;inset:0;z-index:20000;background:rgba(0,0,0,0.92);display:none;align-items:center;justify-content:center;cursor:zoom-out;padding:20px}
+.lightbox.open{display:flex;animation:lbFadeIn 0.2s ease forwards}
+@keyframes lbFadeIn{from{opacity:0}to{opacity:1}}
+.lightbox img{max-width:100%;max-height:90vh;border-radius:10px;object-fit:contain;box-shadow:0 20px 60px rgba(0,0,0,0.5);cursor:default;animation:lbZoom 0.25s cubic-bezier(0.34,1.56,0.64,1) forwards}
+@keyframes lbZoom{from{transform:scale(0.88)}to{transform:scale(1)}}
+.lightbox-close{position:absolute;top:20px;right:24px;background:none;border:none;color:#fff;font-size:28px;cursor:pointer;opacity:0.7;transition:opacity 0.15s,transform 0.15s}
+.lightbox-close:hover{opacity:1;transform:scale(1.15)}
+.lightbox-caption{position:absolute;bottom:28px;left:0;right:0;text-align:center;color:rgba(255,255,255,0.7);font-size:13px;font-family:var(--sans);pointer-events:none}
+
+/* ============================================================
+   READING TIME BADGE
+   ============================================================ */
+.read-time{font-size:11px;font-weight:500;color:var(--muted);margin-left:10px;padding:2px 8px;background:var(--line);border-radius:980px;white-space:nowrap}
+
+/* ============================================================
+   REDUCED MOTION
+   ============================================================ */
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:0.01ms!important;animation-iteration-count:1!important;transition-duration:0.01ms!important}
+  .page.active{animation:none;opacity:1}
+  .overlay.open{animation:none}
+  .lightbox.open{animation:none}
+  .lightbox img{animation:none}
+  .ipod-collapsed-art img{animation:none}
+}
 
 /* ============================================================
    NAV BAR
@@ -84,6 +124,7 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);padding-botto
 .photo-card:hover img{transform:scale(1.04)}
 .photo-caption{position:absolute;bottom:0;left:0;right:0;padding:16px 20px;background:linear-gradient(transparent,rgba(0,0,0,0.55));color:#fff;font-size:12px;font-weight:500;letter-spacing:0.04em;opacity:0;transition:opacity 0.25s}
 .photo-card:hover .photo-caption{opacity:1}
+@media(hover:none){.photo-caption{opacity:1}}
 .home-cards{padding:0 28px 64px;max-width:1080px;margin:0 auto}
 .cl{font-size:12px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);text-align:center;margin-bottom:36px}
 .cg{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
@@ -195,8 +236,8 @@ html.dark .about-text .hl-teal{color:#3cb89e}
 .pe-section{margin-bottom:52px}
 .pe-num{font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#2E8B7A;margin-bottom:6px}
 .pe-section h2{font-family:var(--serif);font-size:22px;font-weight:700;color:var(--ink);margin-bottom:14px}
-.pe-img{width:100%;border-radius:14px;display:block;margin:0 0 12px;box-shadow:0 8px 32px rgba(0,0,0,0.13);transition:transform 0.4s cubic-bezier(0.32,0.72,0,1)}
-.pe-img:hover{transform:scale(1.01)}
+.pe-img{width:100%;border-radius:14px;display:block;margin:0 0 12px;box-shadow:0 8px 32px rgba(0,0,0,0.13);transition:transform 0.4s cubic-bezier(0.32,0.72,0,1);cursor:zoom-in}
+.pe-img:hover{transform:scale(1.015)}
 .pe-caption{font-size:13px;color:var(--mid);line-height:1.6;font-style:italic;text-align:center;padding:0 8px}
 
 /* ============================================================
@@ -220,6 +261,10 @@ html.dark .about-text .hl-teal{color:#3cb89e}
 .bc-foot{display:flex;align-items:center;justify-content:space-between}
 .bc-tag{font-size:11px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;padding:4px 12px;border-radius:980px}
 .bc-arr{font-size:18px;color:var(--muted);transition:color 0.2s,transform 0.2s}
+.bc-soon{opacity:0.5;cursor:default;pointer-events:none}
+.bc-soon:hover{transform:none;box-shadow:none}
+.bc-soon-title{color:var(--mid);font-style:italic}
+.bc-soon-tag{color:var(--muted);background:var(--line)!important;font-style:normal}
 .bc:hover .bc-arr{color:var(--purple);transform:translateX(4px)}
 .bp-body{max-width:680px;margin:0 auto;padding:56px 28px 80px}
 .bp-tag{font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--purple);margin-bottom:16px}
@@ -272,49 +317,123 @@ html.dark .float-back:hover{color:#F0EDD8;background:rgba(255,255,255,0.08)}
 /* ============================================================
    MUSIC PLAYER
    ============================================================ */
-.music-player{position:fixed;bottom:90px;right:20px;z-index:9997;width:220px;background:var(--card);border:1px solid var(--line);border-radius:20px;padding:14px;box-shadow:0 8px 32px rgba(0,0,0,0.13);user-select:none;cursor:grab;transition:width 0.3s cubic-bezier(0.32,0.72,0,1)}
+/* ── iPod Touch player ─────────────────────────────────────── */
+.music-player{
+  position:fixed;bottom:90px;right:20px;z-index:9997;
+  width:148px;
+  background:linear-gradient(175deg,#e8e8e8 0%,#d0d0d0 45%,#bebebe 100%);
+  border-radius:26px;
+  padding:0 0 14px;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.85),
+    inset 0 -1px 0 rgba(0,0,0,0.1),
+    0 0 0 1px rgba(0,0,0,0.22),
+    0 16px 48px rgba(0,0,0,0.38),
+    0 4px 12px rgba(0,0,0,0.18);
+  user-select:none;cursor:grab;
+  transition:box-shadow 0.2s;
+  min-width:unset;max-width:unset;
+  font-family:-apple-system,sans-serif;
+}
 .music-player:active{cursor:grabbing}
-.music-player:hover{box-shadow:0 14px 40px rgba(0,0,0,0.18)}
-/* Collapsed state */
-.music-player.mp-collapsed{width:52px;padding:8px;border-radius:50%;overflow:hidden;cursor:pointer}
-.music-player.mp-collapsed .mp-tag,
-.music-player.mp-collapsed .mp-disclaimer,
-.music-player.mp-collapsed .mp-info,
-.music-player.mp-collapsed .mp-controls,
-.music-player.mp-collapsed .mp-progress,
-.music-player.mp-collapsed .mp-time,
-.music-player.mp-collapsed .mp-vol{display:none}
-.music-player.mp-collapsed .mp-record-wrap{margin-bottom:0}
-.music-player.mp-collapsed .mp-record{width:36px;height:36px}
-.mp-collapse-btn{position:absolute;top:8px;right:10px;background:none;border:none;cursor:pointer;font-size:14px;color:var(--muted);padding:2px 4px;line-height:1;border-radius:4px;transition:color 0.15s,transform 0.2s}
-.mp-collapse-btn:hover{color:var(--ink);transform:scale(1.2)}
-.music-player.mp-collapsed .mp-collapse-btn{display:none}
-.mp-tag{font-size:9px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);text-align:center;margin-bottom:4px;padding-right:16px}
-.mp-disclaimer{font-size:8px;color:var(--muted);text-align:center;line-height:1.4;margin-bottom:10px;opacity:0.7}
-.mp-record-wrap{display:flex;justify-content:center;margin-bottom:12px}
-.mp-record{width:80px;height:80px;border-radius:50%;position:relative;overflow:hidden;box-shadow:0 4px 16px rgba(0,0,0,0.25);animation:spin 4s linear infinite;animation-play-state:paused;cursor:pointer;flex-shrink:0}
-.mp-record.playing{animation-play-state:running}
+.music-player:hover{box-shadow:inset 0 1px 0 rgba(255,255,255,0.85),inset 0 -1px 0 rgba(0,0,0,0.1),0 0 0 1px rgba(0,0,0,0.22),0 22px 60px rgba(0,0,0,0.46),0 6px 16px rgba(0,0,0,0.24)}
+/* top strip with iPod wordmark + minimise */
+.ipod-topbar{display:flex;align-items:center;justify-content:space-between;padding:9px 11px 5px;cursor:grab}
+.ipod-wordmark{font-size:11px;font-weight:700;letter-spacing:0.01em;color:rgba(0,0,0,0.42);font-family:-apple-system,sans-serif}
+.mp-collapse-btn{background:none;border:none;cursor:pointer;color:rgba(0,0,0,0.3);padding:3px;display:flex;align-items:center;justify-content:center;border-radius:4px;transition:color 0.15s}
+.mp-collapse-btn:hover{color:rgba(0,0,0,0.6)}
+.mp-collapse-btn svg{width:13px;height:13px;display:block}
+/* screen bezel */
+.ipod-bezel{margin:0 9px 8px;background:#0a0a0a;border-radius:10px;padding:5px;box-shadow:inset 0 2px 8px rgba(0,0,0,0.8),inset 0 0 0 1px rgba(255,255,255,0.06)}
+/* screen */
+.ipod-screen{position:relative;border-radius:6px;overflow:hidden;aspect-ratio:1/1;background:#000}
+.ipod-screen-img{width:100%;height:100%;object-fit:cover;display:block;transition:opacity 0.35s}
+/* glare */
+.ipod-screen::before{content:"";position:absolute;inset:0;background:linear-gradient(160deg,rgba(255,255,255,0.13) 0%,transparent 55%);z-index:2;pointer-events:none;border-radius:6px}
+/* info overlay at bottom of screen */
+.ipod-screen-info{position:absolute;bottom:0;left:0;right:0;z-index:3;padding:18px 7px 6px;background:linear-gradient(transparent,rgba(0,0,0,0.78));pointer-events:none}
+.ipod-screen-title{font-size:9.5px;font-weight:700;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.25}
+.ipod-screen-artist{font-size:7.5px;color:rgba(255,255,255,0.58);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:1px}
+/* progress row */
+.ipod-prog-row{padding:0 11px 2px}
+.ipod-prog-track{height:2px;background:rgba(0,0,0,0.18);border-radius:99px;cursor:pointer;box-shadow:inset 0 1px 0 rgba(255,255,255,0.45)}
+.ipod-prog-fill{height:100%;width:0%;background:linear-gradient(90deg,#555,#888);border-radius:99px;transition:width 0.5s linear;pointer-events:none}
+.ipod-time-row{display:flex;justify-content:space-between;font-size:7px;color:rgba(0,0,0,0.36);padding:2px 1px 0;font-variant-numeric:tabular-nums}
+/* click wheel */
+.ipod-wheel-wrap{display:flex;justify-content:center;padding:4px 0 0}
+.ipod-wheel{
+  position:relative;width:106px;height:106px;border-radius:50%;
+  background:radial-gradient(circle at 38% 32%,#ddd 0%,#bbb 45%,#a8a8a8 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.7),
+    inset 0 -1px 0 rgba(0,0,0,0.12),
+    0 0 0 1px rgba(0,0,0,0.14),
+    0 3px 10px rgba(0,0,0,0.22);
+  cursor:default;flex-shrink:0;
+}
+/* quadrant hit areas */
+.ipod-q{position:absolute;border:none;background:none;cursor:pointer;border-radius:inherit;transition:background 0.08s}
+.ipod-q:active{background:rgba(0,0,0,0.07)}
+.ipod-q-top{top:0;left:15%;width:70%;height:38%;border-radius:50% 50% 0 0/60% 60% 0 0}
+.ipod-q-bottom{bottom:0;left:15%;width:70%;height:38%;border-radius:0 0 50% 50%/0 0 60% 60%}
+.ipod-q-left{top:15%;left:0;width:38%;height:70%;border-radius:50% 0 0 50%/60% 0 0 60%}
+.ipod-q-right{top:15%;right:0;width:38%;height:70%;border-radius:0 50% 50% 0/0 60% 60% 0}
+/* wheel labels */
+.ipod-wlbl{position:absolute;font-size:8.5px;color:rgba(0,0,0,0.38);font-weight:600;pointer-events:none;line-height:1;display:flex;align-items:center;justify-content:center}
+.ipod-wlbl.wl-top{top:7px;left:50%;transform:translateX(-50%)}
+.ipod-wlbl.wl-bottom{bottom:7px;left:50%;transform:translateX(-50%)}
+.ipod-wlbl.wl-left{left:7px;top:50%;transform:translateY(-50%)}
+.ipod-wlbl.wl-right{right:7px;top:50%;transform:translateY(-50%)}
+/* centre button */
+.ipod-center{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  width:40px;height:40px;border-radius:50%;border:none;cursor:pointer;
+  background:radial-gradient(circle at 38% 34%,#e0e0e0,#c4c4c4 55%,#b0b0b0);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,0.6),inset 0 -1px 0 rgba(0,0,0,0.1),0 0 0 1px rgba(0,0,0,0.14),0 2px 6px rgba(0,0,0,0.2);
+  z-index:2;transition:transform 0.1s,box-shadow 0.1s;
+}
+.ipod-center:active{transform:translate(-50%,-50%) scale(0.93);box-shadow:inset 0 1px 0 rgba(255,255,255,0.4),0 0 0 1px rgba(0,0,0,0.14),0 1px 3px rgba(0,0,0,0.2)}
+/* play icon drawn in center */
+.ipod-center::after{content:"▶";font-size:11px;color:rgba(0,0,0,0.38);position:absolute;top:50%;left:52%;transform:translate(-50%,-50%)}
+.ipod-center.is-playing::after{content:"⏸";font-size:10px}
+/* copyright note */
+.mp-disclaimer{font-size:6.5px;color:rgba(0,0,0,0.25);text-align:center;padding:7px 10px 0;line-height:1.4}
+/* ── collapsed: round disc ─── */
+.music-player.mp-collapsed{
+  width:64px!important;height:64px;padding:0;border-radius:50%;
+  overflow:hidden;cursor:pointer;
+  background:radial-gradient(circle at 38% 34%,#ddd,#c0c0c0 55%,#aaa);
+}
+.music-player.mp-collapsed .ipod-topbar,
+.music-player.mp-collapsed .ipod-bezel,
+.music-player.mp-collapsed .ipod-prog-row,
+.music-player.mp-collapsed .ipod-wheel-wrap,
+.music-player.mp-collapsed .mp-disclaimer{display:none}
+.music-player.mp-collapsed .ipod-collapsed-art{display:flex}
+.music-player.mp-collapsed,.music-player.mp-collapsed:active{cursor:pointer}
+/* collapsed art */
+.ipod-collapsed-art{display:none;width:64px;height:64px;border-radius:50%;overflow:hidden}
+.ipod-collapsed-art img{width:100%;height:100%;object-fit:cover;display:block;animation:spin 6s linear infinite;animation-play-state:paused}
+.ipod-collapsed-art.is-playing img{animation-play-state:running}
 @keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
-.mp-record img{width:100%;height:100%;object-fit:cover;display:block}
-.mp-record::after{content:"";position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle at 50% 50%,rgba(0,0,0,0.55) 18%,transparent 19%,transparent 45%,rgba(0,0,0,0.18) 46%,rgba(0,0,0,0.18) 100%)}
-.mp-spindle{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:8px;height:8px;background:#fff;border-radius:50%;box-shadow:0 0 0 2px rgba(0,0,0,0.3);z-index:2;pointer-events:none}
-.mp-info{text-align:center;margin-bottom:10px}
-.mp-title{font-family:var(--serif);font-size:13px;font-weight:700;color:var(--ink);line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.mp-artist{font-size:10px;color:var(--muted);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.mp-controls{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:8px}
-.mp-btn{width:32px;height:32px;border-radius:50%;border:none;background:var(--ink);color:var(--bg);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:12px;transition:transform 0.18s cubic-bezier(0.34,1.56,0.64,1);flex-shrink:0}
-.mp-btn:hover{transform:scale(1.12)}
-.mp-btn:active{transform:scale(0.9)!important}
-.mp-btn.prev,.mp-btn.next{width:26px;height:26px;font-size:10px;background:var(--line2);color:var(--ink)}
-.mp-progress{width:100%;height:3px;background:var(--line);border-radius:99px;overflow:hidden;cursor:pointer;margin-bottom:6px}
-.mp-bar{height:100%;background:var(--ink);border-radius:99px;width:0%;transition:width 0.5s linear}
-.mp-time{display:flex;justify-content:space-between;font-size:9px;color:var(--muted)}
-.mp-vol{display:flex;align-items:center;gap:7px;margin-top:8px}
-.mp-vol-icon{font-size:11px;color:var(--muted);flex-shrink:0;line-height:1}
-.mp-vol-slider{flex:1;-webkit-appearance:none;appearance:none;height:3px;border-radius:99px;background:var(--line2);outline:none;cursor:pointer;border:none}
-.mp-vol-slider::-webkit-slider-thumb{-webkit-appearance:none;width:13px;height:13px;border-radius:50%;background:var(--ink);cursor:pointer;transition:transform 0.15s;box-shadow:0 1px 4px rgba(0,0,0,0.25)}
-.mp-vol-slider::-moz-range-thumb{width:13px;height:13px;border-radius:50%;background:var(--ink);border:none;cursor:pointer}
-.mp-vol-slider:hover::-webkit-slider-thumb{transform:scale(1.3)}
+/* progress bar used for seeking */
+.ipod-prog-track{cursor:pointer}
+/* ── dark mode ─── */
+html.dark .music-player{background:linear-gradient(175deg,#2c2c2c 0%,#1e1e1e 45%,#161616 100%);box-shadow:inset 0 1px 0 rgba(255,255,255,0.08),inset 0 -1px 0 rgba(0,0,0,0.4),0 0 0 1px rgba(0,0,0,0.6),0 16px 48px rgba(0,0,0,0.7),0 4px 12px rgba(0,0,0,0.4)}
+html.dark .music-player:hover{box-shadow:inset 0 1px 0 rgba(255,255,255,0.08),inset 0 -1px 0 rgba(0,0,0,0.4),0 0 0 1px rgba(0,0,0,0.6),0 22px 60px rgba(0,0,0,0.8),0 6px 16px rgba(0,0,0,0.5)}
+html.dark .ipod-bezel{background:#050505}
+html.dark .ipod-wordmark{color:rgba(255,255,255,0.3)}
+html.dark .mp-collapse-btn{color:rgba(255,255,255,0.25)}
+html.dark .mp-collapse-btn:hover{color:rgba(255,255,255,0.6)}
+html.dark .ipod-wheel{background:radial-gradient(circle at 38% 32%,#333 0%,#222 45%,#1a1a1a 100%);box-shadow:inset 0 1px 0 rgba(255,255,255,0.07),inset 0 -1px 0 rgba(0,0,0,0.4),0 0 0 1px rgba(0,0,0,0.5),0 3px 10px rgba(0,0,0,0.4)}
+html.dark .ipod-center{background:radial-gradient(circle at 38% 34%,#333,#242424 55%,#1c1c1c);box-shadow:inset 0 1px 0 rgba(255,255,255,0.07),0 0 0 1px rgba(0,0,0,0.4),0 2px 6px rgba(0,0,0,0.4)}
+html.dark .ipod-center::after{color:rgba(255,255,255,0.25)}
+html.dark .ipod-wlbl{color:rgba(255,255,255,0.2)}
+html.dark .ipod-prog-track{background:rgba(255,255,255,0.1);box-shadow:none}
+html.dark .ipod-prog-fill{background:linear-gradient(90deg,#666,#999)}
+html.dark .ipod-time-row{color:rgba(255,255,255,0.25)}
+html.dark .mp-disclaimer{color:rgba(255,255,255,0.15)}
+html.dark .music-player.mp-collapsed{background:radial-gradient(circle at 38% 34%,#333,#222 55%,#1a1a1a)}
 
 /* ============================================================
    DARK MODE
@@ -370,11 +489,11 @@ html.dark .hero-name em{color:#e07040}
   <div class="photo-strip">
     <div class="photo-card">
       <img src="photo1.JPG" alt="With colleagues">
-      <span class="photo-caption">On location &mdash; filming session</span>
+      <span class="photo-caption">With colleagues</span>
     </div>
     <div class="photo-card">
-      <img src="photo2.JPG" alt="At the Istana, Singapore">
-      <span class="photo-caption">At the Istana, Singapore</span>
+      <img src="photo2.JPG" alt="Me in front of the Istana">
+      <span class="photo-caption">Me in front of the Istana</span>
     </div>
   </div>
 
@@ -509,7 +628,7 @@ html.dark .hero-name em{color:#e07040}
         <div class="sc-arr">&#8594;</div>
       </a>
     </div>
-    <p class="contact-foot"><span>&#169; 2025 Ilyas Muzaffar</span> &nbsp;&middot;&nbsp; <span>Based in Singapore</span></p>
+    <p class="contact-foot"><span>&#169; 2026 Ilyas Muzaffar</span> &nbsp;&middot;&nbsp; <span>Based in Singapore</span></p>
   </div>
 </div>
 
@@ -518,6 +637,7 @@ html.dark .hero-name em{color:#e07040}
      ============================================================ -->
 <!-- Article overlay -->
 <div class="overlay" id="ov-article">
+  <div class="scroll-progress" id="sp-article"></div>
   <div class="ov-bar">
     <button class="back" onclick="closeOv('article')">&#8592; Back to Work</button>
     <span class="ov-cat" id="ov-article-cat"></span>
@@ -535,11 +655,22 @@ html.dark .hero-name em{color:#e07040}
 
 <!-- Blog post overlay -->
 <div class="overlay" id="ov-blog">
+  <div class="scroll-progress" id="sp-blog"></div>
   <div class="ov-bar">
     <button class="back" onclick="closeOv('blog')">&#8592; Back to Blog</button>
   </div>
   <div class="bp-body" id="bp-content"></div>
 </div>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <button class="lightbox-close" onclick="closeLightbox()" aria-label="Close">&#10005;</button>
+  <img id="lightbox-img" src="" alt="">
+  <div class="lightbox-caption" id="lightbox-caption"></div>
+</div>
+
+<!-- BACK TO TOP -->
+<button class="back-to-top" id="back-to-top" onclick="backToTop()" aria-label="Back to top">&#8593;</button>
 
 <!-- ============================================================
      PERSISTENT NAV
@@ -558,39 +689,61 @@ html.dark .hero-name em{color:#e07040}
 <button class="float-back" id="float-back" onclick="floatBack()"><span class="fb-icon">&#8592;</span>Back</button>
 
 <!-- ============================================================
-     MUSIC PLAYER
+     MUSIC PLAYER — iPod Touch
      ============================================================ -->
 <div class="music-player" id="music-player" style="position:fixed">
-  <button class="mp-collapse-btn" onclick="mpCollapse(event)" title="Collapse player">&#8211;</button>
-  <div class="mp-tag">🎵 What I'm Listening to Now!</div>
-  <div class="mp-disclaimer">Music belongs to respective artists &amp; labels. No copyright claimed.</div>
-  <div class="mp-record-wrap">
-    <div class="mp-record" id="mp-record" onclick="mpToggle()">
-      <img id="mp-art" src="cottonwood_cover.jpeg" alt="Album art">
-      <div class="mp-spindle"></div>
+
+  <!-- Collapsed state: spinning album art -->
+  <div class="ipod-collapsed-art" id="ipod-collapsed-art" onclick="mpExpand()">
+    <img id="mp-art-sm" src="ninajirachi_cover.jpeg" alt="Album art">
+  </div>
+
+  <!-- Top bar: wordmark + minimise -->
+  <div class="ipod-topbar">
+    <span class="ipod-wordmark">iPod</span>
+    <button class="mp-collapse-btn" onclick="mpCollapse(event)" title="Minimise">
+      <svg viewBox="0 0 14 14" fill="none"><path d="M2 7h10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+    </button>
+  </div>
+
+  <!-- Screen -->
+  <div class="ipod-bezel">
+    <div class="ipod-screen">
+      <img class="ipod-screen-img" id="mp-art" src="ninajirachi_cover.jpeg" alt="Album art">
+      <div class="ipod-screen-info">
+        <div class="ipod-screen-title" id="mp-title">iPod Touch</div>
+        <div class="ipod-screen-artist" id="mp-artist">Ninajirachi</div>
+      </div>
     </div>
   </div>
-  <div class="mp-info">
-    <div class="mp-title" id="mp-title">Hospital Beach</div>
-    <div class="mp-artist" id="mp-artist">Cottonwood Firing Squad</div>
+
+  <!-- Progress -->
+  <div class="ipod-prog-row" id="mp-progress" onclick="mpSeek(event)">
+    <div class="ipod-prog-track">
+      <div class="ipod-prog-fill" id="mp-bar"></div>
+    </div>
+    <div class="ipod-time-row">
+      <span id="mp-cur">0:00</span>
+      <span id="mp-dur">0:00</span>
+    </div>
   </div>
-  <div class="mp-controls">
-    <button class="mp-btn prev" onclick="mpPrev()" aria-label="Previous">&#9664;&#9664;</button>
-    <button class="mp-btn" id="mp-play-btn" onclick="mpToggle()" aria-label="Play/Pause">&#9654;</button>
-    <button class="mp-btn next" onclick="mpNext()" aria-label="Next">&#9654;&#9654;</button>
+
+  <!-- Click wheel -->
+  <div class="ipod-wheel-wrap">
+    <div class="ipod-wheel">
+      <button class="ipod-q ipod-q-top"    onclick="mpVolUp()"  aria-label="Vol up"></button>
+      <button class="ipod-q ipod-q-bottom" onclick="mpVolDn()"  aria-label="Vol down"></button>
+      <button class="ipod-q ipod-q-left"   onclick="mpPrev()"   aria-label="Prev"></button>
+      <button class="ipod-q ipod-q-right"  onclick="mpNext()"   aria-label="Next"></button>
+      <span class="ipod-wlbl wl-top">▲</span>
+      <span class="ipod-wlbl wl-bottom">▼</span>
+      <span class="ipod-wlbl wl-left">◀◀</span>
+      <span class="ipod-wlbl wl-right">▶▶</span>
+      <button class="ipod-center" id="mp-play-btn" onclick="mpToggle()" aria-label="Play/Pause"></button>
+    </div>
   </div>
-  <div class="mp-progress" id="mp-progress" onclick="mpSeek(event)">
-    <div class="mp-bar" id="mp-bar"></div>
-  </div>
-  <div class="mp-time">
-    <span id="mp-cur">0:00</span>
-    <span id="mp-dur">0:00</span>
-  </div>
-  <div class="mp-vol">
-    <span class="mp-vol-icon">🔈</span>
-    <input class="mp-vol-slider" id="mp-vol-slider" type="range" min="0" max="100" step="1" value="100">
-    <span class="mp-vol-icon">🔊</span>
-  </div>
+
+  <div class="mp-disclaimer">Music belongs to respective artists &amp; labels.</div>
 </div>
 <audio id="mp-audio" preload="metadata"></audio>
 
@@ -623,6 +776,15 @@ var BLOG_POSTS=[
    PAGE NAVIGATION
    ---------------------------------------------------------- */
 function goTo(page){
+  // Close any open overlay first so the page is fully visible
+  if(_activeOv){
+    var el=document.getElementById("ov-"+_activeOv);
+    if(el)el.classList.remove("open");
+    if(_activeOv==="video"){var vc=document.getElementById("vid-content");if(vc)vc.innerHTML="";}
+    _activeOv=null;
+    document.getElementById("float-back").classList.remove("visible");
+    document.getElementById("back-to-top").classList.remove("visible");
+  }
   document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active');});
   document.getElementById('page-'+page).classList.add('active');
   document.querySelectorAll('.nb').forEach(function(b){b.classList.remove('on');});
@@ -716,6 +878,20 @@ function renderBlog(){
       "<div class='bc-foot'><span class='bc-tag' style='color:"+p.color+";background:"+p.color+"22'>"+p.tag+"</span>"+
       "<span class='bc-arr'>&#8594;</span></div></div></button>";
   }
+  // Coming soon placeholders
+  var soon=[
+    {label:"Reflection",hint:"On covering your first real story — what no one tells you about being behind the camera."},
+    {label:"Opinion",hint:"Why I think long-form journalism still matters in the age of 60-second reels."}
+  ];
+  for(var j=0;j<soon.length;j++){
+    html+="<div class='bc bc-soon'>"+
+      "<div class='bc-banner' style='background:var(--line2)'></div>"+
+      "<div class='bc-body'>"+
+      "<div class='bc-meta'>Coming soon</div>"+
+      "<div class='bc-title bc-soon-title'>"+soon[j].hint+"</div>"+
+      "<div class='bc-foot'><span class='bc-tag bc-soon-tag'>"+soon[j].label+"</span></div>"+
+      "</div></div>";
+  }
   document.getElementById("blog-grid").innerHTML=html;
 }
 
@@ -766,7 +942,7 @@ document.addEventListener("keydown",function(e){
 });
 
 /* ----------------------------------------------------------
-   MUSIC PLAYER — truly seamless, single audio element
+   MUSIC PLAYER — iPod Touch
    ---------------------------------------------------------- */
 var MP_TRACKS=[
   {title:"Hospital Beach",artist:"Cottonwood Firing Squad",src:"hospital_beach.mp3",art:"cottonwood_cover.jpeg"},
@@ -775,13 +951,13 @@ var MP_TRACKS=[
   {title:"iPod Touch",artist:"Ninajirachi",src:"ninajirachi_ipod_touch.mp3",art:"ninajirachi_cover.jpeg"}
 ];
 var mpAudio=document.getElementById("mp-audio");
-var mpRecord=document.getElementById("mp-record");
 var mpPlayBtn=document.getElementById("mp-play-btn");
 var mpBar=document.getElementById("mp-bar");
 var mpCur=document.getElementById("mp-cur");
 var mpDur=document.getElementById("mp-dur");
 var mpPlaying=false;
 var mpIdx=0;
+var mpVol=1;
 
 function mpLoad(idx,autoplay){
   mpIdx=idx;
@@ -789,19 +965,38 @@ function mpLoad(idx,autoplay){
   mpAudio.src=t.src;
   document.getElementById("mp-title").textContent=t.title;
   document.getElementById("mp-artist").textContent=t.artist;
-  document.getElementById("mp-art").src=t.art;
+  // Update both screen art and collapsed art
+  ["mp-art","mp-art-sm"].forEach(function(id){
+    var el=document.getElementById(id);
+    if(!el)return;
+    el.src=t.art;
+    el.onerror=function(){el.style.opacity="0";};
+    el.onload=function(){el.style.opacity="1";};
+  });
   mpBar.style.width="0%";
   mpCur.textContent="0:00";
   mpDur.textContent="0:00";
-  if(autoplay)mpAudio.play();
+  if(autoplay){mpAudio.play().catch(function(){mpPlaying=false;_mpSetPause();});}
 }
-function mpToggle(){if(mpPlaying)mpAudio.pause();else mpAudio.play();}
-function mpNext(){mpLoad((mpIdx+1)%MP_TRACKS.length,mpPlaying);}
-function mpPrev(){mpLoad((mpIdx-1+MP_TRACKS.length)%MP_TRACKS.length,mpPlaying);}
-function mpFmt(s){var m=Math.floor(s/60);var sec=Math.floor(s%60);return m+":"+(sec<10?"0":"")+sec;}
-
-mpAudio.addEventListener("play",function(){mpPlaying=true;mpRecord.classList.add("playing");mpPlayBtn.innerHTML="&#9646;&#9646;";});
-mpAudio.addEventListener("pause",function(){mpPlaying=false;mpRecord.classList.remove("playing");mpPlayBtn.innerHTML="&#9654;";});
+mpAudio.addEventListener("error",function(){
+  document.getElementById("mp-title").textContent="Unavailable";
+  document.getElementById("mp-artist").textContent="File not found";
+  _mpSetPause();
+});
+function _mpSetPlay(){
+  mpPlaying=true;
+  mpPlayBtn.classList.add("is-playing");
+  var ca=document.getElementById("ipod-collapsed-art");
+  if(ca)ca.classList.add("is-playing");
+}
+function _mpSetPause(){
+  mpPlaying=false;
+  mpPlayBtn.classList.remove("is-playing");
+  var ca=document.getElementById("ipod-collapsed-art");
+  if(ca)ca.classList.remove("is-playing");
+}
+mpAudio.addEventListener("play",function(){_mpSetPlay();updateTabTitle();});
+mpAudio.addEventListener("pause",function(){_mpSetPause();document.title=_pageTitle;});
 mpAudio.addEventListener("timeupdate",function(){
   if(mpAudio.duration){
     mpBar.style.width=(mpAudio.currentTime/mpAudio.duration*100)+"%";
@@ -811,20 +1006,18 @@ mpAudio.addEventListener("timeupdate",function(){
 });
 mpAudio.addEventListener("ended",function(){mpLoad((mpIdx+1)%MP_TRACKS.length,true);});
 
+function mpToggle(){if(mpPlaying)mpAudio.pause();else mpAudio.play();}
+function mpNext(){mpLoad((mpIdx+1)%MP_TRACKS.length,mpPlaying);}
+function mpPrev(){mpLoad((mpIdx-1+MP_TRACKS.length)%MP_TRACKS.length,mpPlaying);}
+function mpFmt(s){var m=Math.floor(s/60);var sec=Math.floor(s%60);return m+":"+(sec<10?"0":"")+sec;}
+function mpVolUp(){mpVol=Math.min(1,mpVol+0.1);mpAudio.volume=mpVol;}
+function mpVolDn(){mpVol=Math.max(0,mpVol-0.1);mpAudio.volume=mpVol;}
+
 function mpSeek(e){
   var rect=document.getElementById("mp-progress").getBoundingClientRect();
-  var pct=(e.clientX-rect.left)/rect.width;
+  var pct=Math.min(1,Math.max(0,(e.clientX-rect.left)/rect.width));
   if(mpAudio.duration)mpAudio.currentTime=pct*mpAudio.duration;
 }
-
-// Wire volume slider after DOM ready
-var mpVolSlider=document.getElementById("mp-vol-slider");
-mpVolSlider.addEventListener("input",function(){
-  mpAudio.volume=this.value/100;
-});
-mpVolSlider.addEventListener("change",function(){
-  mpAudio.volume=this.value/100;
-});
 
 // Collapse / expand
 var mpCollapsed=false;
@@ -834,55 +1027,54 @@ function mpCollapse(e){
   document.getElementById("music-player").classList.add("mp-collapsed");
 }
 function mpExpand(){
-  if(mpCollapsed){
-    mpCollapsed=false;
-    document.getElementById("music-player").classList.remove("mp-collapsed");
-  }
+  if(!mpCollapsed)return;
+  mpCollapsed=false;
+  document.getElementById("music-player").classList.remove("mp-collapsed");
 }
 
-// Draggable
+// Draggable (no resize — fixed-width iPod design)
 (function(){
   var el=document.getElementById("music-player");
   var dragging=false,startX,startY,origRight,origBottom;
+  function startDrag(cx,cy){
+    dragging=true;startX=cx;startY=cy;
+    var rect=el.getBoundingClientRect();
+    origRight=window.innerWidth-rect.right;
+    origBottom=window.innerHeight-rect.bottom;
+    el.style.transition="none";
+  }
+  function moveDrag(cx,cy){
+    if(!dragging)return;
+    el.style.right=Math.max(0,origRight-(cx-startX))+"px";
+    el.style.bottom=Math.max(0,origBottom-(cy-startY))+"px";
+    el.style.left="auto";el.style.top="auto";
+  }
+  function endDrag(){dragging=false;el.style.transition="";}
   el.addEventListener("mousedown",function(e){
     if(mpCollapsed){mpExpand();return;}
-    if(e.target.closest("button")||e.target.closest(".mp-progress")||e.target.closest(".mp-vol")||e.target===mpRecord)return;
-    dragging=true;startX=e.clientX;startY=e.clientY;
-    var rect=el.getBoundingClientRect();
-    origRight=window.innerWidth-rect.right;origBottom=window.innerHeight-rect.bottom;
-    el.style.transition="none";e.preventDefault();
+    if(e.target.closest("button")||e.target.closest(".ipod-prog-row"))return;
+    startDrag(e.clientX,e.clientY);e.preventDefault();
   });
   el.addEventListener("touchstart",function(e){
     if(mpCollapsed){mpExpand();return;}
-    if(e.target.closest("button")||e.target.closest(".mp-progress")||e.target.closest(".mp-vol")||e.target===mpRecord)return;
-    var t=e.touches[0];dragging=true;startX=t.clientX;startY=t.clientY;
-    var rect=el.getBoundingClientRect();
-    origRight=window.innerWidth-rect.right;origBottom=window.innerHeight-rect.bottom;
-    el.style.transition="none";
+    if(e.target.closest("button")||e.target.closest(".ipod-prog-row"))return;
+    var t=e.touches[0];startDrag(t.clientX,t.clientY);
   },{passive:true});
-  document.addEventListener("mousemove",function(e){
-    if(!dragging)return;
-    el.style.right=Math.max(0,origRight-(e.clientX-startX))+"px";
-    el.style.bottom=Math.max(0,origBottom-(e.clientY-startY))+"px";
-    el.style.left="auto";el.style.top="auto";
-  });
+  document.addEventListener("mousemove",function(e){moveDrag(e.clientX,e.clientY);});
   document.addEventListener("touchmove",function(e){
     if(!dragging)return;
-    var t=e.touches[0];
-    el.style.right=Math.max(0,origRight-(t.clientX-startX))+"px";
-    el.style.bottom=Math.max(0,origBottom-(t.clientY-startY))+"px";
-    el.style.left="auto";el.style.top="auto";
+    var t=e.touches[0];moveDrag(t.clientX,t.clientY);
   },{passive:true});
-  document.addEventListener("mouseup",function(){dragging=false;el.style.transition="";});
-  document.addEventListener("touchend",function(){dragging=false;el.style.transition="";});
+  document.addEventListener("mouseup",endDrag);
+  document.addEventListener("touchend",endDrag);
 })();
 
-mpLoad(0,false);
+mpLoad(3,false);
 // Auto-collapse on small screens
-if(window.innerWidth < 600){mpCollapse({stopPropagation:function(){}});}
+if(window.innerWidth<600){mpCollapse({stopPropagation:function(){}});}
 
 /* ----------------------------------------------------------
-   DARK MODE
+   DARK MODE — respects OS preference on first visit
    ---------------------------------------------------------- */
 function applyTheme(isDark){
   var h=document.documentElement;
@@ -894,8 +1086,17 @@ function applyTheme(isDark){
 }
 function toggleDark(){applyTheme(!document.documentElement.classList.contains("dark"));}
 (function(){
-  var s=null;try{s=localStorage.getItem("theme");}catch(e){}
-  applyTheme(s==="dark");
+  var stored=null;try{stored=localStorage.getItem("theme");}catch(e){}
+  // First visit: follow OS. Returning visit: follow saved preference.
+  if(stored){applyTheme(stored==="dark");}
+  else{applyTheme(window.matchMedia&&window.matchMedia("(prefers-color-scheme:dark)").matches);}
+  // Live-update if OS changes and user hasn't manually set a preference
+  try{
+    window.matchMedia("(prefers-color-scheme:dark)").addEventListener("change",function(e){
+      var saved=null;try{saved=localStorage.getItem("theme");}catch(err){}
+      if(!saved)applyTheme(e.matches);
+    });
+  }catch(e){}
 })();
 
 // Measure nav to position back button flush beside it
@@ -905,6 +1106,126 @@ function updateNavHalf(){
 }
 updateNavHalf();
 window.addEventListener("resize",updateNavHalf);
+
+/* ----------------------------------------------------------
+   NOW PLAYING — update browser tab title while music plays
+   ---------------------------------------------------------- */
+var _pageTitle="Ilyas Muzaffar";
+function updateTabTitle(){
+  if(mpPlaying){
+    var t=MP_TRACKS[mpIdx];
+    document.title="\u266b "+t.title+" \u2014 "+t.artist;
+  } else {
+    document.title=_pageTitle;
+  }
+}
+// Update _pageTitle when navigating so paused state shows correct page
+var _origGoTo=goTo;
+goTo=function(page){
+  _origGoTo(page);
+  var titles={home:"Ilyas Muzaffar",about:"About \u2014 Ilyas Muzaffar",work:"Work \u2014 Ilyas Muzaffar",blog:"Blog \u2014 Ilyas Muzaffar",contact:"Contact \u2014 Ilyas Muzaffar"};
+  _pageTitle=titles[page]||"Ilyas Muzaffar";
+  if(!mpPlaying)document.title=_pageTitle;
+};
+
+/* ----------------------------------------------------------
+   READING TIME — estimate from word count
+   ---------------------------------------------------------- */
+function calcReadTime(htmlStr){
+  var text=htmlStr.replace(/<[^>]+>/g," ").replace(/\s+/g," ").trim();
+  var words=text.split(" ").length;
+  var mins=Math.max(1,Math.round(words/200));
+  return mins+" min read";
+}
+
+/* ----------------------------------------------------------
+   LIGHTBOX — full-screen image viewer
+   ---------------------------------------------------------- */
+function openLightbox(src,alt){
+  var lb=document.getElementById("lightbox");
+  document.getElementById("lightbox-img").src=src;
+  document.getElementById("lightbox-caption").textContent=alt||"";
+  lb.classList.add("open");
+  document.body.style.overflow="hidden";
+}
+function closeLightbox(){
+  document.getElementById("lightbox").classList.remove("open");
+  document.body.style.overflow="";
+}
+document.addEventListener("keydown",function(e){
+  if(e.key==="Escape"){
+    if(document.getElementById("lightbox").classList.contains("open")){closeLightbox();return;}
+    if(_activeOv)history.back();
+  }
+});
+// Make all .pe-img images in articles clickable for lightbox
+function activateLightboxImages(container){
+  container.querySelectorAll(".pe-img").forEach(function(img){
+    img.style.cursor="zoom-in";
+    img.onclick=function(e){e.stopPropagation();openLightbox(img.src,img.alt);};
+  });
+}
+
+/* ----------------------------------------------------------
+   SCROLL PROGRESS + BACK TO TOP
+   ---------------------------------------------------------- */
+function trackScroll(ovId,barId){
+  var ov=document.getElementById(ovId);
+  var bar=document.getElementById(barId);
+  var btn=document.getElementById("back-to-top");
+  if(!ov||!bar)return;
+  ov.addEventListener("scroll",function(){
+    var scrolled=ov.scrollTop;
+    var total=ov.scrollHeight-ov.clientHeight;
+    bar.style.width=total>0?(scrolled/total*100)+"%":"0%";
+    // Back to top: show after 300px scroll
+    if(scrolled>300){btn.classList.add("visible");}
+    else{btn.classList.remove("visible");}
+  });
+}
+trackScroll("ov-article","sp-article");
+trackScroll("ov-blog","sp-blog");
+
+function backToTop(){
+  // Scroll whichever overlay is open back to top
+  if(_activeOv){
+    var ov=document.getElementById("ov-"+_activeOv);
+    if(ov)ov.scrollTo({top:0,behavior:"smooth"});
+  }
+}
+
+/* ----------------------------------------------------------
+   PATCH openArticle / openBlog to inject reading time
+   and activate lightbox images
+   ---------------------------------------------------------- */
+var _origOpenArticle=openArticle;
+openArticle=function(id){
+  var a=null;
+  for(var i=0;i<ARTICLES.length;i++){if(ARTICLES[i].id===id){a=ARTICLES[i];break;}}
+  if(!a)return;
+  document.getElementById("ov-article-cat").textContent=a.category+" \u00b7 "+a.publication;
+  var rt=calcReadTime(a.body);
+  document.getElementById("art-content").innerHTML=
+    "<p class='art-ey' style='color:"+a.catColor+"'>"+a.category+"</p>"+
+    "<h1>"+a.title+"</h1>"+
+    "<div class='art-meta'><span class='art-au'>Ilyas Muzaffar</span><span class='art-dt'>"+a.date+"</span><span class='read-time'>"+rt+"</span></div>"+
+    "<div class='art-text'>"+a.body+"</div>";
+  activateLightboxImages(document.getElementById("art-content"));
+  openOv("article");
+};
+
+var _origOpenBlog=openBlog;
+openBlog=function(id){
+  var p=null;
+  for(var i=0;i<BLOG_POSTS.length;i++){if(BLOG_POSTS[i].id===id){p=BLOG_POSTS[i];break;}}
+  if(!p)return;
+  var rt=calcReadTime(p.body);
+  document.getElementById("bp-content").innerHTML=
+    "<p class='bp-tag'>"+p.tag+"</p><h1>"+p.title+"</h1>"+
+    "<div class='bp-meta'><span class='bp-au'>Ilyas Muzaffar</span><span class='bp-dt'>"+p.date+"</span><span class='read-time'>"+rt+"</span></div>"+
+    "<div class='bp-text'>"+p.body+"</div>";
+  openOv("blog");
+};
 
 </script>
 </body>

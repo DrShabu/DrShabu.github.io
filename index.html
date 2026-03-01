@@ -134,8 +134,9 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:9500;
 .home-btn:hover{background:var(--accent2);transform:translateY(-3px) scale(1.05);box-shadow:0 10px 28px rgba(27,67,50,0.35)}
 /* Right column: portrait full-bleed */
 .hero-right{position:relative;overflow:hidden}
-@media(max-width:760px){.hero-right{height:70vw;max-height:480px}}
+@media(max-width:760px){.hero-right{height:85vw;max-height:520px}}
 .hero-right img{width:100%;height:100%;object-fit:cover;object-position:center 15%;display:block;transition:transform 0.7s cubic-bezier(0.32,0.72,0,1)}
+@media(max-width:760px){.hero-right img{object-position:center 8%}}
 .hero-right:hover img{transform:scale(1.03)}
 /* Subtle dark vignette on portrait edge */
 .hero-right::after{content:"";position:absolute;inset:0;background:linear-gradient(270deg,rgba(0,0,0,0.08),transparent 40%)}
@@ -158,7 +159,22 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:9500;
 @media(max-width:680px){.cur-grid{grid-template-columns:1fr}}
 .cur-card{background:var(--card);border-radius:16px;padding:22px 22px 20px;border-left:3px solid var(--accent);transition:transform 0.25s cubic-bezier(0.34,1.56,0.64,1),box-shadow 0.25s}
 .cur-card:hover{transform:translateY(-4px);box-shadow:0 12px 36px rgba(0,0,0,0.09)}
-.cur-type{font-size:9px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--accent);margin-bottom:7px}
+/* Music card: no left padding since art takes that role */
+.cur-card-music{padding:18px 18px 16px}
+.cur-music-row{display:flex;align-items:center;gap:14px;margin-top:10px}
+/* Album art */
+.cur-art-wrap{width:56px;height:56px;border-radius:8px;flex-shrink:0;overflow:hidden;position:relative;background:var(--line);box-shadow:0 4px 12px rgba(0,0,0,0.15)}
+.cur-art{width:100%;height:100%;object-fit:cover;display:block;border-radius:8px;transition:opacity 0.3s}
+.cur-art-placeholder{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:22px;color:var(--muted)}
+/* Text stack */
+.cur-music-info{flex:1;min-width:0}
+.cur-item{font-family:var(--serif);font-size:15px;font-weight:700;color:var(--ink);line-height:1.2;margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cur-sub{font-size:11px;color:var(--mid);line-height:1.5;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cur-album{font-size:10px;color:var(--muted);line-height:1.5;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-style:italic;margin-top:1px}
+.cur-type{font-size:9px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--accent);margin-bottom:7px;display:flex;align-items:center;gap:5px}
+/* Pulsing green dot -- shown only when actively playing */
+.now-dot{width:6px;height:6px;border-radius:50%;background:#1DB954;flex-shrink:0;animation:nowPulse 1.8s ease-in-out infinite}
+@keyframes nowPulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.4;transform:scale(0.7)}}
 .cur-item{font-family:var(--serif);font-size:18px;font-weight:700;color:var(--ink);line-height:1.2;margin-bottom:4px}
 .cur-sub{font-size:12px;color:var(--mid);line-height:1.5}
 
@@ -437,8 +453,20 @@ html.dark .float-back:hover{color:#F0EDD8;background:rgba(255,255,255,0.08)}
 }
 .ipod-center:active{transform:translate(-50%,-50%) scale(0.93);box-shadow:inset 0 1px 0 rgba(255,255,255,0.4),0 0 0 1px rgba(0,0,0,0.14),0 1px 3px rgba(0,0,0,0.2)}
 /* play icon drawn in center */
-.ipod-center::after{content:"▶";font-size:11px;color:rgba(0,0,0,0.38);position:absolute;top:50%;left:52%;transform:translate(-50%,-50%)}
-.ipod-center.is-playing::after{content:"⏸";font-size:10px}
+/* play/pause icons drawn with CSS - no emoji */
+.ipod-center::after{
+  content:"";position:absolute;top:50%;left:53%;transform:translate(-50%,-50%);
+  width:0;height:0;
+  border-style:solid;border-width:5px 0 5px 9px;
+  border-color:transparent transparent transparent rgba(0,0,0,0.38);
+}
+.ipod-center.is-playing::after{
+  border:none;width:9px;height:10px;left:50%;
+  background:rgba(0,0,0,0.38);
+  /* two vertical bars via box-shadow */
+  box-shadow:-3px 0 0 rgba(0,0,0,0.38);
+  width:3px;
+}
 /* copyright note */
 .mp-disclaimer{font-size:6.5px;color:rgba(0,0,0,0.25);text-align:center;padding:7px 10px 0;line-height:1.4}
 /* ── collapsed: round disc ─── */
@@ -470,7 +498,8 @@ html.dark .mp-collapse-btn{color:rgba(255,255,255,0.25)}
 html.dark .mp-collapse-btn:hover{color:rgba(255,255,255,0.6)}
 html.dark .ipod-wheel{background:radial-gradient(circle at 38% 32%,#333 0%,#222 45%,#1a1a1a 100%);box-shadow:inset 0 1px 0 rgba(255,255,255,0.07),inset 0 -1px 0 rgba(0,0,0,0.4),0 0 0 1px rgba(0,0,0,0.5),0 3px 10px rgba(0,0,0,0.4)}
 html.dark .ipod-center{background:radial-gradient(circle at 38% 34%,#333,#242424 55%,#1c1c1c);box-shadow:inset 0 1px 0 rgba(255,255,255,0.07),0 0 0 1px rgba(0,0,0,0.4),0 2px 6px rgba(0,0,0,0.4)}
-html.dark .ipod-center::after{color:rgba(255,255,255,0.25)}
+html.dark .ipod-center::after{border-color:transparent transparent transparent rgba(255,255,255,0.25)}
+html.dark .ipod-center.is-playing::after{background:rgba(255,255,255,0.25);box-shadow:-3px 0 0 rgba(255,255,255,0.25)}
 html.dark .ipod-wlbl{color:rgba(255,255,255,0.2)}
 html.dark .ipod-prog-track{background:rgba(255,255,255,0.1);box-shadow:none}
 html.dark .ipod-prog-fill{background:linear-gradient(90deg,#666,#999)}
@@ -658,10 +687,21 @@ html.dark .scroll-progress{background:linear-gradient(90deg,#e8a830,#6ee7a0)}
     <p class="currently-label">Right now</p>
     <h2 class="currently-title">Currently <em>doing</em></h2>
     <div class="cur-grid">
-      <div class="cur-card" id="cur-listening">
-        <div class="cur-type">Listening to</div>
-        <div class="cur-item" id="cur-song">iPod Touch</div>
-        <div class="cur-sub" id="cur-artist">Ninajirachi</div>
+      <div class="cur-card cur-card-music" id="cur-listening">
+        <div class="cur-type">
+          <span id="cur-now-dot" class="now-dot" style="display:none"></span>Listening to
+        </div>
+        <div class="cur-music-row">
+          <div class="cur-art-wrap">
+            <img id="cur-art" src="" alt="Album art" class="cur-art">
+            <div class="cur-art-placeholder" id="cur-art-placeholder">♪</div>
+          </div>
+          <div class="cur-music-info">
+            <div class="cur-item" id="cur-song">Loading...</div>
+            <div class="cur-sub" id="cur-artist"></div>
+            <div class="cur-album" id="cur-album"></div>
+          </div>
+        </div>
       </div>
       <div class="cur-card">
         <div class="cur-type">Working on</div>
@@ -1124,11 +1164,25 @@ document.addEventListener("keydown",function(e){
    MUSIC PLAYER - iPod Touch
    ---------------------------------------------------------- */
 var MP_TRACKS=[
-  {title:"iPod Touch",artist:"Ninajirachi",src:"ninajirachi_ipod_touch.mp3",art:"ninajirachi_cover.jpeg"},
-  {title:"Fuck My Computer",artist:"Ninajirachi",src:"Fuck_My_Computer.mp3",art:"ninajirachi_cover.jpeg"},
-  {title:"Hospital Beach",artist:"Cottonwood Firing Squad",src:"hospital_beach.mp3",art:"cottonwood_cover.jpeg"},
-  {title:"Loving Machine",artist:"TV Girl",src:"Loving_Machine.mp3",art:"tvgirl_cover.webp"},
-  {title:"Image",artist:"Magdalena Bay",src:"magdalena_bay_image.mp3",art:"magdalena_bay_cover.webp"}
+  // Ninajirachi — first as requested
+  {title:"iPod Touch",           artist:"Ninajirachi",          src:"ninajirachi_ipod_touch.mp3",                                          art:"ninajirachi_cover.jpeg"},
+  {title:"Fuck My Computer",     artist:"Ninajirachi",          src:"Fuck_My_Computer.mp3",                                                art:"ninajirachi_cover.jpeg"},
+  // Cottonwood Firing Squad
+  {title:"Hospital Beach",       artist:"Cottonwood Firing Squad", src:"hospital_beach.mp3",                                              art:"cottonwood_cover.jpeg"},
+  // Magdalena Bay
+  {title:"Image",                artist:"Magdalena Bay",        src:"Magdalena_Bay_-_Image__Official_Video_.mp3",                          art:"magdalena_bay_cover.webp"},
+  {title:"Fear & Sex",           artist:"Magdalena Bay",        src:"Magdalena_Bay_-_Fear__Sex__Official_Audio__-_Magdalena_Bay__128k_.mp3",art:"magdalena_bay_cover.webp"},
+  // PinkPantheress
+  {title:"Tonight",              artist:"PinkPantheress",       src:"PinkPantheress_-_Tonight__Official_Audio__-_Pinkpantheress__128k_.mp3",          art:"artworks-87a34188-2faa-438a-936d-da21458c4aa0-0-t500x500.jpg"},
+  {title:"Girl Like Me",         artist:"PinkPantheress",       src:"PinkPantheress_-_Girl_Like_Me__Official_Audio__-_Pinkpantheress__128k_.mp3",      art:"artworks-87a34188-2faa-438a-936d-da21458c4aa0-0-t500x500.jpg"},
+  {title:"Illegal",              artist:"PinkPantheress",       src:"PinkPantheress_-_Illegal__Official_Audio__-_Pinkpantheress__128k_.mp3",           art:"1900x1900-000000-80-0-0.jpg"},
+  {title:"Stateside",            artist:"PinkPantheress & Zara Larsson", src:"PinkPantheress_-_Stateside___Zara_Larsson__Official_Audio__-_Pinkpantheress__128k_.mp3", art:"1900x1900-000000-80-0-0.jpg"},
+  // Sabrina Carpenter
+  {title:"Nobody's Son",         artist:"Sabrina Carpenter",    src:"Sabrina_Carpenter_-_Nobody_s_Son__Lyrics__-_Rap_Samurai__128k_.mp3",  art:"ab67616d0000b273b1863bf95557ea7f357c4947.jpeg"},
+  {title:"House Tour",           artist:"Sabrina Carpenter",    src:"Sabrina_Carpenter___House_Tour_-_Latin_City__128k_.mp3",               art:"ab67616d0000b273b1863bf95557ea7f357c4947.jpeg"},
+  // TV Girl
+  {title:"Loving Machine",       artist:"TV Girl",              src:"Loving_Machine.mp3",                                                  art:"tvgirl_cover.webp"},
+  {title:"Cigarettes out the Window", artist:"TV Girl",         src:"TV_Girl_-_Cigarettes_out_the_Window__Lyrics__-_Lyricz__128k_.mp3",     art:"tvgirl_cover.webp"}
 ];
 var mpAudio=document.getElementById("mp-audio");
 var mpPlayBtn=document.getElementById("mp-play-btn");
@@ -1253,55 +1307,123 @@ mpLoad(0,false);
 mpAudio.volume=0.4;
 
 /* ----------------------------------------------------------
-   ROTATING "LISTENING TO" CARD
-   Replace PLAYLIST with your actual songs - or paste an
-   Apple Music link and ask me to update it.
+   LAST.FM -- live "Listening to" card
+   Shows song, artist, album, and album art.
+   Pulse dot appears when actively playing now.
+   Falls back to playlist if API unreachable.
    ---------------------------------------------------------- */
-var PLAYLIST=[
-  {song:"iPod Touch",            artist:"Ninajirachi"},
-  {song:"Fuck My Computer",      artist:"Ninajirachi"},
-  {song:"Loving Machine",        artist:"TV Girl"},
-  {song:"Image",                 artist:"Magdalena Bay"},
-  {song:"Hospital Beach",        artist:"Cottonwood Firing Squad"},
-  {song:"Teen Romance",          artist:"Lorde"},
-  {song:"Von dutch",             artist:"Charli xcx"},
-  {song:"Fruit Punch",           artist:"Jane Remover"},
-  {song:"Kept Woman",            artist:"Crystal Castles"},
-  {song:"Toute premiere fois",   artist:"Adele Castillon"},
-  {song:"Fever Dream",           artist:"Snow Strippers"},
-  {song:"Romance",               artist:"Videoclub"},
-  {song:"Still Alive",           artist:"KIRAAI"},
-  {song:"Lost in the City",      artist:"RomancePlanet"},
-  {song:"Love Again",            artist:"Mattyeux"}
+var LASTFM_USER="DrShabu";
+var LASTFM_KEY="128df5343675548588f6ab29c61a6279";
+var FALLBACK_PLAYLIST=[
+  {song:"iPod Touch",           artist:"Ninajirachi"},
+  {song:"Fuck My Computer",     artist:"Ninajirachi"},
+  {song:"Loving Machine",       artist:"TV Girl"},
+  {song:"Image",                artist:"Magdalena Bay"},
+  {song:"Hospital Beach",       artist:"Cottonwood Firing Squad"},
+  {song:"Teen Romance",         artist:"Lorde"},
+  {song:"Von dutch",            artist:"Charli xcx"},
+  {song:"Fruit Punch",          artist:"Jane Remover"},
+  {song:"Kept Woman",           artist:"Crystal Castles"},
+  {song:"Toute premiere fois",  artist:"Adele Castillon"},
+  {song:"Fever Dream",          artist:"Snow Strippers"},
+  {song:"Romance",              artist:"Videoclub"},
+  {song:"Still Alive",          artist:"KIRAAI"},
+  {song:"Lost in the City",     artist:"RomancePlanet"},
+  {song:"Love Again",           artist:"Mattyeux"}
 ];
+
 (function(){
-  var songEl=document.getElementById("cur-song");
-  var artistEl=document.getElementById("cur-artist");
-  if(!songEl||!artistEl)return;
-  // Pick a random starting track (changes each page load)
-  var idx=Math.floor(Math.random()*PLAYLIST.length);
-  function setTrack(i,animate){
-    var t=PLAYLIST[i];
-    if(animate){
-      songEl.style.opacity="0";artistEl.style.opacity="0";
-      setTimeout(function(){
-        songEl.textContent=t.song;
-        artistEl.textContent=t.artist;
-        songEl.style.opacity="1";artistEl.style.opacity="1";
-      },300);
-    } else {
-      songEl.textContent=t.song;
-      artistEl.textContent=t.artist;
-    }
+  var songEl   = document.getElementById("cur-song");
+  var artistEl = document.getElementById("cur-artist");
+  var albumEl  = document.getElementById("cur-album");
+  var artEl    = document.getElementById("cur-art");
+  var phEl     = document.getElementById("cur-art-placeholder");
+  var dotEl    = document.getElementById("cur-now-dot");
+  if(!songEl) return;
+
+  songEl.style.transition   = "opacity 0.3s";
+  artistEl.style.transition = "opacity 0.3s";
+  albumEl.style.transition  = "opacity 0.3s";
+
+  function setTrack(song, artist, album, artUrl, isNow){
+    songEl.style.opacity   = "0";
+    artistEl.style.opacity = "0";
+    albumEl.style.opacity  = "0";
+    setTimeout(function(){
+      songEl.textContent   = song;
+      artistEl.textContent = artist;
+      albumEl.textContent  = album || "";
+
+      // Album art
+      if(artUrl && artUrl.indexOf("2a96cbd8b46e442fc41c2b86b821562f") === -1){
+        // Last.fm returns a placeholder image hash when art is missing - skip it
+        artEl.style.opacity = "0";
+        artEl.src = artUrl;
+        artEl.onload  = function(){ artEl.style.opacity="1"; if(phEl) phEl.style.display="none"; };
+        artEl.onerror = function(){ artEl.style.opacity="0"; if(phEl) phEl.style.display="flex"; };
+        if(phEl) phEl.style.display = "none";
+      } else {
+        artEl.src = "";
+        artEl.style.opacity = "0";
+        if(phEl) phEl.style.display = "flex";
+      }
+
+      songEl.style.opacity   = "1";
+      artistEl.style.opacity = "1";
+      albumEl.style.opacity  = "1";
+      if(dotEl) dotEl.style.display = isNow ? "inline-block" : "none";
+    }, 300);
   }
-  songEl.style.transition="opacity 0.3s";
-  artistEl.style.transition="opacity 0.3s";
-  setTrack(idx,false);
-  // Rotate every 8 seconds
-  setInterval(function(){
-    idx=(idx+1)%PLAYLIST.length;
-    setTrack(idx,true);
-  },8000);
+
+  function parseLfm(data){
+    var tracks = data.recenttracks && data.recenttracks.track;
+    if(!tracks || !tracks.length) return null;
+    var t      = Array.isArray(tracks) ? tracks[0] : tracks;
+    var song   = t.name || "";
+    var artist = t.artist && (t.artist["#text"] || t.artist.name) || "";
+    var album  = t.album && t.album["#text"] || "";
+    // image array: index 2 = large (174px), index 3 = extralarge (300px)
+    var images = t.image || [];
+    var artUrl = (images[3] && images[3]["#text"]) || (images[2] && images[2]["#text"]) || "";
+    var isNow  = !!(t["@attr"] && t["@attr"].nowplaying === "true");
+    return {song:song, artist:artist, album:album, artUrl:artUrl, isNow:isNow};
+  }
+
+  function useFallback(){
+    var idx = Math.floor(Math.random() * FALLBACK_PLAYLIST.length);
+    var t = FALLBACK_PLAYLIST[idx];
+    setTrack(t.song, t.artist, "", "", false);
+    setInterval(function(){
+      idx = (idx + 1) % FALLBACK_PLAYLIST.length;
+      t = FALLBACK_PLAYLIST[idx];
+      setTrack(t.song, t.artist, "", "", false);
+    }, 8000);
+  }
+
+  var url = "https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks"
+          + "&user=" + LASTFM_USER
+          + "&api_key=" + LASTFM_KEY
+          + "&format=json&limit=1";
+
+  function poll(isFirst){
+    fetch(url)
+      .then(function(r){ return r.json(); })
+      .then(function(data){
+        var t = parseLfm(data);
+        if(!t){ if(isFirst) useFallback(); return; }
+        // Only animate update if track actually changed
+        if(t.song !== songEl.textContent || isFirst){
+          setTrack(t.song, t.artist, t.album, t.artUrl, t.isNow);
+        } else {
+          // Same track — just update dot state silently
+          if(dotEl) dotEl.style.display = t.isNow ? "inline-block" : "none";
+        }
+      })
+      .catch(function(){ if(isFirst) useFallback(); });
+  }
+
+  poll(true);
+  setInterval(function(){ poll(false); }, 30000);
 })();
 /* ----------------------------------------------------------
    SCROLL REVEAL -- skills & highlight cards on about page

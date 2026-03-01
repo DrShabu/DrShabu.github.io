@@ -113,7 +113,19 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);padding-botto
 .about-body{max-width:1080px;margin:0 auto;padding:64px 28px}
 .about-cols{display:grid;grid-template-columns:3fr 2fr;gap:56px;align-items:start}
 @media(max-width:680px){.about-cols{grid-template-columns:1fr}}
-.about-text p{font-size:16px;line-height:1.8;color:var(--dark);margin-bottom:22px}
+.about-text p{font-size:17px;line-height:1.85;color:var(--dark);margin-bottom:28px}
+.about-text p:last-child{margin-bottom:0}
+/* Pull quote */
+.about-pullquote{font-family:var(--serif);font-size:clamp(22px,3.5vw,32px);font-style:italic;font-weight:400;line-height:1.35;color:#C68B2A;border-left:4px solid #C68B2A;padding:12px 0 12px 24px;margin:36px 0;letter-spacing:-0.01em}
+/* Inline coloured emphasis */
+.about-text .hl-amber{color:#C68B2A;font-weight:600}
+.about-text .hl-teal{color:#2E8B7A;font-weight:600}
+.about-text .hl-ink{color:var(--ink);font-weight:600}
+/* Large first letter */
+.about-text p.lead::first-letter{font-family:var(--serif);font-size:3.8em;font-weight:700;float:left;line-height:0.78;margin-right:8px;margin-top:6px;color:#C68B2A}
+html.dark .about-pullquote{color:#e8a830;border-color:#e8a830}
+html.dark .about-text .hl-amber{color:#e8a830}
+html.dark .about-text .hl-teal{color:#3cb89e}
 .skills-box{background:var(--card);border-radius:20px;padding:28px}
 .skills-box h4{font-family:var(--serif);font-size:18px;font-weight:700;color:#C68B2A;margin-bottom:16px}
 .ski{display:flex;align-items:center;gap:10px;font-size:14px;color:var(--dark);padding:10px 0;border-bottom:1px solid var(--line)}
@@ -412,19 +424,23 @@ html.dark .hero-name em{color:#e07040}
   <div class="about-body">
     <div class="about-cols">
       <div class="about-text">
-        <p>I&rsquo;m Ilyas &mdash; a storyteller driven by curiosity and a genuine belief that journalism can change how people see the world. I specialise in video production and reporting, crafting narratives that inform, engage, and stick.</p>
-        <p>I thrive in fast-paced environments, adapt quickly, and never stop learning &mdash; whether that means picking up a new skill, trying a different creative approach, or pushing through a tight deadline with something worth watching at the end.</p>
-        <p>My work is guided by a commitment to integrity and quality. Stories should matter. If they don&rsquo;t, why tell them?</p>
+        <p class="lead">I&rsquo;m Ilyas, a storyteller driven by <span class="hl-amber">curiosity</span> and a genuine belief that journalism can change how people see the world. I specialise in video production and reporting, crafting narratives that <span class="hl-ink">inform, engage, and stick</span>. Every story I take on starts with a question I can&rsquo;t stop thinking about, and ends only when I&rsquo;m satisfied the audience gets something real from it.</p>
+
+        <blockquote class="about-pullquote">&ldquo;Stories should matter. If they don&rsquo;t, why tell them?&rdquo;</blockquote>
+
+        <p>I thrive in <span class="hl-teal">fast-paced environments</span>, adapt quickly, and never stop learning. That looks different depending on the week: picking up a new editing technique the night before a deadline, rethinking a shoot when the location falls through, or sitting with a difficult subject long enough to earn their trust. The pressure doesn&rsquo;t slow me down. If anything, it sharpens my focus.</p>
+
+        <p>My work is guided by a commitment to <span class="hl-amber">integrity and quality</span>. I don&rsquo;t believe in filler. A two-minute piece that earns someone&rsquo;s full attention is worth more than ten minutes of noise. Whether I&rsquo;m reporting in the field, cutting a sequence in the edit suite, or writing a caption, the standard stays the same: clear, honest, and worth the audience&rsquo;s time.</p>
       </div>
       <div>
         <div class="skills-box">
           <h4>Areas of expertise</h4>
-          <div class="ski"><span class="skd"></span>Video Production &mdash; directing, producing &amp; editing</div>
-          <div class="ski"><span class="skd"></span>Journalism &mdash; research, reporting &amp; narrative writing</div>
-          <div class="ski"><span class="skd"></span>Content Creation &mdash; social, blogs, podcasts &amp; websites</div>
-          <div class="ski"><span class="skd"></span>Strategic Communication &mdash; clear messaging, tight deadlines</div>
-          <div class="ski"><span class="skd"></span>Adaptability &mdash; quick learner, fast problem-solver</div>
-          <div class="ski"><span class="skd"></span>Teamwork &mdash; collaboration and leadership on creative projects</div>
+          <div class="ski"><span class="skd"></span>Video Production: directing, producing &amp; editing</div>
+          <div class="ski"><span class="skd"></span>Journalism: research, reporting &amp; narrative writing</div>
+          <div class="ski"><span class="skd"></span>Content Creation: social, blogs, podcasts &amp; websites</div>
+          <div class="ski"><span class="skd"></span>Strategic Communication: clear messaging, tight deadlines</div>
+          <div class="ski"><span class="skd"></span>Adaptability: quick learner, fast problem-solver</div>
+          <div class="ski"><span class="skd"></span>Teamwork: collaboration and leadership on creative projects</div>
         </div>
       </div>
     </div>

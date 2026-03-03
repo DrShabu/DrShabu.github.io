@@ -185,9 +185,11 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:9500;
 .cur-card-music{padding:18px 18px 16px}
 .cur-music-row{display:flex;align-items:center;gap:14px;margin-top:10px}
 /* Album art */
-.cur-art-wrap{width:56px;height:56px;border-radius:8px;flex-shrink:0;overflow:hidden;position:relative;background:var(--line);box-shadow:0 4px 12px rgba(0,0,0,0.15)}
-.cur-art{width:100%;height:100%;object-fit:cover;display:block;border-radius:8px;transition:opacity 0.3s}
-.cur-art-placeholder{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:22px;color:var(--muted)}
+.cur-art-wrap{width:60px;height:60px;border-radius:50%;flex-shrink:0;overflow:hidden;position:relative;background:var(--line);box-shadow:0 4px 16px rgba(0,0,0,0.2)}
+.cur-art{width:100%;height:100%;object-fit:cover;display:block;border-radius:50%;transition:opacity 0.3s;animation:vinylSpin 4s linear infinite;animation-play-state:paused}
+.cur-art.is-playing{animation-play-state:running}
+.cur-art-placeholder{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:22px;color:var(--muted);border-radius:50%}
+@keyframes vinylSpin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
 /* Text stack */
 .cur-music-info{flex:1;min-width:0}
 .cur-item{font-family:var(--serif);font-size:15px;font-weight:700;color:var(--ink);line-height:1.2;margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -532,31 +534,10 @@ html.dark .about-text .hl-teal{color:#3cb89e}
   position:relative;align-items:center;justify-content:center;
   transition:opacity 0.2s 0.3s;
 }
-.ipod-collapsed-art::before{
-  content:"";position:absolute;inset:0;border-radius:50%;
-  background:
-    radial-gradient(circle at 50% 50%,
-      #333 0%,#111 18%,
-      transparent 18%,transparent 28%,
-      #222 28%,#111 38%,
-      transparent 38%,transparent 48%,
-      #222 48%,#111 58%,
-      transparent 58%,transparent 68%,
-      #222 68%,#111 78%,
-      transparent 78%
-    );
-  z-index:2;pointer-events:none;
-}
-.ipod-collapsed-art::after{
-  content:"";position:absolute;
-  width:14px;height:14px;border-radius:50%;
-  background:radial-gradient(circle,#555 0%,#222 100%);
-  border:2px solid #444;z-index:3;
-}
 .ipod-collapsed-art img{
   width:100%;height:100%;object-fit:cover;display:block;
-  border-radius:50%;opacity:0.35;
-  animation:spin 3s linear infinite;
+  border-radius:50%;opacity:1;
+  animation:spin 4s linear infinite;
   animation-play-state:paused;
 }
 .ipod-collapsed-art.is-playing img{animation-play-state:running}
@@ -733,7 +714,7 @@ html.dark .scroll-progress{background:linear-gradient(90deg,#e8a830,#6ee7a0)}
   <div class="hero">
     <p class="eyebrow hero-label">Portfolio</p>
     <h1 class="hero-name">Ilyas<em>Muzaffar</em></h1>
-    <p class="hero-sub">Multimedia storyteller &middot; Writer &middot; Creative. Making work that moves people and leaves a mark.</p>
+    <p class="hero-sub">Multimedia storyteller &middot; Writer &middot; Creative.<br>Making work that moves people and leaves a mark.</p>
     <div class="hero-btns">
       <button class="btn home-btn" onclick="goTo('work')">View my work</button>
       <button class="btn home-btn" onclick="goTo('blog')">Read the blog</button>
@@ -900,7 +881,7 @@ html.dark .scroll-progress{background:linear-gradient(90deg,#e8a830,#6ee7a0)}
   <div class="contact-page">
     <p class="eyebrow" style="color:var(--accent);margin-bottom:20px">Get in touch</p>
     <h1 class="contact-big-h">Let&rsquo;s make<br>something <em>real.</em></h1>
-    <p class="contact-intro">I&rsquo;m always open to interesting conversations, commissions, and collaborations - including editing work. Reach out directly through any of the channels below.</p>
+    <p class="contact-intro">Always up for a good conversation &mdash; whether it&rsquo;s about a project, a collaboration, or just something interesting you want to talk about. Reach out through any of the channels below.</p>
     <div class="sc-grid">
       <a class="sc" href="mailto:contact@ilyasmuzaffar.com">
         <div class="sc-icon" style="background:#f0f4ff">&#9993;&#65039;</div>
@@ -1172,8 +1153,8 @@ function renderBlog(){
   }
   // Coming soon placeholders
   var soon=[
-    {label:"Reflection",hint:"On covering your first real story - what no one tells you about being behind the camera."},
-    {label:"Opinion",hint:"Why I think long-form journalism still matters in the age of 60-second reels."}
+    {label:"Opinion",hint:"Global north, global south &amp; where Singapore stands."},
+    {label:"Reflection",hint:"Why I think long-form journalism still matters in the age of 60-second reels."}
   ];
   for(var j=0;j<soon.length;j++){
     html+="<div class='bc bc-soon'>"+
@@ -1453,7 +1434,7 @@ var FALLBACK_PLAYLIST=[
   var labelEl  = document.getElementById("cur-listen-label");
   if(!songEl) return;
 
-  var IDLE_MS = 15 * 60 * 1000; // 15 minutes
+  var IDLE_MS = 10 * 60 * 1000; // 10 minutes
   var lastNowPlayingAt = null;   // timestamp of last confirmed nowplaying=true
 
   songEl.style.transition   = "opacity 0.3s";
@@ -1495,6 +1476,7 @@ var FALLBACK_PLAYLIST=[
       artistEl.style.opacity = "1";
       albumEl.style.opacity  = "1";
       if(dotEl) dotEl.style.display = isNow ? "inline-block" : "none";
+      if(artEl){ if(isNow){ artEl.classList.add("is-playing"); } else { artEl.classList.remove("is-playing"); } }
     }, 300);
   }
 
@@ -1548,6 +1530,7 @@ var FALLBACK_PLAYLIST=[
           setTrack(t.song, t.artist, t.album, t.artUrl, t.isNow);
         } else {
           if(dotEl) dotEl.style.display = t.isNow ? "inline-block" : "none";
+          if(artEl){ if(t.isNow){ artEl.classList.add("is-playing"); } else { artEl.classList.remove("is-playing"); } }
         }
       })
       .catch(function(){ if(isFirst) useFallback(); });

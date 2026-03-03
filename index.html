@@ -9,6 +9,8 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <title>Ilyas Muzaffar</title>
+<link rel="icon" type="image/svg+xml" href="logo.svg">
+<link rel="apple-touch-icon" href="logo.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,700;0,9..144,900;1,9..144,300;1,9..144,700;1,9..144,900&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
@@ -710,6 +712,11 @@ html.dark .scroll-progress{background:linear-gradient(90deg,#e8a830,#6ee7a0)}
   .home-cards{padding:0 20px 56px}
   .cg{gap:14px}
 }
+
+/* BLOG BTN NEW TAG */
+.blog-btn-wrap{position:relative;display:inline-block}
+.btn-new-tag{position:absolute;top:-22px;left:50%;transform:translateX(-50%);font-size:8px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;padding:2px 9px;border-radius:980px;background:#1B4332;color:#FFFDD0;white-space:nowrap;pointer-events:none;border:1.5px solid #000;z-index:10}
+html.dark .btn-new-tag{background:#6ee7a0;color:#0a1f12;border-color:#000}
 </style>
 </head>
 <body>
@@ -726,7 +733,10 @@ html.dark .scroll-progress{background:linear-gradient(90deg,#e8a830,#6ee7a0)}
     <p class="hero-sub">Multimedia storyteller &middot; Writer &middot; Creative.<br>Making work that moves people and leaves a mark.</p>
     <div class="hero-btns">
       <button class="btn home-btn" onclick="goTo('work')">View my work</button>
-      <button class="btn home-btn" onclick="goTo('blog')">Read the blog</button>
+      <div class="blog-btn-wrap" style="position:relative;display:inline-block">
+        <button class="btn home-btn" onclick="goTo('blog')">Read the blog</button>
+        <span class="btn-new-tag">New post</span>
+      </div>
       <button class="btn home-btn" onclick="goTo('contact')">Get in touch</button>
     </div>
     <div class="hero-photo">
@@ -1747,6 +1757,7 @@ openBlog=function(id){
     "<div class='bp-text'>"+p.body+"</div>";
   openOv("blog");
 };
+
 
 </script>
 </body>
